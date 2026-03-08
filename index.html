@@ -18,7 +18,7 @@
         /* ================= UI ธีมพาสเทล โมเดิร์น ================= */
         body {
             font-family: 'Sarabun', sans-serif;
-            background: linear-gradient(135deg, #f3e8ff 0%, #e0f2fe 100%); /* พื้นหลังไล่สีพาสเทล */
+            background: linear-gradient(135deg, #f3e8ff 0%, #e0f2fe 100%);
             background-attachment: fixed;
             margin: 0;
             padding: 20px;
@@ -28,19 +28,16 @@
         .app-container {
             max-width: 1000px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95); /* ขาวแบบโปร่งแสงนิดๆ */
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             padding: 35px;
-            border-radius: 24px; /* ขอบมนมาก */
+            border-radius: 24px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
             margin-bottom: 40px;
             border: 1px solid rgba(255,255,255,0.8);
         }
 
-        .header-title {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        .header-title { text-align: center; margin-bottom: 30px; }
         .header-title h1 {
             margin: 0;
             background: linear-gradient(135deg, #7e22ce, #3b82f6);
@@ -49,9 +46,7 @@
             font-size: 32px;
             font-weight: 700;
         }
-        .header-title p {
-            margin: 5px 0 0 0; color: #64748b; font-size: 16px; font-weight: 500;
-        }
+        .header-title p { margin: 5px 0 0 0; color: #64748b; font-size: 16px; font-weight: 500; }
 
         .section-box {
             background: #ffffff;
@@ -67,35 +62,16 @@
         .reception-zone { border-top: 5px solid #a855f7; }
         .doctor-zone { border-top: 5px solid #14b8a6; }
 
-        .section-title {
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 20px;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .section-title { font-weight: 700; color: #0f172a; margin-bottom: 20px; font-size: 20px; display: flex; align-items: center; gap: 10px; }
         .badge-purple { background: #f3e8ff; color: #7e22ce; padding: 5px 12px; border-radius: 12px; font-size: 16px;}
         .badge-teal { background: #ccfbf1; color: #0f766e; padding: 5px 12px; border-radius: 12px; font-size: 16px;}
-
-        .sub-title {
-            font-size: 15px;
-            color: #64748b;
-            font-weight: 600;
-            margin-bottom: 12px;
-            margin-top: 10px;
-            border-bottom: 2px dashed #e2e8f0;
-            padding-bottom: 5px;
-            display: inline-block;
-        }
+        .sub-title { font-size: 15px; color: #64748b; font-weight: 600; margin-bottom: 12px; margin-top: 10px; border-bottom: 2px dashed #e2e8f0; padding-bottom: 5px; display: inline-block; }
 
         .form-group { margin-bottom: 18px; }
         label { display: block; font-weight: 600; margin-bottom: 6px; color: #475569; font-size: 14px;}
         
-        /* สไตล์ช่องกรอกข้อมูลแบบใหม่ */
-        input[type="text"], input[type="number"], input[type="date"], textarea {
+        /* สไตล์ช่องกรอกข้อมูล */
+        input[type="text"], input[type="number"], textarea {
             width: 100%; 
             padding: 12px 16px; 
             background-color: #f8fafc;
@@ -114,7 +90,6 @@
             box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.15);
         }
         textarea { resize: vertical; min-height: 90px; }
-        
         .highlight-input { background: #f0fdfa !important; color: #0d9488 !important; border-color: #ccfbf1 !important; }
 
         .checkbox-group { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 16px; color: #475569; cursor: pointer;}
@@ -124,45 +99,34 @@
         .flex-row { display: flex; gap: 15px; flex-wrap: wrap; }
         .flex-1 { flex: 1; min-width: 150px; }
         .flex-2 { flex: 2; min-width: 250px; }
-
         .item-row { display: flex; gap: 10px; margin-bottom: 12px; }
         .item-name { flex: 2; }
         .item-price { flex: 1; }
 
-        /* สไตล์ปุ่มกดแบบโมเดิร์น */
         .btn-group { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;}
         .btn {
             flex: 1; min-width: 200px; padding: 16px; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; color: white; display: flex; justify-content: center; align-items: center; gap: 8px; 
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
         .btn:active { transform: translateY(0); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        
         .btn-line { background: linear-gradient(135deg, #22c55e, #16a34a); }
         .btn-link { background: linear-gradient(135deg, #a855f7, #7e22ce); }
         .btn-bill { background: linear-gradient(135deg, #2dd4bf, #0d9488); }
         .btn-med { background: linear-gradient(135deg, #60a5fa, #2563eb); }
         .btn-clear { background: linear-gradient(135deg, #fb7185, #e11d48); flex: 0.3; min-width: 120px;}
 
-        .alert-box {
-            display: none; background-color: #dcfce7; color: #166534; padding: 12px; border-radius: 12px; text-align: center; margin-top: 15px; font-weight: bold; border: 1px solid #bbf7d0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
+        .alert-box { display: none; background-color: #dcfce7; color: #166534; padding: 12px; border-radius: 12px; text-align: center; margin-top: 15px; font-weight: bold; border: 1px solid #bbf7d0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .pastel-box { background: #faf5ff; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #f3e8ff; }
+        .pastel-box-green { background: #f0fdf4; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #dcfce7; }
 
-        .pastel-box {
-            background: #faf5ff; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #f3e8ff;
-        }
-        .pastel-box-green {
-            background: #f0fdf4; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #dcfce7;
-        }
-
-        /* ----- Live Preview Section (โชว์บนจอ) ----- */
+        /* ----- Live Preview Section ----- */
         .preview-wrapper { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: flex-start; }
         .preview-column { display: flex; flex-direction: column; align-items: center; }
         .preview-title { font-size: 16px; font-weight: 700; color: #475569; margin-bottom: 15px; background: rgba(255,255,255,0.8); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); backdrop-filter: blur(5px);}
         .paper-preview { background: white; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden;}
 
-        /* ================= สไตล์กระดาษสำหรับปริ้น (คงเดิมเป๊ะๆ) ================= */
+        /* ================= สไตล์กระดาษ ================= */
         #print-bill, #preview-bill { width: 210mm; height: 148mm; box-sizing: border-box; display: flex; background: white; color: black; font-family: 'Sarabun', sans-serif;}
         .bill-half { flex: 1; width: 50%; height: 100%; padding: 8mm; box-sizing: border-box; position: relative; display: flex; flex-direction: column; }
         .bill-half:first-child { border-right: 1px dashed #999; }
@@ -196,13 +160,11 @@
         .m-footer { position: absolute; bottom: 15mm; left: 0; width: 100%; font-size: 10px; color: #777; text-align: center; border-top: 1px solid #ddd; padding-top: 10px; }
 
         .print-only { display: none; }
-
         @media print {
             body { background: white; padding: 0; margin: 0; }
             .app-container, .preview-title { display: none !important; }
             .preview-wrapper { margin: 0; gap: 0; display: block; }
             .paper-preview { box-shadow: none !important; border-radius: 0; margin: 0; page-break-after: always; }
-
             body.printing-bill #preview-medcert { display: none !important; }
             body.printing-medcert #preview-bill { display: none !important; }
         }
@@ -224,9 +186,10 @@
             
             <div class="sub-title">ข้อมูลส่วนตัว (Demographics)</div>
             <div class="flex-row">
+                <!-- เปลี่ยนเป็นช่องข้อความ พ.ศ. 100% -->
                 <div class="form-group flex-1">
-                    <label>วันที่:</label>
-                    <input type="date" id="inputDate" onchange="syncData()">
+                    <label>วันที่ (พ.ศ.):</label>
+                    <input type="text" id="inputDate" placeholder="วว/ดด/พศศศ" maxlength="10" oninput="formatDateInput(this, event); syncData()">
                 </div>
                 <div class="form-group flex-1">
                     <label>เลขที่บิล (No.):</label>
@@ -243,9 +206,10 @@
                     <label>ชื่อ-นามสกุล (เว้นวรรคด้วยนะ):</label>
                     <input type="text" id="inputName" placeholder="เช่น กฤตภาส รักดี" oninput="autoGenerateSecretCN(); syncData()">
                 </div>
+                <!-- เปลี่ยนช่องวันเกิดเป็น พ.ศ. พร้อมคำนวณอายุ -->
                 <div class="form-group flex-1">
-                    <label>วันเดือนปีเกิด:</label>
-                    <input type="date" id="inputDOB" onchange="calculateAge(); syncData()">
+                    <label>วันเกิด (พิมพ์ตัวเลขติดกันได้เลย):</label>
+                    <input type="text" id="inputDOB" placeholder="เช่น 15052530" maxlength="10" oninput="formatDateInput(this, event); calculateAge(); syncData()">
                 </div>
                 <div class="form-group" style="width: 90px;">
                     <label>อายุ (ปี):</label>
@@ -310,7 +274,6 @@
 
         <!-- 2. ส่วนของคุณหมอ -->
         <div class="flex-row">
-            <!-- กล่องการเงิน -->
             <div class="section-box doctor-zone flex-1">
                 <div class="section-title">
                     <span class="badge-teal">💰</span> <span>ส่วนออกบิล (การเงิน)</span>
@@ -334,7 +297,6 @@
                 </div>
             </div>
 
-            <!-- กล่องใบรับรองแพทย์ -->
             <div class="section-box doctor-zone flex-2">
                 <div class="section-title">
                     <span class="badge-teal">📝</span> <span>ส่วนใบรับรองแพทย์</span>
@@ -344,7 +306,6 @@
                     <input type="text" id="inputDx" placeholder="เช่น ต้อกระจกตาขวา..." oninput="syncData()">
                 </div>
 
-                <!-- ระบบ Checkbox ความเห็นแพทย์ -->
                 <div class="pastel-box-green">
                     <label style="color:#0f766e;">ความเห็นแพทย์ (Opinion / Recommendation):</label>
                     <label class="checkbox-group">
@@ -380,15 +341,11 @@
         </div>
     </div>
 
-
     <!-- ================= LIVE PREVIEW & PRINT SECTION ================= -->
     <div class="preview-wrapper">
-        
-        <!-- พรีวิวบิลเงินสด -->
         <div class="preview-column">
             <div class="preview-title">📄 Preview: บิลเงินสด (A5 แนวนอน 2 คอลัมน์)</div>
             <div id="preview-bill" class="paper-preview">
-                <!-- ฝั่งซ้าย -->
                 <div class="bill-half">
                     <div class="doc-type-badge">ต้นฉบับ Original</div>
                     <div class="b-header">
@@ -416,7 +373,6 @@
                     <div class="b-sign">ผู้รับเงิน ........................................<br>(นิธิรัชต์จักษุคลินิก)</div>
                 </div>
 
-                <!-- ฝั่งขวา -->
                 <div class="bill-half">
                     <div class="doc-type-badge" style="color:#555; border-color:#555;">สำเนา Copy</div>
                     <div class="b-header">
@@ -446,7 +402,6 @@
             </div>
         </div>
 
-        <!-- พรีวิวใบรับรองแพทย์ -->
         <div class="preview-column">
             <div class="preview-title">📄 Preview: ใบรับรองแพทย์ (A5 แนวตั้ง)</div>
             <div id="preview-medcert" class="paper-preview">
@@ -507,13 +462,48 @@
                 <div class="m-footer">เอกสารนี้รับรองเฉพาะสุขภาพของผู้ป่วย ณ วันที่ตรวจเท่านั้น</div>
             </div>
         </div>
-
     </div>
 
     <!-- ================= SCRIPT ================= -->
     <script>
         function encodeThai(str) { return btoa(unescape(encodeURIComponent(str))); }
         function decodeThai(str) { return decodeURIComponent(escape(atob(str))); }
+
+        // ฟังก์ชันช่วยเติม / ให้อัตโนมัติ (เช่น พิมพ์ 15052530 จะกลายเป็น 15/05/2530)
+        function formatDateInput(input, event) {
+            if (event && event.inputType === 'deleteContentBackward') return; // ปล่อยให้ลบได้ปกติ
+            let val = input.value.replace(/\D/g, ''); // เอาเฉพาะตัวเลข
+            if (val.length > 2) val = val.substring(0, 2) + '/' + val.substring(2);
+            if (val.length > 5) val = val.substring(0, 5) + '/' + val.substring(5, 9);
+            input.value = val;
+        }
+
+        // ฟังก์ชันคำนวณอายุจาก พ.ศ. อัตโนมัติ
+        function calculateAge() {
+            const dobInput = document.getElementById('inputDOB').value;
+            // คำนวณเมื่อพิมพ์ครบ 10 ตัว (วว/ดด/พศศศ)
+            if (dobInput.length === 10) {
+                const parts = dobInput.split('/');
+                const d = parseInt(parts[0], 10);
+                const m = parseInt(parts[1], 10) - 1; // เดือนใน JS เริ่มที่ 0
+                const yBE = parseInt(parts[2], 10);
+                const yCE = yBE - 543; // แปลง พ.ศ. เป็น ค.ศ.
+
+                const birthDate = new Date(yCE, m, d);
+                const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                
+                // ถ้ายังไม่ถึงวันเกิดในปีนี้ ให้ลบอายุออก 1 ปี
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                
+                if (age >= 0 && age <= 150) {
+                    document.getElementById('inputAge').value = age;
+                }
+            }
+        }
 
         function getSecretNumber(char) {
             const secretMap = {
@@ -563,22 +553,6 @@
             if (cnFirst || cnLast) { cnInput.value = 'CN-' + cnFirst + cnLast; } 
             else { cnInput.value = ''; }
         }
-        
-        function calculateAge() {
-            const dobInput = document.getElementById('inputDOB').value;
-            if (!dobInput) return;
-            
-            const birthDate = new Date(dobInput);
-            const today = new Date();
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const m = today.getMonth() - birthDate.getMonth();
-            
-            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            
-            document.getElementById('inputAge').value = age;
-        }
 
         function initSetup() {
             const params = new URLSearchParams(window.location.search);
@@ -604,9 +578,14 @@
                     window.history.replaceState({}, document.title, window.location.pathname); 
                 } catch (e) { console.error("Data decode error"); }
             } else {
+                // สร้างวันที่แบบ พ.ศ. (วว/ดด/พศศศ) ให้ตอนเริ่มต้นอัตโนมัติ
                 const d = new Date();
-                document.getElementById('inputDate').value = d.toISOString().split('T')[0];
-                document.getElementById('inputNo').value = `${(d.getFullYear()+543).toString().substr(2)}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
+                const dd = String(d.getDate()).padStart(2, '0');
+                const mm = String(d.getMonth() + 1).padStart(2, '0');
+                const yyyyBE = d.getFullYear() + 543;
+                
+                document.getElementById('inputDate').value = `${dd}/${mm}/${yyyyBE}`;
+                document.getElementById('inputNo').value = `${yyyyBE.toString().substr(2)}${mm}${dd}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
             }
             syncData();
         }
@@ -668,14 +647,9 @@
             setTimeout(() => alertBox.style.display = 'none', 3000);
         }
 
-        function formatThaiDate(dateStr) {
-            if(!dateStr) return '';
-            const d = new Date(dateStr);
-            return `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()+543}`;
-        }
-
         function syncData() {
-            const dateVal = formatThaiDate(document.getElementById('inputDate').value);
+            // วันที่ตอนนี้เราใช้ตัวหนังสือแบบ DD/MM/YYYY ตรงๆ เลย ไม่ต้องแปลงแล้ว
+            const dateVal = document.getElementById('inputDate').value || '-';
             const noVal = document.getElementById('inputNo').value || '-';
             const cnVal = document.getElementById('inputCN').value || '-';
             const nameVal = document.getElementById('inputName').value || '...........................................';
@@ -739,12 +713,21 @@
 
         function resetForm() {
             if(confirm("ต้องการล้างหน้าจอเพื่อรับคนไข้ใหม่หรือไม่?")) {
-                document.querySelectorAll('input[type="text"]:not(#inputAllergy, #inputDisease), input[type="number"], input[type="date"], textarea').forEach(i => i.value = '');
+                document.querySelectorAll('input[type="text"]:not(#inputAllergy, #inputDisease, #inputDate, #inputNo), input[type="number"], textarea').forEach(i => i.value = '');
                 document.querySelectorAll('input[type="checkbox"]').forEach(i => i.checked = false);
                 document.getElementById('inputAllergy').value = '-';
                 document.getElementById('inputDisease').value = '-';
+                
+                // คืนค่าวันที่วันนี้
+                const d = new Date();
+                const dd = String(d.getDate()).padStart(2, '0');
+                const mm = String(d.getMonth() + 1).padStart(2, '0');
+                const yyyyBE = d.getFullYear() + 543;
+                document.getElementById('inputDate').value = `${dd}/${mm}/${yyyyBE}`;
+                document.getElementById('inputNo').value = `${yyyyBE.toString().substr(2)}${mm}${dd}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
+                
                 window.history.replaceState({}, document.title, window.location.pathname); 
-                initSetup(); 
+                syncData(); 
             }
         }
 
