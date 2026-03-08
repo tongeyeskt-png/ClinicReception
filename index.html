@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Web App Config -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="คลินิกตา">
+    <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%23a855f7'/><path d='M15 50 Q 50 15 85 50 Q 50 85 15 50' fill='none' stroke='white' stroke-width='8'/><circle cx='50' cy='50' r='14' fill='white'/></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23a855f7'/><path d='M15 50 Q 50 15 85 50 Q 50 85 15 50' fill='none' stroke='white' stroke-width='8'/><circle cx='50' cy='50' r='14' fill='white'/></svg>">
+
+    <title>Reception Helper - นิธิรัชต์จักษุคลินิก</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ================= UI ธีมพาสเทล โมเดิร์น ================= */
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, #f3e8ff 0%, #e0f2fe 100%); /* พื้นหลังไล่สีพาสเทล */
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+            color: #334155;
+        }
+
+        .app-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95); /* ขาวแบบโปร่งแสงนิดๆ */
+            backdrop-filter: blur(10px);
+            padding: 35px;
+            border-radius: 24px; /* ขอบมนมาก */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .header-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header-title h1 {
+            margin: 0;
+            background: linear-gradient(135deg, #7e22ce, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 32px;
+            font-weight: 700;
+        }
+        .header-title p {
+            margin: 5px 0 0 0; color: #64748b; font-size: 16px; font-weight: 500;
+        }
+
+        .section-box {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #f1f5f9;
+            transition: transform 0.2s;
+        }
+        .section-box:hover { transform: translateY(-2px); }
+        
+        .reception-zone { border-top: 5px solid #a855f7; }
+        .doctor-zone { border-top: 5px solid #14b8a6; }
+
+        .section-title {
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge-purple { background: #f3e8ff; color: #7e22ce; padding: 5px 12px; border-radius: 12px; font-size: 16px;}
+        .badge-teal { background: #ccfbf1; color: #0f766e; padding: 5px 12px; border-radius: 12px; font-size: 16px;}
+
+        .sub-title {
+            font-size: 15px;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 12px;
+            margin-top: 10px;
+            border-bottom: 2px dashed #e2e8f0;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .form-group { margin-bottom: 18px; }
+        label { display: block; font-weight: 600; margin-bottom: 6px; color: #475569; font-size: 14px;}
+        
+        /* สไตล์ช่องกรอกข้อมูลแบบใหม่ */
+        input[type="text"], input[type="number"], input[type="date"], textarea {
+            width: 100%; 
+            padding: 12px 16px; 
+            background-color: #f8fafc;
+            border: 2px solid transparent; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            box-sizing: border-box; 
+            font-family: 'Sarabun', sans-serif;
+            color: #1e293b;
+            transition: all 0.3s ease;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            background-color: #ffffff;
+            border-color: #c084fc;
+            box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.15);
+        }
+        textarea { resize: vertical; min-height: 90px; }
+        
+        .highlight-input { background: #f0fdfa !important; color: #0d9488 !important; border-color: #ccfbf1 !important; }
+
+        .checkbox-group { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 16px; color: #475569; cursor: pointer;}
+        .checkbox-group input[type="checkbox"] { width: 22px; height: 22px; cursor: pointer; accent-color: #14b8a6; }
+        .checkbox-group:hover { color: #0f172a; }
+
+        .flex-row { display: flex; gap: 15px; flex-wrap: wrap; }
+        .flex-1 { flex: 1; min-width: 150px; }
+        .flex-2 { flex: 2; min-width: 250px; }
+
+        .item-row { display: flex; gap: 10px; margin-bottom: 12px; }
+        .item-name { flex: 2; }
+        .item-price { flex: 1; }
+
+        /* สไตล์ปุ่มกดแบบโมเดิร์น */
+        .btn-group { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;}
+        .btn {
+            flex: 1; min-width: 200px; padding: 16px; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; color: white; display: flex; justify-content: center; align-items: center; gap: 8px; 
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
+        .btn:active { transform: translateY(0); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        
+        .btn-line { background: linear-gradient(135deg, #22c55e, #16a34a); }
+        .btn-link { background: linear-gradient(135deg, #a855f7, #7e22ce); }
+        .btn-bill { background: linear-gradient(135deg, #2dd4bf, #0d9488); }
+        .btn-med { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+        .btn-clear { background: linear-gradient(135deg, #fb7185, #e11d48); flex: 0.3; min-width: 120px;}
+
+        .alert-box {
+            display: none; background-color: #dcfce7; color: #166534; padding: 12px; border-radius: 12px; text-align: center; margin-top: 15px; font-weight: bold; border: 1px solid #bbf7d0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .pastel-box {
+            background: #faf5ff; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #f3e8ff;
+        }
+        .pastel-box-green {
+            background: #f0fdf4; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #dcfce7;
+        }
+
+        /* ----- Live Preview Section (โชว์บนจอ) ----- */
+        .preview-wrapper { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: flex-start; }
+        .preview-column { display: flex; flex-direction: column; align-items: center; }
+        .preview-title { font-size: 16px; font-weight: 700; color: #475569; margin-bottom: 15px; background: rgba(255,255,255,0.8); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); backdrop-filter: blur(5px);}
+        .paper-preview { background: white; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden;}
+
+        /* ================= สไตล์กระดาษสำหรับปริ้น (คงเดิมเป๊ะๆ) ================= */
+        #print-bill, #preview-bill { width: 210mm; height: 148mm; box-sizing: border-box; display: flex; background: white; color: black; font-family: 'Sarabun', sans-serif;}
+        .bill-half { flex: 1; width: 50%; height: 100%; padding: 8mm; box-sizing: border-box; position: relative; display: flex; flex-direction: column; }
+        .bill-half:first-child { border-right: 1px dashed #999; }
+        .doc-type-badge { position: absolute; top: 8mm; right: 8mm; border: 1px solid #000; padding: 2px 6px; font-size: 10px; font-weight: bold; border-radius: 4px; }
+        .b-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px; }
+        .b-title { font-size: 16px; font-weight: bold; }
+        .b-clinic { font-size: 14px; font-weight: bold; margin-top: 2px; }
+        .b-addr { font-size: 10px; color: #333; }
+        .b-meta { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 8px; }
+        .b-patient { font-size: 12px; margin-bottom: 10px; border-bottom: 1px dotted #ccc; padding-bottom: 5px; line-height: 1.5; }
+        .b-patient-sub { font-size: 9px; color: #555; }
+        .b-table { width: 100%; font-size: 12px; border-collapse: collapse; margin-bottom: 10px; flex: 1; }
+        .b-table th { border-bottom: 1px solid #000; padding: 4px 0; text-align: left; }
+        .b-table td { padding: 4px 0; }
+        .b-table .price-col { text-align: right; width: 60px; }
+        .b-total-row { border-top: 2px solid #000; font-weight: bold; font-size: 14px; }
+        .b-thai-text { text-align: right; font-size: 10px; font-style: italic; margin-top: 5px; color: #555; }
+        .b-sign { text-align: center; font-size: 10px; margin-top: auto; }
+
+        #print-medcert, #preview-medcert { width: 148mm; height: 210mm; padding: 15mm 10mm; box-sizing: border-box; margin: 0 auto; position: relative; background: white; color: black; font-family: 'Sarabun', sans-serif;}
+        .m-header { text-align: center; margin-bottom: 15px; }
+        .m-clinic { font-size: 20px; font-weight: bold; color: #1a365d; }
+        .m-addr { font-size: 12px; color: #555; line-height: 1.5; margin-top: 5px; }
+        .m-title { font-size: 22px; font-weight: bold; margin-top: 15px; text-decoration: underline; }
+        .m-meta { display: flex; justify-content: space-between; font-size: 12px; margin-top: 15px; margin-bottom: 20px; }
+        .m-content { font-size: 14px; line-height: 1.8; }
+        .m-row { display: flex; margin-bottom: 10px; align-items: baseline; }
+        .m-label { white-space: nowrap; margin-right: 10px; font-weight: bold; }
+        .m-line { border-bottom: 1px dotted #000; flex: 1; min-height: 20px; padding-left: 5px; }
+        .m-sign-box { margin-top: 40px; text-align: center; float: right; width: 60%; }
+        .m-footer { position: absolute; bottom: 15mm; left: 0; width: 100%; font-size: 10px; color: #777; text-align: center; border-top: 1px solid #ddd; padding-top: 10px; }
+
+        .print-only { display: none; }
+
+        @media print {
+            body { background: white; padding: 0; margin: 0; }
+            .app-container, .preview-title { display: none !important; }
+            .preview-wrapper { margin: 0; gap: 0; display: block; }
+            .paper-preview { box-shadow: none !important; border-radius: 0; margin: 0; page-break-after: always; }
+
+            body.printing-bill #preview-medcert { display: none !important; }
+            body.printing-medcert #preview-bill { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="header-title">
+            <h1>Reception & Doctor System</h1>
+            <p>นิธิรัชต์จักษุคลินิก (Smart Helper)</p>
+        </div>
+
+        <!-- 1. ส่วนของเจ้าหน้าที่เคาน์เตอร์ -->
+        <div class="section-box reception-zone">
+            <div class="section-title">
+                <span class="badge-purple">1</span> <span>ส่วนของเคาน์เตอร์ (ประวัติคนไข้)</span>
+            </div>
+            
+            <div class="sub-title">ข้อมูลส่วนตัว (Demographics)</div>
+            <div class="flex-row">
+                <div class="form-group flex-1">
+                    <label>วันที่:</label>
+                    <input type="date" id="inputDate" onchange="syncData()">
+                </div>
+                <div class="form-group flex-1">
+                    <label>เลขที่บิล (No.):</label>
+                    <input type="text" id="inputNo" placeholder="Auto Generate" oninput="syncData()">
+                </div>
+                <div class="form-group flex-1">
+                    <label>CN (ถอดรหัสอัตโนมัติ):</label>
+                    <input type="text" id="inputCN" class="highlight-input" placeholder="เลขคนไข้" readonly>
+                </div>
+            </div>
+            
+            <div class="flex-row">
+                <div class="form-group flex-2">
+                    <label>ชื่อ-นามสกุล (เว้นวรรคด้วยนะ):</label>
+                    <input type="text" id="inputName" placeholder="เช่น กฤตภาส รักดี" oninput="autoGenerateSecretCN(); syncData()">
+                </div>
+                <div class="form-group flex-1">
+                    <label>วันเดือนปีเกิด:</label>
+                    <input type="date" id="inputDOB" onchange="calculateAge(); syncData()">
+                </div>
+                <div class="form-group" style="width: 90px;">
+                    <label>อายุ (ปี):</label>
+                    <input type="number" id="inputAge" placeholder="อายุ" oninput="syncData()">
+                </div>
+                <div class="form-group flex-1">
+                    <label>เบอร์โทรศัพท์:</label>
+                    <input type="text" id="inputPhone" placeholder="08X-XXX-XXXX">
+                </div>
+            </div>
+
+            <div class="flex-row">
+                <div class="form-group flex-1">
+                    <label>เลขบัตรประจำตัวประชาชน:</label>
+                    <input type="text" id="inputID" placeholder="13 หลัก (ใช้สำหรับออกบิล)" oninput="syncData()">
+                </div>
+                <div class="form-group flex-2">
+                    <label>ที่อยู่ปัจจุบัน:</label>
+                    <input type="text" id="inputAddress" placeholder="บ้านเลขที่, ตำบล, อำเภอ, จังหวัด" oninput="syncData()">
+                </div>
+            </div>
+
+            <div class="sub-title" style="margin-top: 15px;">ข้อมูลการซักประวัติ (Triage)</div>
+
+            <div class="pastel-box flex-row">
+                <div class="form-group flex-1" style="margin-bottom:0;">
+                    <label>ความดัน (BP):</label>
+                    <input type="text" id="inputBP" placeholder="เช่น 120/80">
+                </div>
+                <div class="form-group flex-1" style="margin-bottom:0;">
+                    <label>น้ำหนัก (BW) kg:</label>
+                    <input type="text" id="inputBW" placeholder="น้ำหนัก">
+                </div>
+                <div class="form-group flex-1" style="margin-bottom:0;">
+                    <label>ชีพจร (PR):</label>
+                    <input type="text" id="inputHR" placeholder="ครั้ง/นาที">
+                </div>
+            </div>
+
+            <div class="flex-row">
+                <div class="form-group flex-1">
+                    <label style="color:#e11d48;">⚠️ ประวัติแพ้ยา:</label>
+                    <input type="text" id="inputAllergy" placeholder="ถ้าไม่มีให้ขีด -" value="-">
+                </div>
+                <div class="form-group flex-1">
+                    <label style="color:#d97706;">🩺 โรคประจำตัว:</label>
+                    <input type="text" id="inputDisease" placeholder="ถ้าไม่มีให้ขีด -" value="-">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>อาการที่มาพบแพทย์ (Chief Complaint):</label>
+                <textarea id="inputCC" placeholder="เช่น เคืองตาซ้ายมา 2 วัน น้ำตาไหล..."></textarea>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-line" onclick="copyNormal()">💬 คัดลอกประวัติ (เคสปกติ)</button>
+                <button class="btn btn-link" onclick="generateLink()">🔗 คัดลอกลิงก์ (ขอใบเสร็จ/ใบรับรองแพทย์)</button>
+            </div>
+            <div id="alertSuccess" class="alert-box">✅ คัดลอกสำเร็จ! นำไปวางใน LINE ให้คุณหมอได้เลย</div>
+        </div>
+
+        <!-- 2. ส่วนของคุณหมอ -->
+        <div class="flex-row">
+            <!-- กล่องการเงิน -->
+            <div class="section-box doctor-zone flex-1">
+                <div class="section-title">
+                    <span class="badge-teal">💰</span> <span>ส่วนออกบิล (การเงิน)</span>
+                </div>
+                <div id="itemsContainer">
+                    <div class="item-row">
+                        <input type="text" class="item-name" placeholder="รายการที่ 1" oninput="syncData()">
+                        <input type="number" class="item-price" placeholder="ราคา" oninput="syncData()">
+                    </div>
+                    <div class="item-row">
+                        <input type="text" class="item-name" placeholder="รายการที่ 2" oninput="syncData()">
+                        <input type="number" class="item-price" placeholder="ราคา" oninput="syncData()">
+                    </div>
+                    <div class="item-row">
+                        <input type="text" class="item-name" placeholder="รายการที่ 3" oninput="syncData()">
+                        <input type="number" class="item-price" placeholder="ราคา" oninput="syncData()">
+                    </div>
+                </div>
+                <div style="text-align: right; font-weight: 700; font-size: 20px; margin-top: 15px; color: #0f766e;">
+                    ยอดรวม: <span id="uiTotal">0</span> บาท
+                </div>
+            </div>
+
+            <!-- กล่องใบรับรองแพทย์ -->
+            <div class="section-box doctor-zone flex-2">
+                <div class="section-title">
+                    <span class="badge-teal">📝</span> <span>ส่วนใบรับรองแพทย์</span>
+                </div>
+                <div class="form-group">
+                    <label>การวินิจฉัยโรค (Diagnosis):</label>
+                    <input type="text" id="inputDx" placeholder="เช่น ต้อกระจกตาขวา..." oninput="syncData()">
+                </div>
+
+                <!-- ระบบ Checkbox ความเห็นแพทย์ -->
+                <div class="pastel-box-green">
+                    <label style="color:#0f766e;">ความเห็นแพทย์ (Opinion / Recommendation):</label>
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="chkOp1" onchange="syncData()"> ขอรับรองว่ามาตรวจจริง
+                    </label>
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="chkOp2" onchange="syncData()"> หยอดยาหรือรับประทานยาตามแพทย์สั่ง
+                    </label>
+                    <div class="checkbox-group" style="display:flex; align-items:center;">
+                        <input type="checkbox" id="chkOp3" onchange="syncData()"> 
+                        <span style="white-space: nowrap;">อื่นๆ:</span> 
+                        <input type="text" id="inputOp3Text" placeholder="ระบุเพิ่มเติม หรือปล่อยว่างให้เป็นเส้นประ" oninput="syncData()" style="flex:1; padding: 8px 12px; margin-left: 5px;">
+                    </div>
+                </div>
+
+                <div class="flex-row">
+                    <div class="form-group flex-1">
+                        <label>จำนวนวันพัก (วัน):</label>
+                        <input type="number" id="inputRest" placeholder="ตัวเลข" oninput="syncData()">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label>ตั้งแต่วันที่:</label>
+                        <input type="text" id="inputFromTo" placeholder="เช่น 10-12 มี.ค. 69" oninput="syncData()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group" style="margin-top: 5px;">
+            <button class="btn btn-bill" onclick="printBill()">🖨️ พิมพ์บิลเงินสด (A5)</button>
+            <button class="btn btn-med" onclick="printMedCert()">🖨️ พิมพ์ใบรับรองแพทย์ (A5)</button>
+            <button class="btn btn-clear" onclick="resetForm()">🗑️ ล้างหน้าจอ</button>
+        </div>
+    </div>
+
+
+    <!-- ================= LIVE PREVIEW & PRINT SECTION ================= -->
+    <div class="preview-wrapper">
+        
+        <!-- พรีวิวบิลเงินสด -->
+        <div class="preview-column">
+            <div class="preview-title">📄 Preview: บิลเงินสด (A5 แนวนอน 2 คอลัมน์)</div>
+            <div id="preview-bill" class="paper-preview">
+                <!-- ฝั่งซ้าย -->
+                <div class="bill-half">
+                    <div class="doc-type-badge">ต้นฉบับ Original</div>
+                    <div class="b-header">
+                        <div class="b-title">บิลเงินสด / ใบเสร็จรับเงิน</div>
+                        <div class="b-clinic">นิธิรัชต์จักษุคลินิก</div>
+                        <div class="b-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div>
+                    </div>
+                    <div class="b-meta">
+                        <span>เลขที่: <b class="dispNo"></b></span>
+                        <span>วันที่: <b class="dispDate"></b></span>
+                    </div>
+                    <div class="b-patient">
+                        <b>ได้รับเงินจาก:</b> <span class="dispName"></span><br>
+                        <div class="b-patient-sub"><b>CN:</b> <span class="dispCN"></span> | <b>เลข ปชช:</b> <span class="dispID"></span> | <b>ที่อยู่:</b> <span class="dispAddress"></span></div>
+                    </div>
+                    <table class="b-table">
+                        <thead><tr><th>รายการ (Description)</th><th class="price-col">จำนวนเงิน</th></tr></thead>
+                        <tbody class="dispBillItems"></tbody>
+                        <tbody>
+                            <tr><td colspan="2" style="border-top: 1px solid #000; padding:2px;"></td></tr>
+                            <tr class="b-total-row"><td>รวมเป็นเงินทั้งสิ้น</td><td class="price-col dispTotal">0</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="b-thai-text">(<span class="dispThaiText">ศูนย์บาทถ้วน</span>)</div>
+                    <div class="b-sign">ผู้รับเงิน ........................................<br>(นิธิรัชต์จักษุคลินิก)</div>
+                </div>
+
+                <!-- ฝั่งขวา -->
+                <div class="bill-half">
+                    <div class="doc-type-badge" style="color:#555; border-color:#555;">สำเนา Copy</div>
+                    <div class="b-header">
+                        <div class="b-title">บิลเงินสด / ใบเสร็จรับเงิน</div>
+                        <div class="b-clinic">นิธิรัชต์จักษุคลินิก</div>
+                        <div class="b-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div>
+                    </div>
+                    <div class="b-meta">
+                        <span>เลขที่: <b class="dispNo"></b></span>
+                        <span>วันที่: <b class="dispDate"></b></span>
+                    </div>
+                    <div class="b-patient">
+                        <b>ได้รับเงินจาก:</b> <span class="dispName"></span><br>
+                        <div class="b-patient-sub"><b>CN:</b> <span class="dispCN"></span> | <b>เลข ปชช:</b> <span class="dispID"></span> | <b>ที่อยู่:</b> <span class="dispAddress"></span></div>
+                    </div>
+                    <table class="b-table">
+                        <thead><tr><th>รายการ (Description)</th><th class="price-col">จำนวนเงิน</th></tr></thead>
+                        <tbody class="dispBillItems"></tbody>
+                        <tbody>
+                            <tr><td colspan="2" style="border-top: 1px solid #000; padding:2px;"></td></tr>
+                            <tr class="b-total-row"><td>รวมเป็นเงินทั้งสิ้น</td><td class="price-col dispTotal">0</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="b-thai-text">(<span class="dispThaiText">ศูนย์บาทถ้วน</span>)</div>
+                    <div class="b-sign">ผู้รับเงิน ........................................<br>(นิธิรัชต์จักษุคลินิก)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- พรีวิวใบรับรองแพทย์ -->
+        <div class="preview-column">
+            <div class="preview-title">📄 Preview: ใบรับรองแพทย์ (A5 แนวตั้ง)</div>
+            <div id="preview-medcert" class="paper-preview">
+                <div class="m-header">
+                    <div class="m-clinic">นิธิรัชต์จักษุคลินิก</div>
+                    <div class="m-addr">
+                        4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย<br>
+                        โทร: 061-451-9866
+                    </div>
+                    <div class="m-title">ใบรับรองแพทย์</div>
+                </div>
+                
+                <div class="m-meta">
+                    <div>เลขที่ (No.) <span style="border-bottom: 1px dotted #000; padding: 0 10px;" class="dispNo"></span></div>
+                    <div>CN: <span style="border-bottom: 1px dotted #000; padding: 0 10px;" class="dispCN"></span></div>
+                    <div>วันที่ <span style="border-bottom: 1px dotted #000; padding: 0 10px;" class="dispDate"></span></div>
+                </div>
+
+                <div class="m-content">
+                    <div class="m-row">
+                        <span class="m-label">ข้าพเจ้า:</span>
+                        <div class="m-line" style="border:none; padding-left:0;">นายแพทย์นิธิรัชต์ แสนเพ็ญ</div>
+                    </div>
+                    <div class="m-row">
+                        <span class="m-label">ได้ทำการตรวจร่างกาย:</span>
+                        <div class="m-line dispName" style="font-weight:bold;"></div>
+                    </div>
+                    <div class="m-row">
+                        <span class="m-label">ปรากฏว่าป่วยเป็นโรค:</span>
+                        <div class="m-line dispDx"></div>
+                    </div>
+                    
+                    <div style="margin: 20px 0 5px 0;"><span class="m-label">ความเห็นแพทย์ (Opinion / Recommendation):</span></div>
+                    <div style="padding-left: 20px; line-height: 1.8;">
+                        <div><span class="dispOp1" style="font-size: 18px; margin-right:5px;">☐</span> ขอรับรองว่ามาตรวจจริง</div>
+                        <div><span class="dispOp2" style="font-size: 18px; margin-right:5px;">☐</span> หยอดยาหรือรับประทานยาตามแพทย์สั่ง</div>
+                        <div style="display:flex;">
+                            <span class="dispOp3" style="font-size: 18px; margin-right:5px;">☐</span> 
+                            <div class="m-line dispOp3Text" style="flex:1;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="m-row" style="margin-top:25px;">
+                        <span class="m-label">เห็นสมควรให้หยุดพักรักษาตัวเป็นเวลา:</span>
+                        <div class="m-line dispRest" style="flex:0; min-width:80px; text-align:center;"></div>
+                        <span class="m-label" style="margin-left:10px;">วัน</span>
+                    </div>
+                    <div class="m-row">
+                        <span class="m-label">ตั้งแต่วันที่:</span>
+                        <div class="m-line dispFromTo"></div>
+                    </div>
+                </div>
+
+                <div class="m-sign-box">
+                    <div style="margin-bottom: 30px;">ลงชื่อ ........................................................... แพทย์ผู้ตรวจ</div>
+                    <div>( นายแพทย์นิธิรัชต์ แสนเพ็ญ )</div>
+                </div>
+                <div class="m-footer">เอกสารนี้รับรองเฉพาะสุขภาพของผู้ป่วย ณ วันที่ตรวจเท่านั้น</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= SCRIPT ================= -->
+    <script>
+        function encodeThai(str) { return btoa(unescape(encodeURIComponent(str))); }
+        function decodeThai(str) { return decodeURIComponent(escape(atob(str))); }
+
+        function getSecretNumber(char) {
+            const secretMap = {
+                'เ':'0', 'แ':'0', 'ไ':'0', 'ใ':'0', 'โ':'0', 'ะ':'0', 'า':'0', 'ำ':'0',
+                'ก':'1', 'ข':'1', 'ค':'1', 'ฅ':'1', 'ฆ':'1',
+                'ง':'2', 'จ':'2', 'ฉ':'2', 'ช':'2', 'ซ':'2',
+                'ฌ':'3', 'ญ':'3', 'ฎ':'3', 'ฏ':'3', 'ฐ':'3', 'ฑ':'3', 'ฒ':'3',
+                'ณ':'4', 'ด':'4', 'ต':'4', 'ถ':'4', 'ท':'4',
+                'ธ':'5', 'น':'5', 'บ':'5', 'ป':'5',
+                'ผ':'6', 'ฝ':'6', 'พ':'6', 'ฟ':'6', 'ภ':'6',
+                'ม':'7', 'ย':'7', 'ร':'7', 'ล':'7',
+                'ว':'8', 'ศ':'8', 'ษ':'8', 'ส':'8',
+                'ห':'9', 'ฬ':'9', 'อ':'9', 'ฮ':'9', 'ฤ':'9', 'ฦ':'9'
+            };
+            return secretMap[char]; 
+        }
+
+        function autoGenerateSecretCN() {
+            const fullName = document.getElementById('inputName').value.trim();
+            const cnInput = document.getElementById('inputCN');
+
+            if (fullName === '') { cnInput.value = ''; return; }
+
+            const parts = fullName.split(/\s+/);
+            let fName = parts[0] || '';
+            let lName = parts.slice(1).join('') || ''; 
+
+            let cnFirst = '';
+            let cnLast = '';
+
+            for (let char of fName) {
+                let num = getSecretNumber(char);
+                if (num !== undefined) {
+                    cnFirst += num;
+                    if (cnFirst.length >= 3) break;
+                }
+            }
+
+            for (let char of lName) {
+                let num = getSecretNumber(char);
+                if (num !== undefined) {
+                    cnLast += num;
+                    if (cnLast.length >= 2) break;
+                }
+            }
+
+            if (cnFirst || cnLast) { cnInput.value = 'CN-' + cnFirst + cnLast; } 
+            else { cnInput.value = ''; }
+        }
+        
+        function calculateAge() {
+            const dobInput = document.getElementById('inputDOB').value;
+            if (!dobInput) return;
+            
+            const birthDate = new Date(dobInput);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            document.getElementById('inputAge').value = age;
+        }
+
+        function initSetup() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('data')) {
+                try {
+                    const pd = JSON.parse(decodeThai(params.get('data')));
+                    document.getElementById('inputDate').value = pd.date || '';
+                    document.getElementById('inputNo').value = pd.no || '';
+                    document.getElementById('inputCN').value = pd.cn || '';
+                    document.getElementById('inputName').value = pd.name || '';
+                    document.getElementById('inputDOB').value = pd.dob || ''; 
+                    document.getElementById('inputAge').value = pd.age || '';
+                    document.getElementById('inputPhone').value = pd.phone || '';
+                    document.getElementById('inputID').value = pd.idCard || '';
+                    document.getElementById('inputAddress').value = pd.address || '';
+                    
+                    document.getElementById('inputBP').value = pd.bp || '';
+                    document.getElementById('inputBW').value = pd.bw || '';
+                    document.getElementById('inputHR').value = pd.hr || '';
+                    document.getElementById('inputAllergy').value = pd.allergy || '-';
+                    document.getElementById('inputDisease').value = pd.disease || '-';
+                    document.getElementById('inputCC').value = pd.cc || '';
+                    window.history.replaceState({}, document.title, window.location.pathname); 
+                } catch (e) { console.error("Data decode error"); }
+            } else {
+                const d = new Date();
+                document.getElementById('inputDate').value = d.toISOString().split('T')[0];
+                document.getElementById('inputNo').value = `${(d.getFullYear()+543).toString().substr(2)}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
+            }
+            syncData();
+        }
+
+        function getPatientData() {
+            return {
+                date: document.getElementById('inputDate').value,
+                no: document.getElementById('inputNo').value,
+                cn: document.getElementById('inputCN').value || '-',
+                name: document.getElementById('inputName').value || '-',
+                dob: document.getElementById('inputDOB').value || '', 
+                age: document.getElementById('inputAge').value || '-',
+                phone: document.getElementById('inputPhone').value || '-',
+                idCard: document.getElementById('inputID').value || '-',
+                address: document.getElementById('inputAddress').value || '-',
+                bp: document.getElementById('inputBP').value || '-',
+                bw: document.getElementById('inputBW').value || '-',
+                hr: document.getElementById('inputHR').value || '-',
+                allergy: document.getElementById('inputAllergy').value || '-',
+                disease: document.getElementById('inputDisease').value || '-',
+                cc: document.getElementById('inputCC').value || '-'
+            };
+        }
+
+        function copyNormal() {
+            const data = getPatientData();
+            const summary = `📌 ประวัติคนไข้ใหม่\nCN: ${data.cn}\nชื่อ: ${data.name} (อายุ ${data.age} ปี)\nโทร: ${data.phone}\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\n\nอาการ (CC): ${data.cc}`;
+            copyToClipboard(summary, "✅ คัดลอกประวัติสำเร็จ!");
+        }
+
+        function generateLink() {
+            const data = getPatientData();
+            const encodedData = encodeThai(JSON.stringify(data));
+            const baseUrl = window.location.origin + window.location.pathname;
+            const magicLink = baseUrl + '?data=' + encodedData;
+            
+            const summary = `📌 📄 คนไข้ขอเอกสาร\nCN: ${data.cn}\nชื่อ: ${data.name} (อายุ ${data.age} ปี)\nโทร: ${data.phone}\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\nอาการ: ${data.cc}\n\n👉 คลิกลิงก์พิมพ์เอกสาร:\n${magicLink}`;
+            copyToClipboard(summary, "✅ คัดลอกลิงก์สำเร็จ! ส่งให้ห้องตรวจได้เลย");
+        }
+
+        function copyToClipboard(text, successMsg) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => showAlert(successMsg));
+            } else {
+                let textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try { document.execCommand('copy'); showAlert(successMsg); } 
+                catch (err) { alert("❌ คัดลอกไม่สำเร็จ"); }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function showAlert(msg) {
+            const alertBox = document.getElementById('alertSuccess');
+            alertBox.innerText = msg;
+            alertBox.style.display = 'block';
+            setTimeout(() => alertBox.style.display = 'none', 3000);
+        }
+
+        function formatThaiDate(dateStr) {
+            if(!dateStr) return '';
+            const d = new Date(dateStr);
+            return `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()+543}`;
+        }
+
+        function syncData() {
+            const dateVal = formatThaiDate(document.getElementById('inputDate').value);
+            const noVal = document.getElementById('inputNo').value || '-';
+            const cnVal = document.getElementById('inputCN').value || '-';
+            const nameVal = document.getElementById('inputName').value || '...........................................';
+            const idVal = document.getElementById('inputID').value || '-';
+            const addrVal = document.getElementById('inputAddress').value || '-';
+            const dxVal = document.getElementById('inputDx').value || '...........................................';
+            const restVal = document.getElementById('inputRest').value || '.......';
+            const fromToVal = document.getElementById('inputFromTo').value || '...........................................';
+
+            document.querySelectorAll('.dispDate').forEach(el => el.innerText = dateVal);
+            document.querySelectorAll('.dispNo').forEach(el => el.innerText = noVal);
+            document.querySelectorAll('.dispCN').forEach(el => el.innerText = cnVal);
+            document.querySelectorAll('.dispName').forEach(el => el.innerText = nameVal);
+            document.querySelectorAll('.dispID').forEach(el => el.innerText = idVal);
+            document.querySelectorAll('.dispAddress').forEach(el => el.innerText = addrVal);
+            document.querySelectorAll('.dispDx').forEach(el => el.innerText = dxVal);
+            document.querySelectorAll('.dispRest').forEach(el => el.innerText = restVal);
+            document.querySelectorAll('.dispFromTo').forEach(el => el.innerText = fromToVal);
+
+            // ซิงค์ Checkbox
+            const checkIcon = '☑'; 
+            const uncheckIcon = '☐'; 
+            
+            document.querySelectorAll('.dispOp1').forEach(el => el.innerText = document.getElementById('chkOp1').checked ? checkIcon : uncheckIcon);
+            document.querySelectorAll('.dispOp2').forEach(el => el.innerText = document.getElementById('chkOp2').checked ? checkIcon : uncheckIcon);
+            document.querySelectorAll('.dispOp3').forEach(el => el.innerText = document.getElementById('chkOp3').checked ? checkIcon : uncheckIcon);
+            
+            const op3Text = document.getElementById('inputOp3Text').value.trim();
+            document.querySelectorAll('.dispOp3Text').forEach(el => el.innerText = op3Text !== '' ? op3Text : ''); 
+
+            let total = 0; let rowsHtml = '';
+            document.querySelectorAll('.item-row').forEach(row => {
+                const name = row.querySelector('.item-name').value.trim();
+                const priceVal = row.querySelector('.item-price').value;
+                const price = parseFloat(priceVal) || 0;
+                if (name !== '' || priceVal !== '') {
+                    let displayPrice = (priceVal === '') ? '-' : price.toLocaleString();
+                    rowsHtml += `<tr><td>${name}</td><td class="price-col">${displayPrice}</td></tr>`;
+                    total += price;
+                }
+            });
+            
+            if(rowsHtml === '') rowsHtml = '<tr><td>(ไม่มีรายการ)</td><td class="price-col">-</td></tr>';
+
+            document.querySelectorAll('.dispBillItems').forEach(el => el.innerHTML = rowsHtml);
+            document.querySelectorAll('.dispTotal').forEach(el => el.innerText = total.toLocaleString());
+            document.getElementById('uiTotal').innerText = total.toLocaleString();
+
+            const thaiText = ArabicNumberToText(total);
+            document.querySelectorAll('.dispThaiText').forEach(el => el.innerText = thaiText);
+        }
+
+        function setPrintPageStyle(size, orientation) {
+            let style = document.getElementById('dynamic-print-style');
+            if (!style) { style = document.createElement('style'); style.id = 'dynamic-print-style'; document.head.appendChild(style); }
+            style.innerHTML = `@page { size: ${size} ${orientation}; margin: 0; }`;
+        }
+
+        function printBill() { syncData(); setPrintPageStyle('A5', 'landscape'); document.body.classList.add('printing-bill'); window.print(); setTimeout(() => document.body.classList.remove('printing-bill'), 500); }
+        function printMedCert() { syncData(); setPrintPageStyle('A5', 'portrait'); document.body.classList.add('printing-medcert'); window.print(); setTimeout(() => document.body.classList.remove('printing-medcert'), 500); }
+
+        function resetForm() {
+            if(confirm("ต้องการล้างหน้าจอเพื่อรับคนไข้ใหม่หรือไม่?")) {
+                document.querySelectorAll('input[type="text"]:not(#inputAllergy, #inputDisease), input[type="number"], input[type="date"], textarea').forEach(i => i.value = '');
+                document.querySelectorAll('input[type="checkbox"]').forEach(i => i.checked = false);
+                document.getElementById('inputAllergy').value = '-';
+                document.getElementById('inputDisease').value = '-';
+                window.history.replaceState({}, document.title, window.location.pathname); 
+                initSetup(); 
+            }
+        }
+
+        function ArabicNumberToText(Number) { var Number = CheckNumber(Number); var NumberArray = new Array("ศูนย์", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า", "สิบ"); var DigitArray = new Array("", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"); var BahtText = ""; if (isNaN(Number)) return "ข้อมูลไม่ถูกต้อง"; if ((Number - 0) > 9999999.9999) return "เกินขอบเขต"; Number = Number.split("."); if (Number[1].length > 0) Number[1] = Number[1].substring(0, 2); var NumberLen = Number[0].length - 0; for (var i = 0; i < NumberLen; i++) { var tmp = Number[0].substring(i, i + 1) - 0; if (tmp != 0) { if ((i == (NumberLen - 1)) && (tmp == 1)) BahtText += "เอ็ด"; else if ((i == (NumberLen - 2)) && (tmp == 2)) BahtText += "ยี่"; else if ((i == (NumberLen - 2)) && (tmp == 1)) BahtText += ""; else BahtText += NumberArray[tmp]; BahtText += DigitArray[NumberLen - i - 1]; } } BahtText += "บาท"; if ((Number[1] == "0") || (Number[1] == "00")) BahtText += "ถ้วน"; else { DecimalLen = Number[1].length - 0; for (var i = 0; i < DecimalLen; i++) { var tmp = Number[1].substring(i, i + 1) - 0; if (tmp != 0) { if ((i == (DecimalLen - 1)) && (tmp == 1)) BahtText += "เอ็ด"; else if ((i == (DecimalLen - 2)) && (tmp == 2)) BahtText += "ยี่"; else if ((i == (DecimalLen - 2)) && (tmp == 1)) BahtText += ""; else BahtText += NumberArray[tmp]; BahtText += DigitArray[DecimalLen - i - 1]; } } BahtText += "สตางค์"; } return BahtText; }
+        function CheckNumber(Number) { var decimal = false; Number = Number.toString(); Number = Number.replace(/ |,|บาท|฿/gi, ''); for (var i = 0; i < Number.length; i++) if (Number[i] == '.') decimal = true; if (decimal == false) Number = Number + '.00'; return Number; }
+
+        window.onload = initSetup;
+    </script>
+</body>
+</html>
+
