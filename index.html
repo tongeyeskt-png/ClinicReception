@@ -14,6 +14,9 @@
     <title>Reception Helper - นิธิรัชต์จักษุคลินิก</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- นำเข้าไลบรารีสำหรับสร้างไฟล์ PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style>
         /* ================= UI ธีมพาสเทล โมเดิร์น ================= */
         body {
@@ -120,17 +123,19 @@
 
         /* ----- Live Preview Section ----- */
         .preview-wrapper { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: flex-start; }
-        .preview-column { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .preview-column { display: flex; flex-direction: column; align-items: center; width: 100%; overflow-x: auto; padding-bottom: 20px;}
         .preview-title { font-size: 16px; font-weight: 700; color: #475569; margin-bottom: 15px; background: rgba(255,255,255,0.8); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); backdrop-filter: blur(5px);}
         
-        /* ================= สไตล์กระดาษ (A5 แนวตั้ง แบบใหม่) ================= */
-        #preview-bill, #preview-medcert { display: flex; flex-direction: column; align-items: center; background: transparent; overflow: visible;}
+        /* ================= สไตล์กระดาษสำหรับการสร้าง PDF (A5) ================= */
+        /* กำหนดขนาดเป๊ะๆ 148mm x 209mm เพื่อให้ html2pdf เอาไปจับภาพได้ถูกต้องที่สุด */
+        #preview-bill, #preview-medcert { display: flex; flex-direction: column; align-items: center; background: transparent;}
         
         .a5-portrait-page { 
             width: 148mm; 
-            height: 210mm; 
+            height: 209mm; /* ลดลงจาก 210mm นิดนึงกันล้นขอบ */
+            min-width: 148mm;
             box-sizing: border-box; 
-            padding: 15mm 12mm; 
+            padding: 12mm 15mm; /* ปรับขอบกระดาษให้สมดุล */
             position: relative; 
             display: flex; 
             flex-direction: column; 
@@ -138,63 +143,51 @@
             font-family: 'Sarabun', sans-serif;
             margin-bottom: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border-radius: 4px;
             color: #000;
         }
 
-        .doc-type-badge { position: absolute; top: 12mm; right: 12mm; border: 1px solid #000; padding: 4px 10px; font-size: 12px; font-weight: bold; border-radius: 6px; }
-        .b-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 15px; margin-top: 10px; }
-        .b-title { font-size: 20px; font-weight: bold; }
-        .b-clinic { font-size: 18px; font-weight: bold; margin-top: 5px; }
-        .b-addr { font-size: 13px; color: #333; margin-top: 5px;}
+        .doc-type-badge { position: absolute; top: 12mm; right: 15mm; border: 1px solid #000; padding: 3px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; }
+        .b-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 12px; margin-top: 5px; }
+        .b-title { font-size: 18px; font-weight: bold; }
+        .b-clinic { font-size: 16px; font-weight: bold; margin-top: 4px; }
+        .b-addr { font-size: 12px; color: #333; margin-top: 3px;}
         
-        .b-meta { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 15px; }
-        .b-patient { font-size: 14px; margin-bottom: 20px; border-bottom: 1px dotted #ccc; padding-bottom: 10px; line-height: 1.8; }
-        .b-patient-sub { font-size: 12px; color: #555; margin-top: 5px;}
+        .b-meta { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 12px; }
+        .b-patient { font-size: 13px; margin-bottom: 15px; border-bottom: 1px dotted #ccc; padding-bottom: 8px; line-height: 1.6; }
+        .b-patient-sub { font-size: 11px; color: #555; margin-top: 4px;}
         
-        .b-table { width: 100%; font-size: 14px; border-collapse: collapse; margin-bottom: 20px; flex: 1; }
-        .b-table th { border-bottom: 2px solid #000; padding: 10px 0; text-align: left; }
-        .b-table td { padding: 10px 0; border-bottom: 1px dashed #eee;}
+        .b-table { width: 100%; font-size: 13px; border-collapse: collapse; margin-bottom: 15px; flex: 1; }
+        .b-table th { border-bottom: 2px solid #000; padding: 8px 0; text-align: left; }
+        .b-table td { padding: 8px 0; border-bottom: 1px dashed #eee;}
         .b-table .price-col { text-align: right; width: 100px; }
-        .b-total-row { border-top: 2px solid #000; font-weight: bold; font-size: 16px; }
-        .b-total-row td { border-bottom: none; padding-top: 15px; }
-        .b-thai-text { text-align: right; font-size: 13px; font-style: italic; margin-top: 5px; color: #555; }
+        .b-total-row { border-top: 2px solid #000; font-weight: bold; font-size: 15px; }
+        .b-total-row td { border-bottom: none; padding-top: 12px; }
+        .b-thai-text { text-align: right; font-size: 12px; font-style: italic; margin-top: 5px; color: #555; }
         
-        .b-sign { text-align: right; font-size: 14px; margin-top: auto; padding-right: 10px; line-height: 1.8;}
-        .b-sign-line { display: inline-block; width: 180px; border-bottom: 1px dotted #000; margin-bottom: 5px;}
+        .b-sign { text-align: right; font-size: 13px; margin-top: auto; padding-right: 10px; line-height: 1.6;}
+        .b-sign-line { display: inline-block; width: 150px; border-bottom: 1px dotted #000; margin-bottom: 5px;}
 
-        .m-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 15px;}
-        .m-clinic { font-size: 22px; font-weight: bold; color: #000; }
-        .m-addr { font-size: 13px; color: #333; line-height: 1.5; margin-top: 5px; }
-        .m-title { font-size: 20px; font-weight: bold; margin-top: 20px; text-decoration: underline; text-align: center;}
-        .m-meta { display: flex; justify-content: space-between; font-size: 13px; margin-top: 20px; margin-bottom: 25px; }
-        .m-content { font-size: 14px; line-height: 2; flex: 1;}
-        .m-row { display: flex; margin-bottom: 12px; align-items: baseline; }
-        .m-label { white-space: nowrap; margin-right: 10px; font-weight: bold; }
-        .m-line { border-bottom: 1px dotted #000; flex: 1; min-height: 20px; padding-left: 5px; }
-        .m-sign-box { margin-top: 40px; text-align: center; float: right; width: 70%; line-height: 1.8;}
-        .m-footer { position: absolute; bottom: 12mm; left: 0; width: 100%; font-size: 11px; color: #555; text-align: center; border-top: 1px solid #eee; padding-top: 10px; }
-
-        .print-only-hide { display: block; }
+        /* ----- สเกลใบรับรองแพทย์ที่ปรับใหม่ให้สวยพอดี A5 ----- */
+        .m-header { text-align: center; margin-bottom: 15px; border-bottom: 2px solid #000; padding-bottom: 12px;}
+        .m-clinic { font-size: 20px; font-weight: bold; color: #000; }
+        .m-addr { font-size: 12px; color: #333; line-height: 1.4; margin-top: 5px; }
+        .m-title { font-size: 18px; font-weight: bold; margin-top: 15px; text-decoration: underline; text-align: center;}
+        .m-meta { display: flex; justify-content: space-between; font-size: 12px; margin-top: 15px; margin-bottom: 20px; }
         
-        /* ================= โหมดปริ้น ================= */
-        @media print {
-            @page { margin: 0 !important; }
-            body { background: white; padding: 0; margin: 0; -webkit-print-color-adjust: exact; }
-            .app-container, .preview-title { display: none !important; }
-            .preview-wrapper { margin: 0; padding: 0; display: block; }
-            .a5-portrait-page { 
-                box-shadow: none !important; 
-                border-radius: 0; 
-                margin: 0; 
-                width: 100vw; 
-                height: 100vh; 
-                page-break-after: always; 
-                padding: 15mm; 
-            }
-            body.printing-bill #preview-medcert { display: none !important; }
-            body.printing-medcert #preview-bill { display: none !important; }
-        }
+        .m-content { font-size: 14px; line-height: 1.8; flex: 1;}
+        
+        .m-row { display: flex; margin-bottom: 10px; align-items: baseline; }
+        .m-label { white-space: nowrap; margin-right: 8px; font-weight: bold; }
+        .m-line { border-bottom: 1px dotted #000; flex: 1; min-height: 18px; padding-left: 5px; }
+        
+        .m-sign-box { margin-top: 30px; text-align: center; float: right; width: 70%; line-height: 1.6;}
+        .m-footer { position: absolute; bottom: 10mm; left: 0; width: 100%; font-size: 11px; color: #555; text-align: center; border-top: 1px solid #eee; padding-top: 8px; }
+
+        /* คลาสตัดหน้าสำหรับ PDF */
+        .page-break { page-break-after: always; height: 0; margin: 0; border: none; }
+
+        /* ซ่อนพรีวิวเวลาโหลดปกติ ให้โชว์ตอนต้องการเท่านั้น */
+        .pdf-processing { background: #f8fafc; opacity: 0.7; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -305,7 +298,7 @@
                 <button class="btn btn-line" onclick="copyNormal()">💬 คัดลอกประวัติ (เคสปกติ)</button>
                 <button class="btn btn-link" onclick="generateLink()">🔗 คัดลอกลิงก์ (ส่งให้หมอ)</button>
             </div>
-            <div id="alertSuccess" class="alert-box">✅ คัดลอกสำเร็จ! นำไปวางใน LINE ให้คุณหมอได้เลย</div>
+            <div id="alertSuccess" class="alert-box">✅ สำเร็จ!</div>
         </div>
 
         <div class="flex-row">
@@ -370,13 +363,14 @@
         </div>
 
         <div class="btn-group" style="margin-top: 5px;">
-            <button class="btn btn-bill" onclick="printBill()">🖨️ พิมพ์บิลเงินสด (A5 แนวตั้ง 2 หน้า)</button>
-            <button class="btn btn-med" onclick="printMedCert()">🖨️ พิมพ์ใบรับรองแพทย์ (A5 แนวตั้ง)</button>
+            <!-- ปุ่มเปลี่ยนเป็นสร้างไฟล์ PDF -->
+            <button class="btn btn-bill" id="btnExportBill" onclick="exportBillPDF(this)">📄 สร้าง PDF บิลเงินสด (2 หน้า)</button>
+            <button class="btn btn-med" id="btnExportMed" onclick="exportMedCertPDF(this)">📄 สร้าง PDF ใบรับรองแพทย์</button>
             <button class="btn btn-clear" onclick="resetForm()">🗑️ ล้างหน้าจอ</button>
         </div>
     </div>
 
-    <!-- ================= โซนพรีวิวและหน้ากระดาษปริ้น ================= -->
+    <!-- ================= โซนเทมเพลตสำหรับสร้าง PDF ================= -->
     <div class="preview-wrapper">
         
         <!-- 📄 บิลเงินสด (A5 แนวตั้ง 2 แผ่น) -->
@@ -415,6 +409,9 @@
                     ( นิธิรัชต์จักษุคลินิก )
                 </div>
             </div>
+
+            <!-- จุดตัดหน้ากระดาษสำหรับ PDF -->
+            <div class="page-break"></div>
 
             <div class="a5-portrait-page">
                 <div class="doc-type-badge" style="color:#555; border-color:#555;">สำเนา Copy</div>
@@ -504,7 +501,7 @@
                 </div>
 
                 <div class="m-sign-box">
-                    <div style="margin-bottom: 30px;">ลงชื่อ ........................................................... แพทย์ผู้ตรวจ</div>
+                    <div style="margin-bottom: 25px;">ลงชื่อ ........................................................... แพทย์ผู้ตรวจ</div>
                     <div>( นายแพทย์นิธิรัชต์ แสนเพ็ญ ว.34654 )</div>
                 </div>
                 <div class="m-footer">เอกสารนี้รับรองเฉพาะสุขภาพของผู้ป่วย ณ วันที่ตรวจเท่านั้น</div>
@@ -524,7 +521,6 @@
             input.value = val;
         }
 
-        // ฟังก์ชันคำนวณวันหยุดให้อัตโนมัติ
         function autoCalculateLeaveDates() {
             const restInput = document.getElementById('inputRest').value.trim();
             const dateInput = document.getElementById('inputDate').value.trim();
@@ -803,26 +799,62 @@
             saveDraft();
         }
 
-        function setPrintPageStyle() {
-            let style = document.getElementById('dynamic-print-style');
-            if (!style) { style = document.createElement('style'); style.id = 'dynamic-print-style'; document.head.appendChild(style); }
-            style.innerHTML = `@page { size: A5 portrait; margin: 0 !important; }`;
+        // ================= ฟังก์ชันสร้างไฟล์ PDF ด้วย html2pdf.js =================
+        async function exportBillPDF(btn) {
+            const originalText = btn.innerText;
+            btn.innerText = "⏳ กำลังสร้าง PDF...";
+            document.body.classList.add('pdf-processing'); // ทำให้หน้าจอจางลงชั่วคราว
+            
+            syncData(); 
+            const element = document.getElementById('preview-bill');
+            // ซ่อนหัวข้อ Preview ตอนจับภาพ
+            element.querySelector('.preview-title').style.display = 'none';
+
+            const opt = {
+                margin:       0,
+                filename:     `Bill_${document.getElementById('inputNo').value}.pdf`,
+                image:        { type: 'jpeg', quality: 1 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a5', orientation: 'portrait' },
+                pagebreak:    { mode: 'css', after: '.page-break' }
+            };
+
+            try {
+                await html2pdf().set(opt).from(element).save();
+            } catch(e) {
+                alert("เกิดข้อผิดพลาดในการสร้าง PDF");
+            }
+
+            // คืนค่าหน้าจอ
+            element.querySelector('.preview-title').style.display = 'block';
+            btn.innerText = originalText;
+            document.body.classList.remove('pdf-processing');
         }
 
-        function printBill() { 
-            syncData(); setPrintPageStyle(); 
-            document.body.classList.add('printing-bill'); 
-            document.querySelectorAll('.print-only-hide').forEach(el => el.style.display = 'none');
-            window.print(); 
-            setTimeout(() => { document.body.classList.remove('printing-bill'); document.querySelectorAll('.print-only-hide').forEach(el => el.style.display = 'block'); }, 500); 
-        }
+        async function exportMedCertPDF(btn) {
+            const originalText = btn.innerText;
+            btn.innerText = "⏳ กำลังสร้าง PDF...";
+            document.body.classList.add('pdf-processing');
+            
+            syncData(); 
+            const element = document.getElementById('preview-medcert');
 
-        function printMedCert() { 
-            syncData(); setPrintPageStyle(); 
-            document.body.classList.add('printing-medcert'); 
-            document.querySelectorAll('.print-only-hide').forEach(el => el.style.display = 'none');
-            window.print(); 
-            setTimeout(() => { document.body.classList.remove('printing-medcert'); document.querySelectorAll('.print-only-hide').forEach(el => el.style.display = 'block'); }, 500); 
+            const opt = {
+                margin:       0,
+                filename:     `MedCert_${document.getElementById('inputName').value}.pdf`,
+                image:        { type: 'jpeg', quality: 1 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a5', orientation: 'portrait' }
+            };
+
+            try {
+                await html2pdf().set(opt).from(element).save();
+            } catch(e) {
+                alert("เกิดข้อผิดพลาดในการสร้าง PDF");
+            }
+
+            btn.innerText = originalText;
+            document.body.classList.remove('pdf-processing');
         }
 
         function resetForm() {
