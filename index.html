@@ -8,13 +8,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="คลินิกตา">
-    <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%23a855f7'/><path d='M15 50 Q 50 15 85 50 Q 50 85 15 50' fill='none' stroke='white' stroke-width='8'/><circle cx='50' cy='50' r='14' fill='white'/></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23a855f7'/><path d='M15 50 Q 50 15 85 50 Q 50 85 15 50' fill='none' stroke='white' stroke-width='8'/><circle cx='50' cy='50' r='14' fill='white'/></svg>">
 
     <title>Reception Helper - นิธิรัชต์จักษุคลินิก</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- นำเข้าไลบรารีสำหรับสร้างไฟล์ PDF -->
+    <!-- ไลบรารี PDF ตัวอัปเดต -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
@@ -35,33 +33,16 @@
             backdrop-filter: blur(10px);
             padding: 35px;
             border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
             margin-bottom: 40px;
             border: 1px solid rgba(255,255,255,0.8);
         }
 
         .header-title { text-align: center; margin-bottom: 30px; }
-        .header-title h1 {
-            margin: 0;
-            background: linear-gradient(135deg, #7e22ce, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 32px;
-            font-weight: 700;
-        }
+        .header-title h1 { margin: 0; background: linear-gradient(135deg, #7e22ce, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 32px; font-weight: 700; }
         .header-title p { margin: 5px 0 0 0; color: #64748b; font-size: 16px; font-weight: 500; }
 
-        .section-box {
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            border: 1px solid #f1f5f9;
-            transition: transform 0.2s;
-        }
-        .section-box:hover { transform: translateY(-2px); }
-        
+        .section-box { background: #ffffff; padding: 25px; border-radius: 16px; margin-bottom: 25px; border: 1px solid #f1f5f9; }
         .reception-zone { border-top: 5px solid #a855f7; }
         .doctor-zone { border-top: 5px solid #14b8a6; }
 
@@ -72,25 +53,8 @@
 
         .form-group { margin-bottom: 18px; }
         label { display: block; font-weight: 600; margin-bottom: 6px; color: #475569; font-size: 14px;}
-        
-        input[type="text"], input[type="number"], textarea {
-            width: 100%; 
-            padding: 12px 16px; 
-            background-color: #f8fafc;
-            border: 2px solid transparent; 
-            border-radius: 12px; 
-            font-size: 16px; 
-            box-sizing: border-box; 
-            font-family: 'Sarabun', sans-serif;
-            color: #1e293b;
-            transition: all 0.3s ease;
-        }
-        input:focus, textarea:focus {
-            outline: none;
-            background-color: #ffffff;
-            border-color: #c084fc;
-            box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.15);
-        }
+        input[type="text"], input[type="number"], textarea { width: 100%; padding: 12px 16px; background-color: #f8fafc; border: 2px solid transparent; border-radius: 12px; font-size: 16px; box-sizing: border-box; font-family: 'Sarabun', sans-serif; color: #1e293b; transition: all 0.3s; }
+        input:focus, textarea:focus { outline: none; background-color: #ffffff; border-color: #c084fc; box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.15); }
         textarea { resize: vertical; min-height: 90px; }
         .highlight-input { background: #f0fdfa !important; color: #0d9488 !important; border-color: #ccfbf1 !important; }
 
@@ -105,87 +69,108 @@
         .item-price { flex: 1; }
 
         .btn-group { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;}
-        .btn {
-            flex: 1; min-width: 200px; padding: 16px; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; color: white; display: flex; justify-content: center; align-items: center; gap: 8px; 
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
+        .btn { flex: 1; min-width: 200px; padding: 16px; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; color: white; display: flex; justify-content: center; align-items: center; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .btn:active { transform: translateY(0); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .btn-line { background: linear-gradient(135deg, #22c55e, #16a34a); }
         .btn-link { background: linear-gradient(135deg, #a855f7, #7e22ce); }
         .btn-bill { background: linear-gradient(135deg, #2dd4bf, #0d9488); }
         .btn-med { background: linear-gradient(135deg, #60a5fa, #2563eb); }
-        .btn-clear { background: linear-gradient(135deg, #fb7185, #e11d48); flex: 0.3; min-width: 120px;}
+        .btn-pdf { background: linear-gradient(135deg, #f43f5e, #be123c); }
+        .btn-clear { background: linear-gradient(135deg, #94a3b8, #64748b); flex: 0.3; min-width: 120px;}
 
-        .alert-box { display: none; background-color: #dcfce7; color: #166534; padding: 12px; border-radius: 12px; text-align: center; margin-top: 15px; font-weight: bold; border: 1px solid #bbf7d0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .alert-box { display: none; background-color: #dcfce7; color: #166534; padding: 12px; border-radius: 12px; text-align: center; margin-top: 15px; font-weight: bold; border: 1px solid #bbf7d0; }
         .pastel-box { background: #faf5ff; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #f3e8ff; }
         .pastel-box-green { background: #f0fdf4; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #dcfce7; }
 
         /* ----- Live Preview Section ----- */
         .preview-wrapper { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: flex-start; }
-        
-        /* เอา overflow-x: auto ออก เพื่อไม่ให้ iOS เอ๋อตอนจับภาพ PDF */
         .preview-column { display: flex; flex-direction: column; align-items: center; width: 100%; padding-bottom: 20px;}
-        .preview-title { font-size: 16px; font-weight: 700; color: #475569; margin-bottom: 15px; background: rgba(255,255,255,0.8); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); backdrop-filter: blur(5px);}
+        .preview-title { font-size: 16px; font-weight: 700; color: #475569; margin-bottom: 15px; background: rgba(255,255,255,0.8); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         
-        /* ================= สไตล์กระดาษสำหรับการสร้าง PDF (A5) ================= */
-        #preview-bill, #preview-medcert { display: flex; flex-direction: column; align-items: center; background: transparent;}
+        /* ================= สไตล์กระดาษ A5 (ล็อคสเกลแน่นๆ) ================= */
+        #preview-bill, #preview-medcert { display: flex; flex-direction: column; align-items: center; background: transparent; }
         
         .a5-portrait-page { 
             width: 148mm; 
-            height: 210mm; /* A5 เป๊ะๆ */
+            /* ล็อกความสูงไว้ที่ 208mm (A5 จริง 210) เผื่อขอบไว้ 2 มิล จะได้ไม่ล้นทะลักเด็ดขาด! */
+            height: 208mm; 
             box-sizing: border-box; 
-            padding: 10mm 12mm; /* ปรับลดขอบบน-ล่าง เพื่อให้ที่ว่างตรงกลางเยอะขึ้น ป้องกันล้นหน้า */
+            padding: 12mm 15mm; 
             position: relative; 
             display: flex; 
             flex-direction: column; 
-            background-color: #ffffff; /* บังคับพื้นขาว ลดปัญหาบั๊กใส */
+            background-color: #ffffff; /* บังคับสีขาวแก้หน้าใสของ iOS */
             font-family: 'Sarabun', sans-serif;
             margin-bottom: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             color: #000;
+            overflow: hidden; /* ถ้าบังเอิญยาวเกิน ให้ตัดทิ้ง ห้ามโผล่ไปหน้าสอง */
         }
 
-        .doc-type-badge { position: absolute; top: 10mm; right: 12mm; border: 1px solid #000; padding: 3px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; }
-        .b-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px; margin-top: 5px; }
+        /* ----- บิลเงินสด ----- */
+        .doc-type-badge { position: absolute; top: 12mm; right: 15mm; border: 1px solid #000; padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; }
+        .b-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 10px; margin-top: 5px; }
         .b-title { font-size: 18px; font-weight: bold; }
         .b-clinic { font-size: 16px; font-weight: bold; margin-top: 4px; }
         .b-addr { font-size: 12px; color: #333; margin-top: 3px;}
         
         .b-meta { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 10px; }
-        .b-patient { font-size: 13px; margin-bottom: 12px; border-bottom: 1px dotted #ccc; padding-bottom: 8px; line-height: 1.6; }
+        .b-patient { font-size: 13px; margin-bottom: 12px; border-bottom: 1px dotted #ccc; padding-bottom: 8px; line-height: 1.5; }
         .b-patient-sub { font-size: 11px; color: #555; margin-top: 4px;}
         
         .b-table { width: 100%; font-size: 13px; border-collapse: collapse; margin-bottom: 10px; flex: 1; }
         .b-table th { border-bottom: 2px solid #000; padding: 6px 0; text-align: left; }
         .b-table td { padding: 6px 0; border-bottom: 1px dashed #eee;}
         .b-table .price-col { text-align: right; width: 100px; }
-        .b-total-row { border-top: 2px solid #000; font-weight: bold; font-size: 15px; }
+        .b-total-row { border-top: 2px solid #000; font-weight: bold; font-size: 14px; }
         .b-total-row td { border-bottom: none; padding-top: 10px; }
         .b-thai-text { text-align: right; font-size: 12px; font-style: italic; margin-top: 5px; color: #555; }
         
-        .b-sign { text-align: right; font-size: 13px; margin-top: auto; padding-right: 10px; line-height: 1.6;}
+        .b-sign { text-align: right; font-size: 13px; margin-top: auto; padding-right: 10px; line-height: 1.5;}
         .b-sign-line { display: inline-block; width: 150px; border-bottom: 1px dotted #000; margin-bottom: 5px;}
 
-        /* ----- สเกลใบรับรองแพทย์ (ปรับให้กระชับขึ้น ไม่ล้น 2 หน้า) ----- */
-        .m-header { text-align: center; margin-bottom: 10px; border-bottom: 2px solid #000; padding-bottom: 10px;}
+        /* ----- ใบรับรองแพทย์ (หดบรรทัดลงมานิดนึง ให้จบในหน้าเดียว) ----- */
+        .m-header { text-align: center; margin-bottom: 12px; border-bottom: 2px solid #000; padding-bottom: 10px;}
         .m-clinic { font-size: 20px; font-weight: bold; color: #000; }
         .m-addr { font-size: 12px; color: #333; line-height: 1.4; margin-top: 5px; }
         .m-title { font-size: 18px; font-weight: bold; margin-top: 12px; text-decoration: underline; text-align: center;}
         .m-meta { display: flex; justify-content: space-between; font-size: 12px; margin-top: 12px; margin-bottom: 15px; }
         
         .m-content { font-size: 14px; line-height: 1.6; flex: 1;}
-        
         .m-row { display: flex; margin-bottom: 8px; align-items: baseline; }
         .m-label { white-space: nowrap; margin-right: 8px; font-weight: bold; }
         .m-line { border-bottom: 1px dotted #000; flex: 1; min-height: 16px; padding-left: 5px; }
         
-        /* ลดระยะห่างลายเซ็นด้านล่างลงนิดนึง */
-        .m-sign-box { margin-top: 25px; text-align: center; float: right; width: 70%; line-height: 1.6;}
-        .m-footer { position: absolute; bottom: 8mm; left: 0; width: 100%; font-size: 11px; color: #555; text-align: center; border-top: 1px solid #eee; padding-top: 5px; }
+        .m-sign-box { margin-top: 20px; text-align: center; float: right; width: 65%; line-height: 1.5; font-size: 13px;}
+        .m-footer { position: absolute; bottom: 8mm; left: 0; width: 100%; font-size: 10px; color: #777; text-align: center; border-top: 1px solid #eee; padding-top: 5px; }
 
-        /* คลาสตัดหน้าสำหรับ PDF */
         .page-break { page-break-after: always; height: 0; margin: 0; border: none; }
+        .print-only-hide { display: block; }
+        
+        /* ================= โหมดปริ้น (Apple Safari CSS Hack) ================= */
+        @media print {
+            /* คำสั่งปลิดชีพฟุตโน้ต Safari */
+            @page { size: 148mm 210mm; margin: 0mm !important; } 
+            
+            body { background: white; padding: 0; margin: 0; -webkit-print-color-adjust: exact; }
+            .app-container, .preview-title { display: none !important; }
+            .preview-wrapper { display: block; margin: 0; padding: 0; width: 100%; }
+            
+            .a5-portrait-page { 
+                width: 148mm !important; 
+                height: 209mm !important; /* ล็อกความสูงไว้ไม่ให้ Safari ดันทะลุ */
+                max-height: 209mm !important; 
+                box-shadow: none !important; 
+                border-radius: 0; 
+                margin: 0 !important; 
+                padding: 10mm 15mm !important; 
+                page-break-after: always;
+                page-break-inside: avoid;
+                overflow: hidden !important; 
+            }
+            body.printing-bill #preview-medcert { display: none !important; }
+            body.printing-medcert #preview-bill { display: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -361,13 +346,17 @@
         </div>
 
         <div class="btn-group" style="margin-top: 5px;">
-            <button class="btn btn-bill" id="btnExportBill" onclick="exportBillPDF(this)">📄 สร้าง PDF บิลเงินสด (2 หน้า)</button>
-            <button class="btn btn-med" id="btnExportMed" onclick="exportMedCertPDF(this)">📄 สร้าง PDF ใบรับรองแพทย์</button>
+            <button class="btn btn-bill" onclick="printBill()">🖨️ พิมพ์บิลเงินสด (Safari)</button>
+            <button class="btn btn-med" onclick="printMedCert()">🖨️ พิมพ์ใบรับรองแพทย์ (Safari)</button>
+        </div>
+        <div class="btn-group" style="margin-top: 10px;">
+            <button class="btn btn-pdf" onclick="exportBillPDF(this)">📄 เซฟเป็น PDF (บิล)</button>
+            <button class="btn btn-pdf" onclick="exportMedCertPDF(this)">📄 เซฟเป็น PDF (ใบรับรอง)</button>
             <button class="btn btn-clear" onclick="resetForm()">🗑️ ล้างหน้าจอ</button>
         </div>
     </div>
 
-    <!-- ================= โซนเทมเพลตสำหรับสร้าง PDF ================= -->
+    <!-- ================= โซนเทมเพลตสำหรับสร้าง PDF / พิมพ์ ================= -->
     <div class="preview-wrapper">
         
         <!-- 📄 บิลเงินสด (A5 แนวตั้ง 2 แผ่น) -->
@@ -407,7 +396,7 @@
                 </div>
             </div>
 
-            <!-- จุดตัดหน้ากระดาษสำหรับ PDF -->
+            <!-- จุดตัดหน้ากระดาษ -->
             <div class="page-break"></div>
 
             <div class="a5-portrait-page">
@@ -476,17 +465,17 @@
                         <div class="m-line dispDx"></div>
                     </div>
                     
-                    <div style="margin: 20px 0 5px 0;"><span class="m-label">ความเห็นแพทย์ (Opinion / Recommendation):</span></div>
-                    <div style="padding-left: 20px; line-height: 1.8;">
-                        <div><span class="dispOp1" style="font-size: 18px; margin-right:5px;">☐</span> ขอรับรองว่ามาตรวจจริง</div>
-                        <div><span class="dispOp2" style="font-size: 18px; margin-right:5px;">☐</span> หยอดยาหรือรับประทานยาตามแพทย์สั่ง</div>
+                    <div style="margin: 15px 0 5px 0;"><span class="m-label">ความเห็นแพทย์ (Opinion / Recommendation):</span></div>
+                    <div style="padding-left: 20px; line-height: 1.6;">
+                        <div><span class="dispOp1" style="font-size: 16px; margin-right:5px;">☐</span> ขอรับรองว่ามาตรวจจริง</div>
+                        <div><span class="dispOp2" style="font-size: 16px; margin-right:5px;">☐</span> หยอดยาหรือรับประทานยาตามแพทย์สั่ง</div>
                         <div style="display:flex;">
-                            <span class="dispOp3" style="font-size: 18px; margin-right:5px;">☐</span> 
-                            <div class="m-line dispOp3Text" style="flex:1;"></div>
+                            <span class="dispOp3" style="font-size: 16px; margin-right:5px;">☐</span> 
+                            <div class="m-line dispOp3Text" style="flex:1; min-height:14px;"></div>
                         </div>
                     </div>
                     
-                    <div class="m-row" style="margin-top:20px;">
+                    <div class="m-row" style="margin-top:15px;">
                         <span class="m-label">เห็นสมควรให้หยุดพักรักษาตัวเป็นเวลา:</span>
                         <div class="m-line dispRest" style="flex:0; min-width:80px; text-align:center;"></div>
                         <span class="m-label" style="margin-left:10px;">วัน</span>
@@ -506,7 +495,6 @@
         </div>
     </div>
 
-    <!-- ================= SCRIPT ================= -->
     <script>
         const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
 
@@ -524,22 +512,18 @@
             const fromToInput = document.getElementById('inputFromTo');
 
             if (restInput === '' || restInput === '0' || restInput === '-') {
-                fromToInput.value = '';
-                return;
+                fromToInput.value = ''; return;
             }
 
             const restDays = parseInt(restInput, 10);
             if (isNaN(restDays) || restDays <= 0) {
-                fromToInput.value = '';
-                return;
+                fromToInput.value = ''; return;
             }
 
             if (dateInput.length === 10) {
                 const parts = dateInput.split('/');
-                const d = parseInt(parts[0], 10);
-                const m = parseInt(parts[1], 10) - 1;
-                const yBE = parseInt(parts[2], 10);
-                const yCE = yBE - 543;
+                const d = parseInt(parts[0], 10); const m = parseInt(parts[1], 10) - 1;
+                const yBE = parseInt(parts[2], 10); const yCE = yBE - 543;
 
                 let startDate = new Date(yCE, m, d);
                 if (isNaN(startDate.getTime())) return;
@@ -547,24 +531,17 @@
                 let endDate = new Date(startDate);
                 endDate.setDate(startDate.getDate() + restDays - 1);
 
-                const startDay = startDate.getDate();
-                const startMonth = thaiMonths[startDate.getMonth()];
+                const startDay = startDate.getDate(); const startMonth = thaiMonths[startDate.getMonth()];
                 const startYear = (startDate.getFullYear() + 543).toString().substring(2);
 
-                const endDay = endDate.getDate();
-                const endMonth = thaiMonths[endDate.getMonth()];
+                const endDay = endDate.getDate(); const endMonth = thaiMonths[endDate.getMonth()];
                 const endYear = (endDate.getFullYear() + 543).toString().substring(2);
 
                 let resultString = '';
-                if (restDays === 1) {
-                    resultString = `${startDay} ${startMonth} ${startYear}`;
-                } else if (startMonth === endMonth && startYear === endYear) {
-                    resultString = `${startDay} - ${endDay} ${startMonth} ${startYear}`;
-                } else if (startYear === endYear) {
-                    resultString = `${startDay} ${startMonth} - ${endDay} ${endMonth} ${startYear}`;
-                } else {
-                    resultString = `${startDay} ${startMonth} ${startYear} - ${endDay} ${endMonth} ${endYear}`;
-                }
+                if (restDays === 1) { resultString = `${startDay} ${startMonth} ${startYear}`; } 
+                else if (startMonth === endMonth && startYear === endYear) { resultString = `${startDay} - ${endDay} ${startMonth} ${startYear}`; } 
+                else if (startYear === endYear) { resultString = `${startDay} ${startMonth} - ${endDay} ${endMonth} ${startYear}`; } 
+                else { resultString = `${startDay} ${startMonth} ${startYear} - ${endDay} ${endMonth} ${endYear}`; }
 
                 fromToInput.value = resultString;
             }
@@ -574,13 +551,10 @@
             const dobInput = document.getElementById('inputDOB').value;
             if (dobInput.length === 10) {
                 const parts = dobInput.split('/');
-                const d = parseInt(parts[0], 10);
-                const m = parseInt(parts[1], 10) - 1; 
-                const yBE = parseInt(parts[2], 10);
-                const yCE = yBE - 543; 
+                const d = parseInt(parts[0], 10); const m = parseInt(parts[1], 10) - 1; 
+                const yBE = parseInt(parts[2], 10); const yCE = yBE - 543; 
 
-                const birthDate = new Date(yCE, m, d);
-                const today = new Date();
+                const birthDate = new Date(yCE, m, d); const today = new Date();
                 let age = today.getFullYear() - birthDate.getFullYear();
                 const monthDiff = today.getMonth() - birthDate.getMonth();
                 
@@ -796,73 +770,69 @@
             saveDraft();
         }
 
-        // ================= ระบบสร้าง PDF =================
-        async function exportBillPDF(btn) {
-            // ป้องกันปัญหาการสร้าง PDF ในหน้าต่างแชท LINE 
-            if (navigator.userAgent.includes("Line")) {
-                alert("⚠️ คุณเปิดแอปผ่าน LINE ซึ่งจะบล็อกการโหลดไฟล์ครับ\n\n👉 ให้กดปุ่ม 3 จุด (มุมขวา) แล้วเลือก 'เปิดใน Safari' หรือ 'เปิดในเบราว์เซอร์' ก่อนนะครับ!");
-                return;
-            }
-
-            const originalText = btn.innerText;
-            btn.innerText = "⏳ กำลังสร้าง PDF...";
-            
+        // ================= สั่งพิมพ์หน้าจอโดยตรง (Safari) =================
+        function printBill() { 
             syncData(); 
-            const element = document.getElementById('preview-bill');
+            document.body.classList.add('printing-bill'); 
+            window.print(); 
+            setTimeout(() => document.body.classList.remove('printing-bill'), 500); 
+        }
+
+        function printMedCert() { 
+            syncData(); 
+            document.body.classList.add('printing-medcert'); 
+            window.print(); 
+            setTimeout(() => document.body.classList.remove('printing-medcert'), 500); 
+        }
+
+        // ================= สั่งสร้าง PDF (แก้หน้าจอขาว) =================
+        async function exportBillPDF(btn) {
+            const originalText = btn.innerText; btn.innerText = "⏳ กำลังสร้าง PDF...";
+            syncData(); window.scrollTo(0,0);
             
-            // ซ่อนหัวข้อพรีวิวชั่วคราวก่อนจับภาพ
-            const titleEl = element.querySelector('.preview-title');
-            if(titleEl) titleEl.style.display = 'none';
+            const element = document.getElementById('preview-bill');
+            const titleEl = element.querySelector('.preview-title'); if(titleEl) titleEl.style.display = 'none';
+
+            // ดึงขนาดความกว้างความสูงของ element สดๆ เพื่อหลอก html2canvas ไม่ให้สร้างหน้าจอขาว
+            const w = element.offsetWidth;
+            const h = element.offsetHeight;
 
             const opt = {
                 margin:       0,
                 filename:     `Bill_${document.getElementById('inputNo').value}.pdf`,
                 image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff' }, // บังคับพื้นขาวแก้บั๊กโปร่งใส
+                html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollY: 0, width: w, height: h },
                 jsPDF:        { unit: 'mm', format: 'a5', orientation: 'portrait' },
                 pagebreak:    { mode: 'css', after: '.page-break' }
             };
 
-            // ใส่ Delay นิดนึงให้หน้าจอพร้อม ก่อนเริ่มแคปเจอร์
             setTimeout(async () => {
-                try {
-                    await html2pdf().set(opt).from(element).save();
-                } catch(e) {
-                    alert("เกิดข้อผิดพลาดในการสร้าง PDF ลองใหม่อีกครั้งครับ");
-                }
-                if(titleEl) titleEl.style.display = 'block';
-                btn.innerText = originalText;
+                try { await html2pdf().set(opt).from(element).save(); } catch(e) { alert("เกิดข้อผิดพลาดในการสร้าง PDF"); }
+                if(titleEl) titleEl.style.display = 'block'; btn.innerText = originalText;
             }, 500);
         }
 
         async function exportMedCertPDF(btn) {
-            // ป้องกันปัญหาการสร้าง PDF ในหน้าต่างแชท LINE 
-            if (navigator.userAgent.includes("Line")) {
-                alert("⚠️ คุณเปิดแอปผ่าน LINE ซึ่งจะบล็อกการโหลดไฟล์ครับ\n\n👉 ให้กดปุ่ม 3 จุด (มุมขวา) แล้วเลือก 'เปิดใน Safari' หรือ 'เปิดในเบราว์เซอร์' ก่อนนะครับ!");
-                return;
-            }
-
-            const originalText = btn.innerText;
-            btn.innerText = "⏳ กำลังสร้าง PDF...";
+            const originalText = btn.innerText; btn.innerText = "⏳ กำลังสร้าง PDF...";
+            syncData(); window.scrollTo(0,0);
             
-            syncData(); 
             const element = document.getElementById('preview-medcert');
+            const titleEl = element.querySelector('.preview-title'); if(titleEl) titleEl.style.display = 'none';
+
+            const w = element.offsetWidth;
+            const h = element.offsetHeight;
 
             const opt = {
                 margin:       0,
                 filename:     `MedCert_${document.getElementById('inputName').value}.pdf`,
                 image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+                html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollY: 0, width: w, height: h },
                 jsPDF:        { unit: 'mm', format: 'a5', orientation: 'portrait' }
             };
 
             setTimeout(async () => {
-                try {
-                    await html2pdf().set(opt).from(element).save();
-                } catch(e) {
-                    alert("เกิดข้อผิดพลาดในการสร้าง PDF ลองใหม่อีกครั้งครับ");
-                }
-                btn.innerText = originalText;
+                try { await html2pdf().set(opt).from(element).save(); } catch(e) { alert("เกิดข้อผิดพลาดในการสร้าง PDF"); }
+                if(titleEl) titleEl.style.display = 'block'; btn.innerText = originalText;
             }, 500);
         }
 
