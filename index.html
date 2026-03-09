@@ -123,71 +123,69 @@
 
         /* ----- Live Preview Section ----- */
         .preview-wrapper { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: flex-start; }
-        .preview-column { display: flex; flex-direction: column; align-items: center; width: 100%; overflow-x: auto; padding-bottom: 20px;}
+        
+        /* เอา overflow-x: auto ออก เพื่อไม่ให้ iOS เอ๋อตอนจับภาพ PDF */
+        .preview-column { display: flex; flex-direction: column; align-items: center; width: 100%; padding-bottom: 20px;}
         .preview-title { font-size: 16px; font-weight: 700; color: #475569; margin-bottom: 15px; background: rgba(255,255,255,0.8); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); backdrop-filter: blur(5px);}
         
         /* ================= สไตล์กระดาษสำหรับการสร้าง PDF (A5) ================= */
-        /* กำหนดขนาดเป๊ะๆ 148mm x 209mm เพื่อให้ html2pdf เอาไปจับภาพได้ถูกต้องที่สุด */
         #preview-bill, #preview-medcert { display: flex; flex-direction: column; align-items: center; background: transparent;}
         
         .a5-portrait-page { 
             width: 148mm; 
-            height: 209mm; /* ลดลงจาก 210mm นิดนึงกันล้นขอบ */
-            min-width: 148mm;
+            height: 210mm; /* A5 เป๊ะๆ */
             box-sizing: border-box; 
-            padding: 12mm 15mm; /* ปรับขอบกระดาษให้สมดุล */
+            padding: 10mm 12mm; /* ปรับลดขอบบน-ล่าง เพื่อให้ที่ว่างตรงกลางเยอะขึ้น ป้องกันล้นหน้า */
             position: relative; 
             display: flex; 
             flex-direction: column; 
-            background: white; 
+            background-color: #ffffff; /* บังคับพื้นขาว ลดปัญหาบั๊กใส */
             font-family: 'Sarabun', sans-serif;
             margin-bottom: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             color: #000;
         }
 
-        .doc-type-badge { position: absolute; top: 12mm; right: 15mm; border: 1px solid #000; padding: 3px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; }
-        .b-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 12px; margin-top: 5px; }
+        .doc-type-badge { position: absolute; top: 10mm; right: 12mm; border: 1px solid #000; padding: 3px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; }
+        .b-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px; margin-top: 5px; }
         .b-title { font-size: 18px; font-weight: bold; }
         .b-clinic { font-size: 16px; font-weight: bold; margin-top: 4px; }
         .b-addr { font-size: 12px; color: #333; margin-top: 3px;}
         
-        .b-meta { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 12px; }
-        .b-patient { font-size: 13px; margin-bottom: 15px; border-bottom: 1px dotted #ccc; padding-bottom: 8px; line-height: 1.6; }
+        .b-meta { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 10px; }
+        .b-patient { font-size: 13px; margin-bottom: 12px; border-bottom: 1px dotted #ccc; padding-bottom: 8px; line-height: 1.6; }
         .b-patient-sub { font-size: 11px; color: #555; margin-top: 4px;}
         
-        .b-table { width: 100%; font-size: 13px; border-collapse: collapse; margin-bottom: 15px; flex: 1; }
-        .b-table th { border-bottom: 2px solid #000; padding: 8px 0; text-align: left; }
-        .b-table td { padding: 8px 0; border-bottom: 1px dashed #eee;}
+        .b-table { width: 100%; font-size: 13px; border-collapse: collapse; margin-bottom: 10px; flex: 1; }
+        .b-table th { border-bottom: 2px solid #000; padding: 6px 0; text-align: left; }
+        .b-table td { padding: 6px 0; border-bottom: 1px dashed #eee;}
         .b-table .price-col { text-align: right; width: 100px; }
         .b-total-row { border-top: 2px solid #000; font-weight: bold; font-size: 15px; }
-        .b-total-row td { border-bottom: none; padding-top: 12px; }
+        .b-total-row td { border-bottom: none; padding-top: 10px; }
         .b-thai-text { text-align: right; font-size: 12px; font-style: italic; margin-top: 5px; color: #555; }
         
         .b-sign { text-align: right; font-size: 13px; margin-top: auto; padding-right: 10px; line-height: 1.6;}
         .b-sign-line { display: inline-block; width: 150px; border-bottom: 1px dotted #000; margin-bottom: 5px;}
 
-        /* ----- สเกลใบรับรองแพทย์ที่ปรับใหม่ให้สวยพอดี A5 ----- */
-        .m-header { text-align: center; margin-bottom: 15px; border-bottom: 2px solid #000; padding-bottom: 12px;}
+        /* ----- สเกลใบรับรองแพทย์ (ปรับให้กระชับขึ้น ไม่ล้น 2 หน้า) ----- */
+        .m-header { text-align: center; margin-bottom: 10px; border-bottom: 2px solid #000; padding-bottom: 10px;}
         .m-clinic { font-size: 20px; font-weight: bold; color: #000; }
         .m-addr { font-size: 12px; color: #333; line-height: 1.4; margin-top: 5px; }
-        .m-title { font-size: 18px; font-weight: bold; margin-top: 15px; text-decoration: underline; text-align: center;}
-        .m-meta { display: flex; justify-content: space-between; font-size: 12px; margin-top: 15px; margin-bottom: 20px; }
+        .m-title { font-size: 18px; font-weight: bold; margin-top: 12px; text-decoration: underline; text-align: center;}
+        .m-meta { display: flex; justify-content: space-between; font-size: 12px; margin-top: 12px; margin-bottom: 15px; }
         
-        .m-content { font-size: 14px; line-height: 1.8; flex: 1;}
+        .m-content { font-size: 14px; line-height: 1.6; flex: 1;}
         
-        .m-row { display: flex; margin-bottom: 10px; align-items: baseline; }
+        .m-row { display: flex; margin-bottom: 8px; align-items: baseline; }
         .m-label { white-space: nowrap; margin-right: 8px; font-weight: bold; }
-        .m-line { border-bottom: 1px dotted #000; flex: 1; min-height: 18px; padding-left: 5px; }
+        .m-line { border-bottom: 1px dotted #000; flex: 1; min-height: 16px; padding-left: 5px; }
         
-        .m-sign-box { margin-top: 30px; text-align: center; float: right; width: 70%; line-height: 1.6;}
-        .m-footer { position: absolute; bottom: 10mm; left: 0; width: 100%; font-size: 11px; color: #555; text-align: center; border-top: 1px solid #eee; padding-top: 8px; }
+        /* ลดระยะห่างลายเซ็นด้านล่างลงนิดนึง */
+        .m-sign-box { margin-top: 25px; text-align: center; float: right; width: 70%; line-height: 1.6;}
+        .m-footer { position: absolute; bottom: 8mm; left: 0; width: 100%; font-size: 11px; color: #555; text-align: center; border-top: 1px solid #eee; padding-top: 5px; }
 
         /* คลาสตัดหน้าสำหรับ PDF */
         .page-break { page-break-after: always; height: 0; margin: 0; border: none; }
-
-        /* ซ่อนพรีวิวเวลาโหลดปกติ ให้โชว์ตอนต้องการเท่านั้น */
-        .pdf-processing { background: #f8fafc; opacity: 0.7; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -363,7 +361,6 @@
         </div>
 
         <div class="btn-group" style="margin-top: 5px;">
-            <!-- ปุ่มเปลี่ยนเป็นสร้างไฟล์ PDF -->
             <button class="btn btn-bill" id="btnExportBill" onclick="exportBillPDF(this)">📄 สร้าง PDF บิลเงินสด (2 หน้า)</button>
             <button class="btn btn-med" id="btnExportMed" onclick="exportMedCertPDF(this)">📄 สร้าง PDF ใบรับรองแพทย์</button>
             <button class="btn btn-clear" onclick="resetForm()">🗑️ ล้างหน้าจอ</button>
@@ -489,7 +486,7 @@
                         </div>
                     </div>
                     
-                    <div class="m-row" style="margin-top:25px;">
+                    <div class="m-row" style="margin-top:20px;">
                         <span class="m-label">เห็นสมควรให้หยุดพักรักษาตัวเป็นเวลา:</span>
                         <div class="m-line dispRest" style="flex:0; min-width:80px; text-align:center;"></div>
                         <span class="m-label" style="margin-left:10px;">วัน</span>
@@ -799,42 +796,54 @@
             saveDraft();
         }
 
-        // ================= ฟังก์ชันสร้างไฟล์ PDF ด้วย html2pdf.js =================
+        // ================= ระบบสร้าง PDF =================
         async function exportBillPDF(btn) {
+            // ป้องกันปัญหาการสร้าง PDF ในหน้าต่างแชท LINE 
+            if (navigator.userAgent.includes("Line")) {
+                alert("⚠️ คุณเปิดแอปผ่าน LINE ซึ่งจะบล็อกการโหลดไฟล์ครับ\n\n👉 ให้กดปุ่ม 3 จุด (มุมขวา) แล้วเลือก 'เปิดใน Safari' หรือ 'เปิดในเบราว์เซอร์' ก่อนนะครับ!");
+                return;
+            }
+
             const originalText = btn.innerText;
             btn.innerText = "⏳ กำลังสร้าง PDF...";
-            document.body.classList.add('pdf-processing'); // ทำให้หน้าจอจางลงชั่วคราว
             
             syncData(); 
             const element = document.getElementById('preview-bill');
-            // ซ่อนหัวข้อ Preview ตอนจับภาพ
-            element.querySelector('.preview-title').style.display = 'none';
+            
+            // ซ่อนหัวข้อพรีวิวชั่วคราวก่อนจับภาพ
+            const titleEl = element.querySelector('.preview-title');
+            if(titleEl) titleEl.style.display = 'none';
 
             const opt = {
                 margin:       0,
                 filename:     `Bill_${document.getElementById('inputNo').value}.pdf`,
                 image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff' }, // บังคับพื้นขาวแก้บั๊กโปร่งใส
                 jsPDF:        { unit: 'mm', format: 'a5', orientation: 'portrait' },
                 pagebreak:    { mode: 'css', after: '.page-break' }
             };
 
-            try {
-                await html2pdf().set(opt).from(element).save();
-            } catch(e) {
-                alert("เกิดข้อผิดพลาดในการสร้าง PDF");
-            }
-
-            // คืนค่าหน้าจอ
-            element.querySelector('.preview-title').style.display = 'block';
-            btn.innerText = originalText;
-            document.body.classList.remove('pdf-processing');
+            // ใส่ Delay นิดนึงให้หน้าจอพร้อม ก่อนเริ่มแคปเจอร์
+            setTimeout(async () => {
+                try {
+                    await html2pdf().set(opt).from(element).save();
+                } catch(e) {
+                    alert("เกิดข้อผิดพลาดในการสร้าง PDF ลองใหม่อีกครั้งครับ");
+                }
+                if(titleEl) titleEl.style.display = 'block';
+                btn.innerText = originalText;
+            }, 500);
         }
 
         async function exportMedCertPDF(btn) {
+            // ป้องกันปัญหาการสร้าง PDF ในหน้าต่างแชท LINE 
+            if (navigator.userAgent.includes("Line")) {
+                alert("⚠️ คุณเปิดแอปผ่าน LINE ซึ่งจะบล็อกการโหลดไฟล์ครับ\n\n👉 ให้กดปุ่ม 3 จุด (มุมขวา) แล้วเลือก 'เปิดใน Safari' หรือ 'เปิดในเบราว์เซอร์' ก่อนนะครับ!");
+                return;
+            }
+
             const originalText = btn.innerText;
             btn.innerText = "⏳ กำลังสร้าง PDF...";
-            document.body.classList.add('pdf-processing');
             
             syncData(); 
             const element = document.getElementById('preview-medcert');
@@ -843,18 +852,18 @@
                 margin:       0,
                 filename:     `MedCert_${document.getElementById('inputName').value}.pdf`,
                 image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
                 jsPDF:        { unit: 'mm', format: 'a5', orientation: 'portrait' }
             };
 
-            try {
-                await html2pdf().set(opt).from(element).save();
-            } catch(e) {
-                alert("เกิดข้อผิดพลาดในการสร้าง PDF");
-            }
-
-            btn.innerText = originalText;
-            document.body.classList.remove('pdf-processing');
+            setTimeout(async () => {
+                try {
+                    await html2pdf().set(opt).from(element).save();
+                } catch(e) {
+                    alert("เกิดข้อผิดพลาดในการสร้าง PDF ลองใหม่อีกครั้งครับ");
+                }
+                btn.innerText = originalText;
+            }, 500);
         }
 
         function resetForm() {
