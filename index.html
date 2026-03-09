@@ -70,7 +70,6 @@
         .form-group { margin-bottom: 18px; }
         label { display: block; font-weight: 600; margin-bottom: 6px; color: #475569; font-size: 14px;}
         
-        /* สไตล์ช่องกรอกข้อมูล */
         input[type="text"], input[type="number"], textarea {
             width: 100%; 
             padding: 12px 16px; 
@@ -94,7 +93,6 @@
 
         .checkbox-group { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 16px; color: #475569; cursor: pointer;}
         .checkbox-group input[type="checkbox"] { width: 22px; height: 22px; cursor: pointer; accent-color: #14b8a6; }
-        .checkbox-group:hover { color: #0f172a; }
 
         .flex-row { display: flex; gap: 15px; flex-wrap: wrap; }
         .flex-1 { flex: 1; min-width: 150px; }
@@ -122,49 +120,78 @@
 
         /* ----- Live Preview Section ----- */
         .preview-wrapper { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: flex-start; }
-        .preview-column { display: flex; flex-direction: column; align-items: center; }
+        .preview-column { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .preview-title { font-size: 16px; font-weight: 700; color: #475569; margin-bottom: 15px; background: rgba(255,255,255,0.8); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); backdrop-filter: blur(5px);}
-        .paper-preview { background: white; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden;}
+        
+        /* ================= สไตล์กระดาษ (A5 แนวตั้ง แบบใหม่) ================= */
+        #preview-bill, #preview-medcert { display: flex; flex-direction: column; align-items: center; background: transparent; overflow: visible;}
+        
+        .a5-portrait-page { 
+            width: 148mm; 
+            height: 210mm; 
+            box-sizing: border-box; 
+            padding: 15mm 12mm; 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            background: white; 
+            font-family: 'Sarabun', sans-serif;
+            margin-bottom: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            color: #000;
+        }
 
-        /* ================= สไตล์กระดาษ ================= */
-        #print-bill, #preview-bill { width: 210mm; height: 148mm; box-sizing: border-box; display: flex; background: white; color: black; font-family: 'Sarabun', sans-serif;}
-        .bill-half { flex: 1; width: 50%; height: 100%; padding: 8mm; box-sizing: border-box; position: relative; display: flex; flex-direction: column; }
-        .bill-half:first-child { border-right: 1px dashed #999; }
-        .doc-type-badge { position: absolute; top: 8mm; right: 8mm; border: 1px solid #000; padding: 2px 6px; font-size: 10px; font-weight: bold; border-radius: 4px; }
-        .b-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px; }
-        .b-title { font-size: 16px; font-weight: bold; }
-        .b-clinic { font-size: 14px; font-weight: bold; margin-top: 2px; }
-        .b-addr { font-size: 10px; color: #333; }
-        .b-meta { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 8px; }
-        .b-patient { font-size: 12px; margin-bottom: 10px; border-bottom: 1px dotted #ccc; padding-bottom: 5px; line-height: 1.5; }
-        .b-patient-sub { font-size: 9px; color: #555; }
-        .b-table { width: 100%; font-size: 12px; border-collapse: collapse; margin-bottom: 10px; flex: 1; }
-        .b-table th { border-bottom: 1px solid #000; padding: 4px 0; text-align: left; }
-        .b-table td { padding: 4px 0; }
-        .b-table .price-col { text-align: right; width: 60px; }
-        .b-total-row { border-top: 2px solid #000; font-weight: bold; font-size: 14px; }
-        .b-thai-text { text-align: right; font-size: 10px; font-style: italic; margin-top: 5px; color: #555; }
-        .b-sign { text-align: center; font-size: 10px; margin-top: auto; }
+        .doc-type-badge { position: absolute; top: 12mm; right: 12mm; border: 1px solid #000; padding: 4px 10px; font-size: 12px; font-weight: bold; border-radius: 6px; }
+        .b-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 15px; margin-top: 10px; }
+        .b-title { font-size: 20px; font-weight: bold; }
+        .b-clinic { font-size: 18px; font-weight: bold; margin-top: 5px; }
+        .b-addr { font-size: 13px; color: #333; margin-top: 5px;}
+        
+        .b-meta { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 15px; }
+        .b-patient { font-size: 14px; margin-bottom: 20px; border-bottom: 1px dotted #ccc; padding-bottom: 10px; line-height: 1.8; }
+        .b-patient-sub { font-size: 12px; color: #555; margin-top: 5px;}
+        
+        .b-table { width: 100%; font-size: 14px; border-collapse: collapse; margin-bottom: 20px; flex: 1; }
+        .b-table th { border-bottom: 2px solid #000; padding: 10px 0; text-align: left; }
+        .b-table td { padding: 10px 0; border-bottom: 1px dashed #eee;}
+        .b-table .price-col { text-align: right; width: 100px; }
+        .b-total-row { border-top: 2px solid #000; font-weight: bold; font-size: 16px; }
+        .b-total-row td { border-bottom: none; padding-top: 15px; }
+        .b-thai-text { text-align: right; font-size: 13px; font-style: italic; margin-top: 5px; color: #555; }
+        
+        .b-sign { text-align: right; font-size: 14px; margin-top: auto; padding-right: 10px; line-height: 1.8;}
+        .b-sign-line { display: inline-block; width: 180px; border-bottom: 1px dotted #000; margin-bottom: 5px;}
 
-        #print-medcert, #preview-medcert { width: 148mm; height: 210mm; padding: 15mm 10mm; box-sizing: border-box; margin: 0 auto; position: relative; background: white; color: black; font-family: 'Sarabun', sans-serif;}
-        .m-header { text-align: center; margin-bottom: 15px; }
-        .m-clinic { font-size: 20px; font-weight: bold; color: #1a365d; }
-        .m-addr { font-size: 12px; color: #555; line-height: 1.5; margin-top: 5px; }
-        .m-title { font-size: 22px; font-weight: bold; margin-top: 15px; text-decoration: underline; }
-        .m-meta { display: flex; justify-content: space-between; font-size: 12px; margin-top: 15px; margin-bottom: 20px; }
-        .m-content { font-size: 14px; line-height: 1.8; }
-        .m-row { display: flex; margin-bottom: 10px; align-items: baseline; }
+        .m-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 15px;}
+        .m-clinic { font-size: 22px; font-weight: bold; color: #000; }
+        .m-addr { font-size: 13px; color: #333; line-height: 1.5; margin-top: 5px; }
+        .m-title { font-size: 20px; font-weight: bold; margin-top: 20px; text-decoration: underline; text-align: center;}
+        .m-meta { display: flex; justify-content: space-between; font-size: 13px; margin-top: 20px; margin-bottom: 25px; }
+        .m-content { font-size: 14px; line-height: 2; flex: 1;}
+        .m-row { display: flex; margin-bottom: 12px; align-items: baseline; }
         .m-label { white-space: nowrap; margin-right: 10px; font-weight: bold; }
         .m-line { border-bottom: 1px dotted #000; flex: 1; min-height: 20px; padding-left: 5px; }
-        .m-sign-box { margin-top: 40px; text-align: center; float: right; width: 60%; }
-        .m-footer { position: absolute; bottom: 15mm; left: 0; width: 100%; font-size: 10px; color: #777; text-align: center; border-top: 1px solid #ddd; padding-top: 10px; }
+        .m-sign-box { margin-top: 40px; text-align: center; float: right; width: 70%; line-height: 1.8;}
+        .m-footer { position: absolute; bottom: 12mm; left: 0; width: 100%; font-size: 11px; color: #555; text-align: center; border-top: 1px solid #eee; padding-top: 10px; }
 
-        .print-only { display: none; }
+        .print-only-hide { display: block; }
+        
+        /* ================= โหมดปริ้น ================= */
         @media print {
-            body { background: white; padding: 0; margin: 0; }
+            @page { margin: 0 !important; }
+            body { background: white; padding: 0; margin: 0; -webkit-print-color-adjust: exact; }
             .app-container, .preview-title { display: none !important; }
-            .preview-wrapper { margin: 0; gap: 0; display: block; }
-            .paper-preview { box-shadow: none !important; border-radius: 0; margin: 0; page-break-after: always; }
+            .preview-wrapper { margin: 0; padding: 0; display: block; }
+            .a5-portrait-page { 
+                box-shadow: none !important; 
+                border-radius: 0; 
+                margin: 0; 
+                width: 100vw; 
+                height: 100vh; 
+                page-break-after: always; 
+                padding: 15mm; 
+            }
             body.printing-bill #preview-medcert { display: none !important; }
             body.printing-medcert #preview-bill { display: none !important; }
         }
@@ -172,13 +199,20 @@
 </head>
 <body>
 
+    <datalist id="prefixList">
+        <option value="นาย">
+        <option value="นาง">
+        <option value="นางสาว">
+        <option value="ด.ช.">
+        <option value="ด.ญ.">
+    </datalist>
+
     <div class="app-container">
         <div class="header-title">
             <h1>Reception & Doctor System</h1>
             <p>นิธิรัชต์จักษุคลินิก (Smart Helper)</p>
         </div>
 
-        <!-- 1. ส่วนของเจ้าหน้าที่เคาน์เตอร์ -->
         <div class="section-box reception-zone">
             <div class="section-title">
                 <span class="badge-purple">1</span> <span>ส่วนของเคาน์เตอร์ (ประวัติคนไข้)</span>
@@ -188,7 +222,7 @@
             <div class="flex-row">
                 <div class="form-group flex-1">
                     <label>วันที่ (พ.ศ.):</label>
-                    <input type="text" id="inputDate" placeholder="วว/ดด/พศศศ" maxlength="10" oninput="formatDateInput(this, event); syncData()">
+                    <input type="text" id="inputDate" placeholder="วว/ดด/พศศศ" maxlength="10" oninput="formatDateInput(this, event); autoCalculateLeaveDates(); syncData()">
                 </div>
                 <div class="form-group flex-1">
                     <label>เลขที่บิล (No.):</label>
@@ -196,20 +230,24 @@
                 </div>
                 <div class="form-group flex-1">
                     <label>CN (ถอดรหัสอัตโนมัติ):</label>
-                    <input type="text" id="inputCN" class="highlight-input" placeholder="เลขคนไข้" readonly>
+                    <input type="text" id="inputCN" class="highlight-input" placeholder="ตัวเลขล้วน" readonly>
                 </div>
             </div>
             
             <div class="flex-row">
+                <div class="form-group" style="width: 110px;">
+                    <label>คำนำหน้า:</label>
+                    <input type="text" id="inputPrefix" list="prefixList" placeholder="เช่น นาย" oninput="syncData()">
+                </div>
                 <div class="form-group flex-2">
-                    <label>ชื่อ-นามสกุล (เว้นวรรคด้วยนะ):</label>
+                    <label>ชื่อ-นามสกุล (เว้นวรรค):</label>
                     <input type="text" id="inputName" placeholder="เช่น กฤตภาส รักดี" oninput="autoGenerateSecretCN(); syncData()">
                 </div>
                 <div class="form-group flex-1">
-                    <label>วันเกิด (พิมพ์ตัวเลขติดกันได้เลย):</label>
+                    <label>วันเกิด (พิมพ์ติดกันได้เลย):</label>
                     <input type="text" id="inputDOB" placeholder="เช่น 15052530" maxlength="10" oninput="formatDateInput(this, event); calculateAge(); syncData()">
                 </div>
-                <div class="form-group" style="width: 90px;">
+                <div class="form-group" style="width: 80px;">
                     <label>อายุ (ปี):</label>
                     <input type="number" id="inputAge" placeholder="อายุ" oninput="syncData()">
                 </div>
@@ -265,12 +303,11 @@
             
             <div class="btn-group">
                 <button class="btn btn-line" onclick="copyNormal()">💬 คัดลอกประวัติ (เคสปกติ)</button>
-                <button class="btn btn-link" onclick="generateLink()">🔗 คัดลอกลิงก์ (ขอใบเสร็จ/ใบรับรองแพทย์)</button>
+                <button class="btn btn-link" onclick="generateLink()">🔗 คัดลอกลิงก์ (ส่งให้หมอ)</button>
             </div>
             <div id="alertSuccess" class="alert-box">✅ คัดลอกสำเร็จ! นำไปวางใน LINE ให้คุณหมอได้เลย</div>
         </div>
 
-        <!-- 2. ส่วนของคุณหมอ -->
         <div class="flex-row">
             <div class="section-box doctor-zone flex-1">
                 <div class="section-title">
@@ -322,92 +359,105 @@
                 <div class="flex-row">
                     <div class="form-group flex-1">
                         <label>จำนวนวันพัก (วัน):</label>
-                        <input type="number" id="inputRest" placeholder="ตัวเลข" oninput="syncData()">
+                        <input type="number" id="inputRest" placeholder="ตัวเลข" oninput="autoCalculateLeaveDates(); syncData()">
                     </div>
                     <div class="form-group flex-1">
                         <label>ตั้งแต่วันที่:</label>
-                        <input type="text" id="inputFromTo" placeholder="เช่น 10-12 มี.ค. 69" oninput="syncData()">
+                        <input type="text" id="inputFromTo" placeholder="เช่น 9-10 มี.ค. 69" oninput="syncData()">
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="btn-group" style="margin-top: 5px;">
-            <button class="btn btn-bill" onclick="printBill()">🖨️ พิมพ์บิลเงินสด (A5)</button>
-            <button class="btn btn-med" onclick="printMedCert()">🖨️ พิมพ์ใบรับรองแพทย์ (A5)</button>
+            <button class="btn btn-bill" onclick="printBill()">🖨️ พิมพ์บิลเงินสด (A5 แนวตั้ง 2 หน้า)</button>
+            <button class="btn btn-med" onclick="printMedCert()">🖨️ พิมพ์ใบรับรองแพทย์ (A5 แนวตั้ง)</button>
             <button class="btn btn-clear" onclick="resetForm()">🗑️ ล้างหน้าจอ</button>
         </div>
     </div>
 
-    <!-- ================= LIVE PREVIEW & PRINT SECTION ================= -->
+    <!-- ================= โซนพรีวิวและหน้ากระดาษปริ้น ================= -->
     <div class="preview-wrapper">
-        <div class="preview-column">
-            <div class="preview-title">📄 Preview: บิลเงินสด (A5 แนวนอน 2 คอลัมน์)</div>
-            <div id="preview-bill" class="paper-preview">
-                <div class="bill-half">
-                    <div class="doc-type-badge">ต้นฉบับ Original</div>
-                    <div class="b-header">
-                        <div class="b-title">บิลเงินสด / ใบเสร็จรับเงิน</div>
-                        <div class="b-clinic">นิธิรัชต์จักษุคลินิก</div>
-                        <div class="b-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div>
-                    </div>
-                    <div class="b-meta">
-                        <span>เลขที่: <b class="dispNo"></b></span>
-                        <span>วันที่: <b class="dispDate"></b></span>
-                    </div>
-                    <div class="b-patient">
-                        <b>ได้รับเงินจาก:</b> <span class="dispName"></span><br>
-                        <div class="b-patient-sub"><b>CN:</b> <span class="dispCN"></span> | <b>เลข ปชช:</b> <span class="dispID"></span> | <b>ที่อยู่:</b> <span class="dispAddress"></span></div>
-                    </div>
-                    <table class="b-table">
-                        <thead><tr><th>รายการ (Description)</th><th class="price-col">จำนวนเงิน</th></tr></thead>
-                        <tbody class="dispBillItems"></tbody>
-                        <tbody>
-                            <tr><td colspan="2" style="border-top: 1px solid #000; padding:2px;"></td></tr>
-                            <tr class="b-total-row"><td>รวมเป็นเงินทั้งสิ้น</td><td class="price-col dispTotal">0</td></tr>
-                        </tbody>
-                    </table>
-                    <div class="b-thai-text">(<span class="dispThaiText">ศูนย์บาทถ้วน</span>)</div>
-                    <div class="b-sign">ผู้รับเงิน ........................................<br>(นิธิรัชต์จักษุคลินิก)</div>
+        
+        <!-- 📄 บิลเงินสด (A5 แนวตั้ง 2 แผ่น) -->
+        <div class="preview-column" id="preview-bill">
+            <div class="preview-title print-only-hide">📄 Preview: บิลเงินสด (A5 แนวตั้ง - 2 แผ่น)</div>
+            
+            <div class="a5-portrait-page">
+                <div class="doc-type-badge">ต้นฉบับ Original</div>
+                <div class="b-header">
+                    <div class="b-title">บิลเงินสด / ใบเสร็จรับเงิน</div>
+                    <div class="b-clinic">นิธิรัชต์จักษุคลินิก</div>
+                    <div class="b-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div>
                 </div>
+                <div class="b-meta">
+                    <span>เลขที่: <b class="dispNo"></b></span>
+                    <span>วันที่: <b class="dispDate"></b></span>
+                </div>
+                <div class="b-patient">
+                    <b>ได้รับเงินจาก:</b> <span class="dispName"></span><br>
+                    <div class="b-patient-sub">
+                        <b>CN:</b> <span class="dispCN"></span> &nbsp;|&nbsp; 
+                        <b>เลข ปชช:</b> <span class="dispID"></span><br>
+                        <b>ที่อยู่:</b> <span class="dispAddress"></span>
+                    </div>
+                </div>
+                <table class="b-table">
+                    <thead><tr><th>รายการ (Description)</th><th class="price-col">จำนวนเงิน (บาท)</th></tr></thead>
+                    <tbody class="dispBillItems"></tbody>
+                    <tbody>
+                        <tr class="b-total-row"><td>รวมเป็นเงินทั้งสิ้น</td><td class="price-col dispTotal">0</td></tr>
+                    </tbody>
+                </table>
+                <div class="b-thai-text">(<span class="dispThaiText">ศูนย์บาทถ้วน</span>)</div>
+                <div class="b-sign">
+                    ผู้รับเงิน <span class="b-sign-line"></span><br>
+                    ( นิธิรัชต์จักษุคลินิก )
+                </div>
+            </div>
 
-                <div class="bill-half">
-                    <div class="doc-type-badge" style="color:#555; border-color:#555;">สำเนา Copy</div>
-                    <div class="b-header">
-                        <div class="b-title">บิลเงินสด / ใบเสร็จรับเงิน</div>
-                        <div class="b-clinic">นิธิรัชต์จักษุคลินิก</div>
-                        <div class="b-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div>
+            <div class="a5-portrait-page">
+                <div class="doc-type-badge" style="color:#555; border-color:#555;">สำเนา Copy</div>
+                <div class="b-header">
+                    <div class="b-title">บิลเงินสด / ใบเสร็จรับเงิน</div>
+                    <div class="b-clinic">นิธิรัชต์จักษุคลินิก</div>
+                    <div class="b-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div>
+                </div>
+                <div class="b-meta">
+                    <span>เลขที่: <b class="dispNo"></b></span>
+                    <span>วันที่: <b class="dispDate"></b></span>
+                </div>
+                <div class="b-patient">
+                    <b>ได้รับเงินจาก:</b> <span class="dispName"></span><br>
+                    <div class="b-patient-sub">
+                        <b>CN:</b> <span class="dispCN"></span> &nbsp;|&nbsp; 
+                        <b>เลข ปชช:</b> <span class="dispID"></span><br>
+                        <b>ที่อยู่:</b> <span class="dispAddress"></span>
                     </div>
-                    <div class="b-meta">
-                        <span>เลขที่: <b class="dispNo"></b></span>
-                        <span>วันที่: <b class="dispDate"></b></span>
-                    </div>
-                    <div class="b-patient">
-                        <b>ได้รับเงินจาก:</b> <span class="dispName"></span><br>
-                        <div class="b-patient-sub"><b>CN:</b> <span class="dispCN"></span> | <b>เลข ปชช:</b> <span class="dispID"></span> | <b>ที่อยู่:</b> <span class="dispAddress"></span></div>
-                    </div>
-                    <table class="b-table">
-                        <thead><tr><th>รายการ (Description)</th><th class="price-col">จำนวนเงิน</th></tr></thead>
-                        <tbody class="dispBillItems"></tbody>
-                        <tbody>
-                            <tr><td colspan="2" style="border-top: 1px solid #000; padding:2px;"></td></tr>
-                            <tr class="b-total-row"><td>รวมเป็นเงินทั้งสิ้น</td><td class="price-col dispTotal">0</td></tr>
-                        </tbody>
-                    </table>
-                    <div class="b-thai-text">(<span class="dispThaiText">ศูนย์บาทถ้วน</span>)</div>
-                    <div class="b-sign">ผู้รับเงิน ........................................<br>(นิธิรัชต์จักษุคลินิก)</div>
+                </div>
+                <table class="b-table">
+                    <thead><tr><th>รายการ (Description)</th><th class="price-col">จำนวนเงิน (บาท)</th></tr></thead>
+                    <tbody class="dispBillItems"></tbody>
+                    <tbody>
+                        <tr class="b-total-row"><td>รวมเป็นเงินทั้งสิ้น</td><td class="price-col dispTotal">0</td></tr>
+                    </tbody>
+                </table>
+                <div class="b-thai-text">(<span class="dispThaiText">ศูนย์บาทถ้วน</span>)</div>
+                <div class="b-sign">
+                    ผู้รับเงิน <span class="b-sign-line"></span><br>
+                    ( นิธิรัชต์จักษุคลินิก )
                 </div>
             </div>
         </div>
 
+        <!-- 📄 ใบรับรองแพทย์ (A5 แนวตั้ง) -->
         <div class="preview-column">
-            <div class="preview-title">📄 Preview: ใบรับรองแพทย์ (A5 แนวตั้ง)</div>
-            <div id="preview-medcert" class="paper-preview">
+            <div class="preview-title print-only-hide" style="margin-top: 20px;">📄 Preview: ใบรับรองแพทย์ (A5 แนวตั้ง)</div>
+            <div id="preview-medcert" class="a5-portrait-page">
                 <div class="m-header">
                     <div class="m-clinic">นิธิรัชต์จักษุคลินิก</div>
                     <div class="m-addr">
-                        4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย<br>
-                        โทร: 061-451-9866
+                        4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866
                     </div>
                     <div class="m-title">ใบรับรองแพทย์</div>
                 </div>
@@ -421,7 +471,7 @@
                 <div class="m-content">
                     <div class="m-row">
                         <span class="m-label">ข้าพเจ้า:</span>
-                        <div class="m-line" style="border:none; padding-left:0;">นายแพทย์นิธิรัชต์ แสนเพ็ญ</div>
+                        <div class="m-line" style="border:none; padding-left:0;">นายแพทย์นิธิรัชต์ แสนเพ็ญ ว.34654</div>
                     </div>
                     <div class="m-row">
                         <span class="m-label">ได้ทำการตรวจร่างกาย:</span>
@@ -455,7 +505,7 @@
 
                 <div class="m-sign-box">
                     <div style="margin-bottom: 30px;">ลงชื่อ ........................................................... แพทย์ผู้ตรวจ</div>
-                    <div>( นายแพทย์นิธิรัชต์ แสนเพ็ญ )</div>
+                    <div>( นายแพทย์นิธิรัชต์ แสนเพ็ญ ว.34654 )</div>
                 </div>
                 <div class="m-footer">เอกสารนี้รับรองเฉพาะสุขภาพของผู้ป่วย ณ วันที่ตรวจเท่านั้น</div>
             </div>
@@ -464,12 +514,67 @@
 
     <!-- ================= SCRIPT ================= -->
     <script>
+        const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+
         function formatDateInput(input, event) {
             if (event && event.inputType === 'deleteContentBackward') return; 
             let val = input.value.replace(/\D/g, ''); 
             if (val.length > 2) val = val.substring(0, 2) + '/' + val.substring(2);
             if (val.length > 5) val = val.substring(0, 5) + '/' + val.substring(5, 9);
             input.value = val;
+        }
+
+        // ฟังก์ชันคำนวณวันหยุดให้อัตโนมัติ
+        function autoCalculateLeaveDates() {
+            const restInput = document.getElementById('inputRest').value.trim();
+            const dateInput = document.getElementById('inputDate').value.trim();
+            const fromToInput = document.getElementById('inputFromTo');
+
+            if (restInput === '' || restInput === '0' || restInput === '-') {
+                fromToInput.value = '';
+                return;
+            }
+
+            const restDays = parseInt(restInput, 10);
+            if (isNaN(restDays) || restDays <= 0) {
+                fromToInput.value = '';
+                return;
+            }
+
+            if (dateInput.length === 10) {
+                const parts = dateInput.split('/');
+                const d = parseInt(parts[0], 10);
+                const m = parseInt(parts[1], 10) - 1;
+                const yBE = parseInt(parts[2], 10);
+                const yCE = yBE - 543;
+
+                let startDate = new Date(yCE, m, d);
+                if (isNaN(startDate.getTime())) return;
+
+                let endDate = new Date(startDate);
+                endDate.setDate(startDate.getDate() + restDays - 1);
+
+                const startDay = startDate.getDate();
+                const startMonth = thaiMonths[startDate.getMonth()];
+                const startYear = (startDate.getFullYear() + 543).toString().substring(2);
+
+                const endDay = endDate.getDate();
+                const endMonth = thaiMonths[endDate.getMonth()];
+                const endYear = (endDate.getFullYear() + 543).toString().substring(2);
+
+                let resultString = '';
+                if (restDays === 1) {
+                    resultString = `${startDay} ${startMonth} ${startYear}`;
+                } else if (startMonth === endMonth && startYear === endYear) {
+                    resultString = `${startDay} - ${endDay} ${startMonth} ${startYear}`;
+                } else if (startYear === endYear) {
+                    resultString = `${startDay} ${startMonth} - ${endDay} ${endMonth} ${startYear}`;
+                } else {
+                    resultString = `${startDay} ${startMonth} ${startYear} - ${endDay} ${endMonth} ${endYear}`;
+                }
+
+                fromToInput.value = resultString;
+            }
         }
 
         function calculateAge() {
@@ -486,27 +591,18 @@
                 let age = today.getFullYear() - birthDate.getFullYear();
                 const monthDiff = today.getMonth() - birthDate.getMonth();
                 
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                    age--;
-                }
-                
-                if (age >= 0 && age <= 150) {
-                    document.getElementById('inputAge').value = age;
-                }
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) { age--; }
+                if (age >= 0 && age <= 150) { document.getElementById('inputAge').value = age; }
             }
         }
 
         function getSecretNumber(char) {
             const secretMap = {
                 'เ':'0', 'แ':'0', 'ไ':'0', 'ใ':'0', 'โ':'0', 'ะ':'0', 'า':'0', 'ำ':'0',
-                'ก':'1', 'ข':'1', 'ค':'1', 'ฅ':'1', 'ฆ':'1',
-                'ง':'2', 'จ':'2', 'ฉ':'2', 'ช':'2', 'ซ':'2',
-                'ฌ':'3', 'ญ':'3', 'ฎ':'3', 'ฏ':'3', 'ฐ':'3', 'ฑ':'3', 'ฒ':'3',
-                'ณ':'4', 'ด':'4', 'ต':'4', 'ถ':'4', 'ท':'4',
-                'ธ':'5', 'น':'5', 'บ':'5', 'ป':'5',
-                'ผ':'6', 'ฝ':'6', 'พ':'6', 'ฟ':'6', 'ภ':'6',
-                'ม':'7', 'ย':'7', 'ร':'7', 'ล':'7',
-                'ว':'8', 'ศ':'8', 'ษ':'8', 'ส':'8',
+                'ก':'1', 'ข':'1', 'ค':'1', 'ฅ':'1', 'ฆ':'1', 'ง':'2', 'จ':'2', 'ฉ':'2', 'ช':'2', 'ซ':'2',
+                'ฌ':'3', 'ญ':'3', 'ฎ':'3', 'ฏ':'3', 'ฐ':'3', 'ฑ':'3', 'ฒ':'3', 'ณ':'4', 'ด':'4', 'ต':'4', 'ถ':'4', 'ท':'4',
+                'ธ':'5', 'น':'5', 'บ':'5', 'ป':'5', 'ผ':'6', 'ฝ':'6', 'พ':'6', 'ฟ':'6', 'ภ':'6',
+                'ม':'7', 'ย':'7', 'ร':'7', 'ล':'7', 'ว':'8', 'ศ':'8', 'ษ':'8', 'ส':'8',
                 'ห':'9', 'ฬ':'9', 'อ':'9', 'ฮ':'9', 'ฤ':'9', 'ฦ':'9'
             };
             return secretMap[char]; 
@@ -515,88 +611,57 @@
         function autoGenerateSecretCN() {
             const fullName = document.getElementById('inputName').value.trim();
             const cnInput = document.getElementById('inputCN');
-
             if (fullName === '') { cnInput.value = ''; return; }
 
             const parts = fullName.split(/\s+/);
-            let fName = parts[0] || '';
-            let lName = parts.slice(1).join('') || ''; 
+            let fName = parts[0] || ''; let lName = parts.slice(1).join('') || ''; 
+            let cnFirst = ''; let cnLast = '';
 
-            let cnFirst = '';
-            let cnLast = '';
-
-            for (let char of fName) {
-                let num = getSecretNumber(char);
-                if (num !== undefined) {
-                    cnFirst += num;
-                    if (cnFirst.length >= 3) break;
-                }
-            }
-
-            for (let char of lName) {
-                let num = getSecretNumber(char);
-                if (num !== undefined) {
-                    cnLast += num;
-                    if (cnLast.length >= 2) break;
-                }
-            }
-
-            if (cnFirst || cnLast) { cnInput.value = 'CN-' + cnFirst + cnLast; } 
+            for (let char of fName) { let num = getSecretNumber(char); if (num !== undefined) { cnFirst += num; if (cnFirst.length >= 3) break; } }
+            for (let char of lName) { let num = getSecretNumber(char); if (num !== undefined) { cnLast += num; if (cnLast.length >= 2) break; } }
+            
+            if (cnFirst || cnLast) { cnInput.value = cnFirst + cnLast; } 
             else { cnInput.value = ''; }
         }
 
-        // ================= ระบบ Auto-Save จำข้อมูลฝังเครื่อง (สำหรับ Android/iPad) =================
         function saveDraft() {
-            const draft = getPatientData();
-            
-            // เก็บข้อมูลโซนหมอด้วย
-            draft.dx = document.getElementById('inputDx').value;
-            draft.rest = document.getElementById('inputRest').value;
-            draft.fromTo = document.getElementById('inputFromTo').value;
-            draft.op1 = document.getElementById('chkOp1').checked;
-            draft.op2 = document.getElementById('chkOp2').checked;
-            draft.op3 = document.getElementById('chkOp3').checked;
-            draft.op3Text = document.getElementById('inputOp3Text').value;
-
+            const draft = {
+                date: document.getElementById('inputDate').value, no: document.getElementById('inputNo').value,
+                cn: document.getElementById('inputCN').value, prefix: document.getElementById('inputPrefix').value,
+                name: document.getElementById('inputName').value, dob: document.getElementById('inputDOB').value,
+                age: document.getElementById('inputAge').value, phone: document.getElementById('inputPhone').value,
+                idCard: document.getElementById('inputID').value, address: document.getElementById('inputAddress').value,
+                bp: document.getElementById('inputBP').value, bw: document.getElementById('inputBW').value,
+                hr: document.getElementById('inputHR').value, allergy: document.getElementById('inputAllergy').value,
+                disease: document.getElementById('inputDisease').value, cc: document.getElementById('inputCC').value,
+                dx: document.getElementById('inputDx').value, rest: document.getElementById('inputRest').value,
+                fromTo: document.getElementById('inputFromTo').value, op1: document.getElementById('chkOp1').checked,
+                op2: document.getElementById('chkOp2').checked, op3: document.getElementById('chkOp3').checked,
+                op3Text: document.getElementById('inputOp3Text').value
+            };
             const items = [];
             document.querySelectorAll('.item-row').forEach(row => {
-                items.push({
-                    name: row.querySelector('.item-name').value,
-                    price: row.querySelector('.item-price').value
-                });
+                items.push({ name: row.querySelector('.item-name').value, price: row.querySelector('.item-price').value });
             });
             draft.items = items;
-
-            // เซฟลงเครื่อง
-            localStorage.setItem('clinic_draft_v2', JSON.stringify(draft));
+            localStorage.setItem('clinic_draft_patient', JSON.stringify(draft));
         }
 
         function loadDraft() {
-            const saved = localStorage.getItem('clinic_draft_v2');
+            const saved = localStorage.getItem('clinic_draft_patient');
             if (saved) {
                 const draft = JSON.parse(saved);
-                document.getElementById('inputDate').value = draft.date || '';
-                document.getElementById('inputNo').value = draft.no || '';
-                document.getElementById('inputCN').value = draft.cn || '';
-                document.getElementById('inputName').value = draft.name || '';
-                document.getElementById('inputDOB').value = draft.dob || '';
-                document.getElementById('inputAge').value = draft.age || '';
-                document.getElementById('inputPhone').value = draft.phone || '';
-                document.getElementById('inputID').value = draft.idCard || '';
-                document.getElementById('inputAddress').value = draft.address || '';
-                document.getElementById('inputBP').value = draft.bp || '';
-                document.getElementById('inputBW').value = draft.bw || '';
-                document.getElementById('inputHR').value = draft.hr || '';
-                document.getElementById('inputAllergy').value = draft.allergy || '-';
-                document.getElementById('inputDisease').value = draft.disease || '-';
-                document.getElementById('inputCC').value = draft.cc || '';
-
-                document.getElementById('inputDx').value = draft.dx || '';
-                document.getElementById('inputRest').value = draft.rest || '';
-                document.getElementById('inputFromTo').value = draft.fromTo || '';
-                document.getElementById('chkOp1').checked = draft.op1 || false;
-                document.getElementById('chkOp2').checked = draft.op2 || false;
-                document.getElementById('chkOp3').checked = draft.op3 || false;
+                document.getElementById('inputDate').value = draft.date || ''; document.getElementById('inputNo').value = draft.no || '';
+                document.getElementById('inputCN').value = draft.cn || ''; document.getElementById('inputPrefix').value = draft.prefix || ''; 
+                document.getElementById('inputName').value = draft.name || ''; document.getElementById('inputDOB').value = draft.dob || '';
+                document.getElementById('inputAge').value = draft.age || ''; document.getElementById('inputPhone').value = draft.phone || '';
+                document.getElementById('inputID').value = draft.idCard || ''; document.getElementById('inputAddress').value = draft.address || '';
+                document.getElementById('inputBP').value = draft.bp || ''; document.getElementById('inputBW').value = draft.bw || '';
+                document.getElementById('inputHR').value = draft.hr || ''; document.getElementById('inputAllergy').value = draft.allergy || '-';
+                document.getElementById('inputDisease').value = draft.disease || '-'; document.getElementById('inputCC').value = draft.cc || '';
+                document.getElementById('inputDx').value = draft.dx || ''; document.getElementById('inputRest').value = draft.rest || '';
+                document.getElementById('inputFromTo').value = draft.fromTo || ''; document.getElementById('chkOp1').checked = draft.op1 || false;
+                document.getElementById('chkOp2').checked = draft.op2 || false; document.getElementById('chkOp3').checked = draft.op3 || false;
                 document.getElementById('inputOp3Text').value = draft.op3Text || '';
 
                 if (draft.items) {
@@ -613,45 +678,26 @@
             return false;
         }
 
-        // ================= ลำดับการโหลดเมื่อเปิดแอป =================
         function initSetup() {
             const params = new URLSearchParams(window.location.search);
-            
             if (params.has('name')) {
-                // เคสที่ 1: หมอเปิดจากลิงก์ LINE (มีข้อมูลห้อยมาด้วย)
-                document.getElementById('inputDate').value = params.get('date') || '';
-                document.getElementById('inputNo').value = params.get('no') || '';
-                document.getElementById('inputCN').value = params.get('cn') || '';
-                document.getElementById('inputName').value = params.get('name') || '';
-                document.getElementById('inputDOB').value = params.get('dob') || ''; 
-                document.getElementById('inputAge').value = params.get('age') || '';
-                document.getElementById('inputPhone').value = params.get('phone') || '';
-                document.getElementById('inputID').value = params.get('idCard') || '';
-                document.getElementById('inputAddress').value = params.get('address') || '';
-                document.getElementById('inputBP').value = params.get('bp') || '';
-                document.getElementById('inputBW').value = params.get('bw') || '';
-                document.getElementById('inputHR').value = params.get('hr') || '';
-                document.getElementById('inputAllergy').value = params.get('allergy') || '-';
-                document.getElementById('inputDisease').value = params.get('disease') || '-';
-                document.getElementById('inputCC').value = params.get('cc') || '';
+                document.getElementById('inputDate').value = params.get('date') || ''; document.getElementById('inputNo').value = params.get('no') || '';
+                document.getElementById('inputCN').value = params.get('cn') || ''; document.getElementById('inputPrefix').value = params.get('prefix') || ''; 
+                document.getElementById('inputName').value = params.get('name') || ''; document.getElementById('inputDOB').value = params.get('dob') || ''; 
+                document.getElementById('inputAge').value = params.get('age') || ''; document.getElementById('inputPhone').value = params.get('phone') || '';
+                document.getElementById('inputID').value = params.get('idCard') || ''; document.getElementById('inputAddress').value = params.get('address') || '';
+                document.getElementById('inputBP').value = params.get('bp') || ''; document.getElementById('inputBW').value = params.get('bw') || '';
+                document.getElementById('inputHR').value = params.get('hr') || ''; document.getElementById('inputAllergy').value = params.get('allergy') || '-';
+                document.getElementById('inputDisease').value = params.get('disease') || '-'; document.getElementById('inputCC').value = params.get('cc') || '';
                 
                 window.history.replaceState({}, document.title, window.location.pathname); 
             } else {
-                // เคสที่ 2: เคาน์เตอร์เปิดแอป
-                // ลองเช็คดูว่ามีประวัติเก่าค้างอยู่ในเครื่องไหม (กันจอรีเฟรช)
-                const hasDraft = loadDraft();
-                
-                // ถ้าไม่มีข้อมูลค้างอยู่เลย ค่อยเซ็ตวันที่ใหม่
-                if (!hasDraft) {
-                    const d = new Date();
-                    const dd = String(d.getDate()).padStart(2, '0');
-                    const mm = String(d.getMonth() + 1).padStart(2, '0');
-                    const yyyyBE = d.getFullYear() + 543;
-                    
+                if (!loadDraft()) {
+                    const d = new Date(); const dd = String(d.getDate()).padStart(2, '0');
+                    const mm = String(d.getMonth() + 1).padStart(2, '0'); const yyyyBE = d.getFullYear() + 543;
                     document.getElementById('inputDate').value = `${dd}/${mm}/${yyyyBE}`;
                     document.getElementById('inputNo').value = `${yyyyBE.toString().substr(2)}${mm}${dd}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
-                    document.getElementById('inputAllergy').value = '-';
-                    document.getElementById('inputDisease').value = '-';
+                    document.getElementById('inputAllergy').value = '-'; document.getElementById('inputDisease').value = '-';
                 }
             }
             syncData();
@@ -659,76 +705,57 @@
 
         function getPatientData() {
             return {
-                date: document.getElementById('inputDate').value,
-                no: document.getElementById('inputNo').value,
-                cn: document.getElementById('inputCN').value || '-',
-                name: document.getElementById('inputName').value || '-',
-                dob: document.getElementById('inputDOB').value || '', 
-                age: document.getElementById('inputAge').value || '-',
-                phone: document.getElementById('inputPhone').value || '-',
-                idCard: document.getElementById('inputID').value || '-',
-                address: document.getElementById('inputAddress').value || '-',
-                bp: document.getElementById('inputBP').value || '-',
-                bw: document.getElementById('inputBW').value || '-',
-                hr: document.getElementById('inputHR').value || '-',
-                allergy: document.getElementById('inputAllergy').value || '-',
-                disease: document.getElementById('inputDisease').value || '-',
-                cc: document.getElementById('inputCC').value || '-'
+                date: document.getElementById('inputDate').value, no: document.getElementById('inputNo').value,
+                cn: document.getElementById('inputCN').value || '-', prefix: document.getElementById('inputPrefix').value || '', 
+                name: document.getElementById('inputName').value || '-', dob: document.getElementById('inputDOB').value || '', 
+                age: document.getElementById('inputAge').value || '-', phone: document.getElementById('inputPhone').value || '-',
+                idCard: document.getElementById('inputID').value || '-', address: document.getElementById('inputAddress').value || '-',
+                bp: document.getElementById('inputBP').value || '-', bw: document.getElementById('inputBW').value || '-',
+                hr: document.getElementById('inputHR').value || '-', allergy: document.getElementById('inputAllergy').value || '-',
+                disease: document.getElementById('inputDisease').value || '-', cc: document.getElementById('inputCC').value || '-'
             };
         }
 
-        // ================= อัปเดตข้อมูลที่จะก๊อปปี้ลง LINE =================
         function copyNormal() {
             const data = getPatientData();
             const dobText = data.dob ? `วันเกิด: ${data.dob} ` : '';
-            const summary = `📌 ประวัติคนไข้\nCN: ${data.cn}\nชื่อ: ${data.name}\n${dobText}(อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard}\nโทร: ${data.phone}\nที่อยู่: ${data.address}\n\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\n\nอาการ (CC): ${data.cc}`;
+            const fullName = data.prefix ? `${data.prefix}${data.name}` : data.name; 
+            const summary = `📌 ประวัติคนไข้\nCN: ${data.cn}\nชื่อ: ${fullName}\n${dobText}(อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard}\nโทร: ${data.phone}\nที่อยู่: ${data.address}\n\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\n\nอาการ (CC): ${data.cc}`;
             copyToClipboard(summary, "✅ คัดลอกประวัติสำเร็จ!");
         }
 
         function generateLink() {
             const data = getPatientData();
             const params = new URLSearchParams();
-            
-            for (const key in data) {
-                if (data[key] && data[key] !== '-') {
-                    params.append(key, data[key]);
-                }
-            }
-
-            const baseUrl = window.location.href.split('?')[0];
-            const magicLink = baseUrl + '?' + params.toString();
-            
-            const dobText = data.dob ? `วันเกิด: ${data.dob} ` : '';
-            const summary = `📌 📄 คนไข้ขอเอกสาร\nCN: ${data.cn}\nชื่อ: ${data.name}\n${dobText}(อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard}\nโทร: ${data.phone}\nที่อยู่: ${data.address}\n\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\nอาการ: ${data.cc}\n\n👉 คลิกลิงก์พิมพ์เอกสาร:\n${magicLink}`;
+            for (const key in data) { if (data[key] && data[key] !== '-') { params.append(key, data[key]); } }
+            const baseUrl = window.location.href.split('?')[0]; const magicLink = baseUrl + '?' + params.toString();
+            const dobText = data.dob ? `วันเกิด: ${data.dob} ` : ''; const fullName = data.prefix ? `${data.prefix}${data.name}` : data.name;
+            const summary = `📌 📄 คนไข้ขอเอกสาร\nCN: ${data.cn}\nชื่อ: ${fullName}\n${dobText}(อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard}\nโทร: ${data.phone}\nที่อยู่: ${data.address}\n\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\nอาการ: ${data.cc}\n\n👉 คลิกลิงก์พิมพ์เอกสาร:\n${magicLink}`;
             copyToClipboard(summary, "✅ คัดลอกลิงก์สำเร็จ! ส่งให้ห้องตรวจได้เลย");
         }
 
         function copyToClipboard(text, successMsg) {
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(() => showAlert(successMsg));
-            } else {
-                let textArea = document.createElement("textarea");
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try { document.execCommand('copy'); showAlert(successMsg); } 
-                catch (err) { alert("❌ คัดลอกไม่สำเร็จ"); }
+            if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(() => showAlert(successMsg)); } 
+            else {
+                let textArea = document.createElement("textarea"); textArea.value = text;
+                document.body.appendChild(textArea); textArea.select();
+                try { document.execCommand('copy'); showAlert(successMsg); } catch (err) { alert("❌ คัดลอกไม่สำเร็จ"); }
                 document.body.removeChild(textArea);
             }
         }
 
         function showAlert(msg) {
-            const alertBox = document.getElementById('alertSuccess');
-            alertBox.innerText = msg;
-            alertBox.style.display = 'block';
-            setTimeout(() => alertBox.style.display = 'none', 3000);
+            const alertBox = document.getElementById('alertSuccess'); alertBox.innerText = msg;
+            alertBox.style.display = 'block'; setTimeout(() => alertBox.style.display = 'none', 3000);
         }
 
         function syncData() {
             const dateVal = document.getElementById('inputDate').value || '-';
             const noVal = document.getElementById('inputNo').value || '-';
             const cnVal = document.getElementById('inputCN').value || '-';
-            const nameVal = document.getElementById('inputName').value || '...........................................';
+            const prefixVal = document.getElementById('inputPrefix').value.trim();
+            const rawNameVal = document.getElementById('inputName').value.trim();
+            const fullNameVal = rawNameVal !== '' ? `${prefixVal} ${rawNameVal}`.trim() : '...........................................';
             const idVal = document.getElementById('inputID').value || '-';
             const addrVal = document.getElementById('inputAddress').value || '-';
             const dxVal = document.getElementById('inputDx').value || '...........................................';
@@ -738,16 +765,14 @@
             document.querySelectorAll('.dispDate').forEach(el => el.innerText = dateVal);
             document.querySelectorAll('.dispNo').forEach(el => el.innerText = noVal);
             document.querySelectorAll('.dispCN').forEach(el => el.innerText = cnVal);
-            document.querySelectorAll('.dispName').forEach(el => el.innerText = nameVal);
+            document.querySelectorAll('.dispName').forEach(el => el.innerText = fullNameVal);
             document.querySelectorAll('.dispID').forEach(el => el.innerText = idVal);
             document.querySelectorAll('.dispAddress').forEach(el => el.innerText = addrVal);
             document.querySelectorAll('.dispDx').forEach(el => el.innerText = dxVal);
             document.querySelectorAll('.dispRest').forEach(el => el.innerText = restVal);
             document.querySelectorAll('.dispFromTo').forEach(el => el.innerText = fromToVal);
 
-            const checkIcon = '☑'; 
-            const uncheckIcon = '☐'; 
-            
+            const checkIcon = '☑'; const uncheckIcon = '☐'; 
             document.querySelectorAll('.dispOp1').forEach(el => el.innerText = document.getElementById('chkOp1').checked ? checkIcon : uncheckIcon);
             document.querySelectorAll('.dispOp2').forEach(el => el.innerText = document.getElementById('chkOp2').checked ? checkIcon : uncheckIcon);
             document.querySelectorAll('.dispOp3').forEach(el => el.innerText = document.getElementById('chkOp3').checked ? checkIcon : uncheckIcon);
@@ -775,40 +800,42 @@
 
             const thaiText = ArabicNumberToText(total);
             document.querySelectorAll('.dispThaiText').forEach(el => el.innerText = thaiText);
-
-            // เซฟข้อมูลลงเครื่องทุกครั้งที่มีการขยับ!
             saveDraft();
         }
 
-        function setPrintPageStyle(size, orientation) {
+        function setPrintPageStyle() {
             let style = document.getElementById('dynamic-print-style');
             if (!style) { style = document.createElement('style'); style.id = 'dynamic-print-style'; document.head.appendChild(style); }
-            style.innerHTML = `@page { size: ${size} ${orientation}; margin: 0; }`;
+            style.innerHTML = `@page { size: A5 portrait; margin: 0 !important; }`;
         }
 
-        function printBill() { syncData(); setPrintPageStyle('A5', 'landscape'); document.body.classList.add('printing-bill'); window.print(); setTimeout(() => document.body.classList.remove('printing-bill'), 500); }
-        function printMedCert() { syncData(); setPrintPageStyle('A5', 'portrait'); document.body.classList.add('printing-medcert'); window.print(); setTimeout(() => document.body.classList.remove('printing-medcert'), 500); }
+        function printBill() { 
+            syncData(); setPrintPageStyle(); 
+            document.body.classList.add('printing-bill'); 
+            document.querySelectorAll('.print-only-hide').forEach(el => el.style.display = 'none');
+            window.print(); 
+            setTimeout(() => { document.body.classList.remove('printing-bill'); document.querySelectorAll('.print-only-hide').forEach(el => el.style.display = 'block'); }, 500); 
+        }
+
+        function printMedCert() { 
+            syncData(); setPrintPageStyle(); 
+            document.body.classList.add('printing-medcert'); 
+            document.querySelectorAll('.print-only-hide').forEach(el => el.style.display = 'none');
+            window.print(); 
+            setTimeout(() => { document.body.classList.remove('printing-medcert'); document.querySelectorAll('.print-only-hide').forEach(el => el.style.display = 'block'); }, 500); 
+        }
 
         function resetForm() {
             if(confirm("ต้องการล้างหน้าจอเพื่อรับคนไข้ใหม่หรือไม่?")) {
                 document.querySelectorAll('input[type="text"]:not(#inputDate, #inputNo), input[type="number"], textarea').forEach(i => i.value = '');
                 document.querySelectorAll('input[type="checkbox"]').forEach(i => i.checked = false);
-                document.getElementById('inputAllergy').value = '-';
-                document.getElementById('inputDisease').value = '-';
-                
-                const d = new Date();
-                const dd = String(d.getDate()).padStart(2, '0');
-                const mm = String(d.getMonth() + 1).padStart(2, '0');
-                const yyyyBE = d.getFullYear() + 543;
+                document.getElementById('inputAllergy').value = '-'; document.getElementById('inputDisease').value = '-';
+                const d = new Date(); const dd = String(d.getDate()).padStart(2, '0');
+                const mm = String(d.getMonth() + 1).padStart(2, '0'); const yyyyBE = d.getFullYear() + 543;
                 document.getElementById('inputDate').value = `${dd}/${mm}/${yyyyBE}`;
                 document.getElementById('inputNo').value = `${yyyyBE.toString().substr(2)}${mm}${dd}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
-                
                 window.history.replaceState({}, document.title, window.location.pathname); 
-                
-                // สั่งลบความจำในเครื่องทิ้ง!
-                localStorage.removeItem('clinic_draft_v2');
-                
-                syncData(); 
+                localStorage.removeItem('clinic_draft_patient'); syncData(); 
             }
         }
 
