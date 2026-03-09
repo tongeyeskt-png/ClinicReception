@@ -215,7 +215,7 @@
                 </div>
                 <div class="form-group flex-1">
                     <label>เบอร์โทรศัพท์:</label>
-                    <input type="text" id="inputPhone" placeholder="08X-XXX-XXXX">
+                    <input type="text" id="inputPhone" placeholder="08X-XXX-XXXX" oninput="syncData()">
                 </div>
             </div>
 
@@ -235,32 +235,32 @@
             <div class="pastel-box flex-row">
                 <div class="form-group flex-1" style="margin-bottom:0;">
                     <label>ความดัน (BP):</label>
-                    <input type="text" id="inputBP" placeholder="เช่น 120/80">
+                    <input type="text" id="inputBP" placeholder="เช่น 120/80" oninput="syncData()">
                 </div>
                 <div class="form-group flex-1" style="margin-bottom:0;">
                     <label>น้ำหนัก (BW) kg:</label>
-                    <input type="text" id="inputBW" placeholder="น้ำหนัก">
+                    <input type="text" id="inputBW" placeholder="น้ำหนัก" oninput="syncData()">
                 </div>
                 <div class="form-group flex-1" style="margin-bottom:0;">
                     <label>ชีพจร (PR):</label>
-                    <input type="text" id="inputHR" placeholder="ครั้ง/นาที">
+                    <input type="text" id="inputHR" placeholder="ครั้ง/นาที" oninput="syncData()">
                 </div>
             </div>
 
             <div class="flex-row">
                 <div class="form-group flex-1">
                     <label style="color:#e11d48;">⚠️ ประวัติแพ้ยา:</label>
-                    <input type="text" id="inputAllergy" placeholder="ถ้าไม่มีให้ขีด -" value="-">
+                    <input type="text" id="inputAllergy" placeholder="ถ้าไม่มีให้ขีด -" oninput="syncData()">
                 </div>
                 <div class="form-group flex-1">
                     <label style="color:#d97706;">🩺 โรคประจำตัว:</label>
-                    <input type="text" id="inputDisease" placeholder="ถ้าไม่มีให้ขีด -" value="-">
+                    <input type="text" id="inputDisease" placeholder="ถ้าไม่มีให้ขีด -" oninput="syncData()">
                 </div>
             </div>
 
             <div class="form-group">
                 <label>อาการที่มาพบแพทย์ (Chief Complaint):</label>
-                <textarea id="inputCC" placeholder="เช่น เคืองตาซ้ายมา 2 วัน น้ำตาไหล..."></textarea>
+                <textarea id="inputCC" placeholder="เช่น เคืองตาซ้ายมา 2 วัน น้ำตาไหล..." oninput="syncData()"></textarea>
             </div>
             
             <div class="btn-group">
@@ -464,9 +464,6 @@
 
     <!-- ================= SCRIPT ================= -->
     <script>
-        function encodeThai(str) { return btoa(unescape(encodeURIComponent(str))); }
-        function decodeThai(str) { return decodeURIComponent(escape(atob(str))); }
-
         function formatDateInput(input, event) {
             if (event && event.inputType === 'deleteContentBackward') return; 
             let val = input.value.replace(/\D/g, ''); 
@@ -548,37 +545,114 @@
             else { cnInput.value = ''; }
         }
 
+        // ================= ระบบ Auto-Save จำข้อมูลฝังเครื่อง (สำหรับ Android/iPad) =================
+        function saveDraft() {
+            const draft = getPatientData();
+            
+            // เก็บข้อมูลโซนหมอด้วย
+            draft.dx = document.getElementById('inputDx').value;
+            draft.rest = document.getElementById('inputRest').value;
+            draft.fromTo = document.getElementById('inputFromTo').value;
+            draft.op1 = document.getElementById('chkOp1').checked;
+            draft.op2 = document.getElementById('chkOp2').checked;
+            draft.op3 = document.getElementById('chkOp3').checked;
+            draft.op3Text = document.getElementById('inputOp3Text').value;
+
+            const items = [];
+            document.querySelectorAll('.item-row').forEach(row => {
+                items.push({
+                    name: row.querySelector('.item-name').value,
+                    price: row.querySelector('.item-price').value
+                });
+            });
+            draft.items = items;
+
+            // เซฟลงเครื่อง
+            localStorage.setItem('clinic_draft_v2', JSON.stringify(draft));
+        }
+
+        function loadDraft() {
+            const saved = localStorage.getItem('clinic_draft_v2');
+            if (saved) {
+                const draft = JSON.parse(saved);
+                document.getElementById('inputDate').value = draft.date || '';
+                document.getElementById('inputNo').value = draft.no || '';
+                document.getElementById('inputCN').value = draft.cn || '';
+                document.getElementById('inputName').value = draft.name || '';
+                document.getElementById('inputDOB').value = draft.dob || '';
+                document.getElementById('inputAge').value = draft.age || '';
+                document.getElementById('inputPhone').value = draft.phone || '';
+                document.getElementById('inputID').value = draft.idCard || '';
+                document.getElementById('inputAddress').value = draft.address || '';
+                document.getElementById('inputBP').value = draft.bp || '';
+                document.getElementById('inputBW').value = draft.bw || '';
+                document.getElementById('inputHR').value = draft.hr || '';
+                document.getElementById('inputAllergy').value = draft.allergy || '-';
+                document.getElementById('inputDisease').value = draft.disease || '-';
+                document.getElementById('inputCC').value = draft.cc || '';
+
+                document.getElementById('inputDx').value = draft.dx || '';
+                document.getElementById('inputRest').value = draft.rest || '';
+                document.getElementById('inputFromTo').value = draft.fromTo || '';
+                document.getElementById('chkOp1').checked = draft.op1 || false;
+                document.getElementById('chkOp2').checked = draft.op2 || false;
+                document.getElementById('chkOp3').checked = draft.op3 || false;
+                document.getElementById('inputOp3Text').value = draft.op3Text || '';
+
+                if (draft.items) {
+                    const rows = document.querySelectorAll('.item-row');
+                    draft.items.forEach((item, index) => {
+                        if (rows[index]) {
+                            rows[index].querySelector('.item-name').value = item.name || '';
+                            rows[index].querySelector('.item-price').value = item.price || '';
+                        }
+                    });
+                }
+                return true;
+            }
+            return false;
+        }
+
+        // ================= ลำดับการโหลดเมื่อเปิดแอป =================
         function initSetup() {
             const params = new URLSearchParams(window.location.search);
-            if (params.has('data')) {
-                try {
-                    const pd = JSON.parse(decodeThai(params.get('data')));
-                    document.getElementById('inputDate').value = pd.date || '';
-                    document.getElementById('inputNo').value = pd.no || '';
-                    document.getElementById('inputCN').value = pd.cn || '';
-                    document.getElementById('inputName').value = pd.name || '';
-                    document.getElementById('inputDOB').value = pd.dob || ''; 
-                    document.getElementById('inputAge').value = pd.age || '';
-                    document.getElementById('inputPhone').value = pd.phone || '';
-                    document.getElementById('inputID').value = pd.idCard || '';
-                    document.getElementById('inputAddress').value = pd.address || '';
-                    
-                    document.getElementById('inputBP').value = pd.bp || '';
-                    document.getElementById('inputBW').value = pd.bw || '';
-                    document.getElementById('inputHR').value = pd.hr || '';
-                    document.getElementById('inputAllergy').value = pd.allergy || '-';
-                    document.getElementById('inputDisease').value = pd.disease || '-';
-                    document.getElementById('inputCC').value = pd.cc || '';
-                    window.history.replaceState({}, document.title, window.location.pathname); 
-                } catch (e) { console.error("Data decode error"); }
-            } else {
-                const d = new Date();
-                const dd = String(d.getDate()).padStart(2, '0');
-                const mm = String(d.getMonth() + 1).padStart(2, '0');
-                const yyyyBE = d.getFullYear() + 543;
+            
+            if (params.has('name')) {
+                // เคสที่ 1: หมอเปิดจากลิงก์ LINE (มีข้อมูลห้อยมาด้วย)
+                document.getElementById('inputDate').value = params.get('date') || '';
+                document.getElementById('inputNo').value = params.get('no') || '';
+                document.getElementById('inputCN').value = params.get('cn') || '';
+                document.getElementById('inputName').value = params.get('name') || '';
+                document.getElementById('inputDOB').value = params.get('dob') || ''; 
+                document.getElementById('inputAge').value = params.get('age') || '';
+                document.getElementById('inputPhone').value = params.get('phone') || '';
+                document.getElementById('inputID').value = params.get('idCard') || '';
+                document.getElementById('inputAddress').value = params.get('address') || '';
+                document.getElementById('inputBP').value = params.get('bp') || '';
+                document.getElementById('inputBW').value = params.get('bw') || '';
+                document.getElementById('inputHR').value = params.get('hr') || '';
+                document.getElementById('inputAllergy').value = params.get('allergy') || '-';
+                document.getElementById('inputDisease').value = params.get('disease') || '-';
+                document.getElementById('inputCC').value = params.get('cc') || '';
                 
-                document.getElementById('inputDate').value = `${dd}/${mm}/${yyyyBE}`;
-                document.getElementById('inputNo').value = `${yyyyBE.toString().substr(2)}${mm}${dd}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
+                window.history.replaceState({}, document.title, window.location.pathname); 
+            } else {
+                // เคสที่ 2: เคาน์เตอร์เปิดแอป
+                // ลองเช็คดูว่ามีประวัติเก่าค้างอยู่ในเครื่องไหม (กันจอรีเฟรช)
+                const hasDraft = loadDraft();
+                
+                // ถ้าไม่มีข้อมูลค้างอยู่เลย ค่อยเซ็ตวันที่ใหม่
+                if (!hasDraft) {
+                    const d = new Date();
+                    const dd = String(d.getDate()).padStart(2, '0');
+                    const mm = String(d.getMonth() + 1).padStart(2, '0');
+                    const yyyyBE = d.getFullYear() + 543;
+                    
+                    document.getElementById('inputDate').value = `${dd}/${mm}/${yyyyBE}`;
+                    document.getElementById('inputNo').value = `${yyyyBE.toString().substr(2)}${mm}${dd}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
+                    document.getElementById('inputAllergy').value = '-';
+                    document.getElementById('inputDisease').value = '-';
+                }
             }
             syncData();
         }
@@ -606,20 +680,28 @@
         // ================= อัปเดตข้อมูลที่จะก๊อปปี้ลง LINE =================
         function copyNormal() {
             const data = getPatientData();
-            const summary = `📌 ประวัติคนไข้\nCN: ${data.cn}\nชื่อ: ${data.name} (อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard}\nโทร: ${data.phone}\nที่อยู่: ${data.address}\n\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\n\nอาการ (CC): ${data.cc}`;
+            const dobText = data.dob ? `วันเกิด: ${data.dob} ` : '';
+            const summary = `📌 ประวัติคนไข้\nCN: ${data.cn}\nชื่อ: ${data.name}\n${dobText}(อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard}\nโทร: ${data.phone}\nที่อยู่: ${data.address}\n\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\n\nอาการ (CC): ${data.cc}`;
             copyToClipboard(summary, "✅ คัดลอกประวัติสำเร็จ!");
         }
 
         function generateLink() {
             const data = getPatientData();
-            const encodedData = encodeThai(JSON.stringify(data));
-            const baseUrl = window.location.origin + window.location.pathname;
-            const magicLink = baseUrl + '?data=' + encodedData;
+            const params = new URLSearchParams();
             
-            const summary = `📌 📄 คนไข้ขอเอกสาร\nCN: ${data.cn}\nชื่อ: ${data.name} (อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard}\nโทร: ${data.phone}\nที่อยู่: ${data.address}\n\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\nอาการ: ${data.cc}\n\n👉 คลิกลิงก์พิมพ์เอกสาร:\n${magicLink}`;
+            for (const key in data) {
+                if (data[key] && data[key] !== '-') {
+                    params.append(key, data[key]);
+                }
+            }
+
+            const baseUrl = window.location.href.split('?')[0];
+            const magicLink = baseUrl + '?' + params.toString();
+            
+            const dobText = data.dob ? `วันเกิด: ${data.dob} ` : '';
+            const summary = `📌 📄 คนไข้ขอเอกสาร\nCN: ${data.cn}\nชื่อ: ${data.name}\n${dobText}(อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard}\nโทร: ${data.phone}\nที่อยู่: ${data.address}\n\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\nอาการ: ${data.cc}\n\n👉 คลิกลิงก์พิมพ์เอกสาร:\n${magicLink}`;
             copyToClipboard(summary, "✅ คัดลอกลิงก์สำเร็จ! ส่งให้ห้องตรวจได้เลย");
         }
-        // ==============================================================
 
         function copyToClipboard(text, successMsg) {
             if (navigator.clipboard && window.isSecureContext) {
@@ -693,6 +775,9 @@
 
             const thaiText = ArabicNumberToText(total);
             document.querySelectorAll('.dispThaiText').forEach(el => el.innerText = thaiText);
+
+            // เซฟข้อมูลลงเครื่องทุกครั้งที่มีการขยับ!
+            saveDraft();
         }
 
         function setPrintPageStyle(size, orientation) {
@@ -706,7 +791,7 @@
 
         function resetForm() {
             if(confirm("ต้องการล้างหน้าจอเพื่อรับคนไข้ใหม่หรือไม่?")) {
-                document.querySelectorAll('input[type="text"]:not(#inputAllergy, #inputDisease, #inputDate, #inputNo), input[type="number"], textarea').forEach(i => i.value = '');
+                document.querySelectorAll('input[type="text"]:not(#inputDate, #inputNo), input[type="number"], textarea').forEach(i => i.value = '');
                 document.querySelectorAll('input[type="checkbox"]').forEach(i => i.checked = false);
                 document.getElementById('inputAllergy').value = '-';
                 document.getElementById('inputDisease').value = '-';
@@ -719,6 +804,10 @@
                 document.getElementById('inputNo').value = `${yyyyBE.toString().substr(2)}${mm}${dd}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
                 
                 window.history.replaceState({}, document.title, window.location.pathname); 
+                
+                // สั่งลบความจำในเครื่องทิ้ง!
+                localStorage.removeItem('clinic_draft_v2');
+                
                 syncData(); 
             }
         }
@@ -730,4 +819,5 @@
     </script>
 </body>
 </html>
+
 
