@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- Web App Config -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="คลินิกตา">
@@ -12,62 +11,37 @@
     <title>Reception Helper - นิธิรัชต์จักษุคลินิก</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- ไลบรารี PDF ตัวอัปเดต -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* ================= UI ธีมพาสเทล โมเดิร์น ================= */
-        body {
-            font-family: 'Sarabun', sans-serif;
-            background: linear-gradient(135deg, #f3e8ff 0%, #e0f2fe 100%);
-            background-attachment: fixed;
-            margin: 0;
-            padding: 20px;
-            color: #334155;
-        }
-
-        .app-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 35px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            margin-bottom: 40px;
-            border: 1px solid rgba(255,255,255,0.8);
-        }
-
+        body { font-family: 'Sarabun', sans-serif; background: linear-gradient(135deg, #f3e8ff 0%, #e0f2fe 100%); background-attachment: fixed; margin: 0; padding: 20px; color: #334155; }
+        #line-warning { display: none; background-color: #ef4444; color: white; text-align: center; padding: 15px; border-radius: 16px; margin-bottom: 20px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(225, 29, 72, 0.3); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        .app-container { max-width: 1000px; margin: 0 auto; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 35px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.8); }
         .header-title { text-align: center; margin-bottom: 30px; }
         .header-title h1 { margin: 0; background: linear-gradient(135deg, #7e22ce, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 32px; font-weight: 700; }
         .header-title p { margin: 5px 0 0 0; color: #64748b; font-size: 16px; font-weight: 500; }
-
         .section-box { background: #ffffff; padding: 25px; border-radius: 16px; margin-bottom: 25px; border: 1px solid #f1f5f9; }
         .reception-zone { border-top: 5px solid #a855f7; }
         .doctor-zone { border-top: 5px solid #14b8a6; }
-
         .section-title { font-weight: 700; color: #0f172a; margin-bottom: 20px; font-size: 20px; display: flex; align-items: center; gap: 10px; }
         .badge-purple { background: #f3e8ff; color: #7e22ce; padding: 5px 12px; border-radius: 12px; font-size: 16px;}
         .badge-teal { background: #ccfbf1; color: #0f766e; padding: 5px 12px; border-radius: 12px; font-size: 16px;}
         .sub-title { font-size: 15px; color: #64748b; font-weight: 600; margin-bottom: 12px; margin-top: 10px; border-bottom: 2px dashed #e2e8f0; padding-bottom: 5px; display: inline-block; }
-
         .form-group { margin-bottom: 18px; }
         label { display: block; font-weight: 600; margin-bottom: 6px; color: #475569; font-size: 14px;}
         input[type="text"], input[type="number"], textarea { width: 100%; padding: 12px 16px; background-color: #f8fafc; border: 2px solid transparent; border-radius: 12px; font-size: 16px; box-sizing: border-box; font-family: 'Sarabun', sans-serif; color: #1e293b; transition: all 0.3s; }
         input:focus, textarea:focus { outline: none; background-color: #ffffff; border-color: #c084fc; box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.15); }
         textarea { resize: vertical; min-height: 90px; }
         .highlight-input { background: #f0fdfa !important; color: #0d9488 !important; border-color: #ccfbf1 !important; }
-
         .checkbox-group { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 16px; color: #475569; cursor: pointer;}
         .checkbox-group input[type="checkbox"] { width: 22px; height: 22px; cursor: pointer; accent-color: #14b8a6; }
-
         .flex-row { display: flex; gap: 15px; flex-wrap: wrap; }
         .flex-1 { flex: 1; min-width: 150px; }
         .flex-2 { flex: 2; min-width: 250px; }
         .item-row { display: flex; gap: 10px; margin-bottom: 12px; }
         .item-name { flex: 2; }
         .item-price { flex: 1; }
-
         .btn-group { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;}
         .btn { flex: 1; min-width: 200px; padding: 16px; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; color: white; display: flex; justify-content: center; align-items: center; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .btn:active { transform: translateY(0); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -77,47 +51,40 @@
         .btn-med { background: linear-gradient(135deg, #60a5fa, #2563eb); }
         .btn-pdf { background: linear-gradient(135deg, #f43f5e, #be123c); }
         .btn-clear { background: linear-gradient(135deg, #94a3b8, #64748b); flex: 0.3; min-width: 120px;}
-
         .alert-box { display: none; background-color: #dcfce7; color: #166534; padding: 12px; border-radius: 12px; text-align: center; margin-top: 15px; font-weight: bold; border: 1px solid #bbf7d0; }
         .pastel-box { background: #faf5ff; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #f3e8ff; }
         .pastel-box-green { background: #f0fdf4; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #dcfce7; }
 
-        /* ----- Live Preview Section ----- */
         .preview-wrapper { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: flex-start; }
         .preview-column { display: flex; flex-direction: column; align-items: center; width: 100%; padding-bottom: 20px;}
         .preview-title { font-size: 16px; font-weight: 700; color: #475569; margin-bottom: 15px; background: rgba(255,255,255,0.8); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         
-        /* ================= สไตล์กระดาษ A5 (ล็อคสเกลแน่นๆ) ================= */
         #preview-bill, #preview-medcert { display: flex; flex-direction: column; align-items: center; background: transparent; }
         
         .a5-portrait-page { 
             width: 148mm; 
-            /* ล็อกความสูงไว้ที่ 208mm (A5 จริง 210) เผื่อขอบไว้ 2 มิล จะได้ไม่ล้นทะลักเด็ดขาด! */
             height: 208mm; 
             box-sizing: border-box; 
             padding: 12mm 15mm; 
             position: relative; 
             display: flex; 
             flex-direction: column; 
-            background-color: #ffffff; /* บังคับสีขาวแก้หน้าใสของ iOS */
+            background-color: #ffffff; 
             font-family: 'Sarabun', sans-serif;
             margin-bottom: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             color: #000;
-            overflow: hidden; /* ถ้าบังเอิญยาวเกิน ให้ตัดทิ้ง ห้ามโผล่ไปหน้าสอง */
+            overflow: hidden; 
         }
 
-        /* ----- บิลเงินสด ----- */
         .doc-type-badge { position: absolute; top: 12mm; right: 15mm; border: 1px solid #000; padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; }
         .b-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 10px; margin-top: 5px; }
         .b-title { font-size: 18px; font-weight: bold; }
         .b-clinic { font-size: 16px; font-weight: bold; margin-top: 4px; }
         .b-addr { font-size: 12px; color: #333; margin-top: 3px;}
-        
         .b-meta { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 10px; }
         .b-patient { font-size: 13px; margin-bottom: 12px; border-bottom: 1px dotted #ccc; padding-bottom: 8px; line-height: 1.5; }
         .b-patient-sub { font-size: 11px; color: #555; margin-top: 4px;}
-        
         .b-table { width: 100%; font-size: 13px; border-collapse: collapse; margin-bottom: 10px; flex: 1; }
         .b-table th { border-bottom: 2px solid #000; padding: 6px 0; text-align: left; }
         .b-table td { padding: 6px 0; border-bottom: 1px dashed #eee;}
@@ -125,40 +92,31 @@
         .b-total-row { border-top: 2px solid #000; font-weight: bold; font-size: 14px; }
         .b-total-row td { border-bottom: none; padding-top: 10px; }
         .b-thai-text { text-align: right; font-size: 12px; font-style: italic; margin-top: 5px; color: #555; }
-        
         .b-sign { text-align: right; font-size: 13px; margin-top: auto; padding-right: 10px; line-height: 1.5;}
         .b-sign-line { display: inline-block; width: 150px; border-bottom: 1px dotted #000; margin-bottom: 5px;}
 
-        /* ----- ใบรับรองแพทย์ (หดบรรทัดลงมานิดนึง ให้จบในหน้าเดียว) ----- */
         .m-header { text-align: center; margin-bottom: 12px; border-bottom: 2px solid #000; padding-bottom: 10px;}
         .m-clinic { font-size: 20px; font-weight: bold; color: #000; }
         .m-addr { font-size: 12px; color: #333; line-height: 1.4; margin-top: 5px; }
         .m-title { font-size: 18px; font-weight: bold; margin-top: 12px; text-decoration: underline; text-align: center;}
         .m-meta { display: flex; justify-content: space-between; font-size: 12px; margin-top: 12px; margin-bottom: 15px; }
-        
         .m-content { font-size: 14px; line-height: 1.6; flex: 1;}
         .m-row { display: flex; margin-bottom: 8px; align-items: baseline; }
         .m-label { white-space: nowrap; margin-right: 8px; font-weight: bold; }
         .m-line { border-bottom: 1px dotted #000; flex: 1; min-height: 16px; padding-left: 5px; }
-        
-        .m-sign-box { margin-top: 20px; text-align: center; float: right; width: 65%; line-height: 1.5; font-size: 13px;}
+        .m-sign-box { margin-top: 20px; text-align: center; float: right; width: 70%; line-height: 1.5; font-size: 13px;}
         .m-footer { position: absolute; bottom: 8mm; left: 0; width: 100%; font-size: 10px; color: #777; text-align: center; border-top: 1px solid #eee; padding-top: 5px; }
 
-        .page-break { page-break-after: always; height: 0; margin: 0; border: none; }
         .print-only-hide { display: block; }
         
-        /* ================= โหมดปริ้น (Apple Safari CSS Hack) ================= */
         @media print {
-            /* คำสั่งปลิดชีพฟุตโน้ต Safari */
             @page { size: 148mm 210mm; margin: 0mm !important; } 
-            
             body { background: white; padding: 0; margin: 0; -webkit-print-color-adjust: exact; }
-            .app-container, .preview-title { display: none !important; }
+            .app-container, .preview-title, #line-warning { display: none !important; }
             .preview-wrapper { display: block; margin: 0; padding: 0; width: 100%; }
-            
             .a5-portrait-page { 
                 width: 148mm !important; 
-                height: 209mm !important; /* ล็อกความสูงไว้ไม่ให้ Safari ดันทะลุ */
+                height: 209mm !important; 
                 max-height: 209mm !important; 
                 box-shadow: none !important; 
                 border-radius: 0; 
@@ -175,107 +133,52 @@
 </head>
 <body>
 
-    <datalist id="prefixList">
-        <option value="นาย">
-        <option value="นาง">
-        <option value="นางสาว">
-        <option value="ด.ช.">
-        <option value="ด.ญ.">
-    </datalist>
+    <div id="line-warning">
+        ⚠️ แจ้งเตือน: คุณกำลังเปิดแอปผ่าน LINE ซึ่งจะทำให้การพิมพ์และโหลด PDF มีปัญหา!<br>
+        👉 กรุณากดปุ่ม 3 จุด (มุมบนขวา) แล้วเลือก <b>"เปิดในเบราว์เซอร์เริ่มต้น"</b> หรือ <b>"Safari"</b> ก่อนใช้งานครับ
+    </div>
+
+    <datalist id="prefixList"><option value="นาย"><option value="นาง"><option value="นางสาว"><option value="ด.ช."><option value="ด.ญ."></datalist>
 
     <div class="app-container">
-        <div class="header-title">
-            <h1>Reception & Doctor System</h1>
-            <p>นิธิรัชต์จักษุคลินิก (Smart Helper)</p>
-        </div>
+        <div class="header-title"><h1>Reception & Doctor System</h1><p>นิธิรัชต์จักษุคลินิก (Smart Helper)</p></div>
 
         <div class="section-box reception-zone">
-            <div class="section-title">
-                <span class="badge-purple">1</span> <span>ส่วนของเคาน์เตอร์ (ประวัติคนไข้)</span>
-            </div>
+            <div class="section-title"><span class="badge-purple">1</span> <span>ส่วนของเคาน์เตอร์ (ประวัติคนไข้)</span></div>
             
             <div class="sub-title">ข้อมูลส่วนตัว (Demographics)</div>
             <div class="flex-row">
-                <div class="form-group flex-1">
-                    <label>วันที่ (พ.ศ.):</label>
-                    <input type="text" id="inputDate" placeholder="วว/ดด/พศศศ" maxlength="10" oninput="formatDateInput(this, event); autoCalculateLeaveDates(); syncData()">
-                </div>
-                <div class="form-group flex-1">
-                    <label>เลขที่บิล (No.):</label>
-                    <input type="text" id="inputNo" placeholder="Auto Generate" oninput="syncData()">
-                </div>
-                <div class="form-group flex-1">
-                    <label>CN (ถอดรหัสอัตโนมัติ):</label>
-                    <input type="text" id="inputCN" class="highlight-input" placeholder="ตัวเลขล้วน" readonly>
-                </div>
+                <div class="form-group flex-1"><label>วันที่ (พ.ศ.):</label><input type="text" id="inputDate" placeholder="วว/ดด/พศศศ" maxlength="10" oninput="formatDateInput(this, event); autoCalculateLeaveDates(); syncData()"></div>
+                <div class="form-group flex-1"><label>เลขที่บิล (No.):</label><input type="text" id="inputNo" placeholder="Auto Generate" oninput="syncData()"></div>
+                <div class="form-group flex-1"><label>CN (ถอดรหัสอัตโนมัติ):</label><input type="text" id="inputCN" class="highlight-input" placeholder="ตัวเลขล้วน" readonly></div>
             </div>
             
             <div class="flex-row">
-                <div class="form-group" style="width: 110px;">
-                    <label>คำนำหน้า:</label>
-                    <input type="text" id="inputPrefix" list="prefixList" placeholder="เช่น นาย" oninput="syncData()">
-                </div>
-                <div class="form-group flex-2">
-                    <label>ชื่อ-นามสกุล (เว้นวรรค):</label>
-                    <input type="text" id="inputName" placeholder="เช่น กฤตภาส รักดี" oninput="autoGenerateSecretCN(); syncData()">
-                </div>
-                <div class="form-group flex-1">
-                    <label>วันเกิด (พิมพ์ติดกันได้เลย):</label>
-                    <input type="text" id="inputDOB" placeholder="เช่น 15052530" maxlength="10" oninput="formatDateInput(this, event); calculateAge(); syncData()">
-                </div>
-                <div class="form-group" style="width: 80px;">
-                    <label>อายุ (ปี):</label>
-                    <input type="number" id="inputAge" placeholder="อายุ" oninput="syncData()">
-                </div>
-                <div class="form-group flex-1">
-                    <label>เบอร์โทรศัพท์:</label>
-                    <input type="text" id="inputPhone" placeholder="08X-XXX-XXXX" oninput="syncData()">
-                </div>
+                <div class="form-group" style="width: 110px;"><label>คำนำหน้า:</label><input type="text" id="inputPrefix" list="prefixList" placeholder="เช่น นาย" oninput="syncData()"></div>
+                <div class="form-group flex-2"><label>ชื่อ-นามสกุล (เว้นวรรค):</label><input type="text" id="inputName" placeholder="เช่น กฤตภาส รักดี" oninput="autoGenerateSecretCN(); syncData()"></div>
+                <div class="form-group flex-1"><label>วันเกิด (พิมพ์ติดกันได้เลย):</label><input type="text" id="inputDOB" placeholder="เช่น 15052530" maxlength="10" oninput="formatDateInput(this, event); calculateAge(); syncData()"></div>
+                <div class="form-group" style="width: 80px;"><label>อายุ (ปี):</label><input type="number" id="inputAge" placeholder="อายุ" oninput="syncData()"></div>
+                <div class="form-group flex-1"><label>เบอร์โทรศัพท์:</label><input type="text" id="inputPhone" placeholder="08X-XXX-XXXX" oninput="syncData()"></div>
             </div>
 
             <div class="flex-row">
-                <div class="form-group flex-1">
-                    <label>เลขบัตรประจำตัวประชาชน:</label>
-                    <input type="text" id="inputID" placeholder="13 หลัก (ใช้สำหรับออกบิล)" oninput="syncData()">
-                </div>
-                <div class="form-group flex-2">
-                    <label>ที่อยู่ปัจจุบัน:</label>
-                    <input type="text" id="inputAddress" placeholder="บ้านเลขที่, ตำบล, อำเภอ, จังหวัด" oninput="syncData()">
-                </div>
+                <div class="form-group flex-1"><label>เลขบัตรประจำตัวประชาชน:</label><input type="text" id="inputID" placeholder="13 หลัก (ใช้สำหรับออกบิล)" oninput="syncData()"></div>
+                <div class="form-group flex-2"><label>ที่อยู่ปัจจุบัน:</label><input type="text" id="inputAddress" placeholder="บ้านเลขที่, ตำบล, อำเภอ, จังหวัด" oninput="syncData()"></div>
             </div>
 
             <div class="sub-title" style="margin-top: 15px;">ข้อมูลการซักประวัติ (Triage)</div>
-
             <div class="pastel-box flex-row">
-                <div class="form-group flex-1" style="margin-bottom:0;">
-                    <label>ความดัน (BP):</label>
-                    <input type="text" id="inputBP" placeholder="เช่น 120/80" oninput="syncData()">
-                </div>
-                <div class="form-group flex-1" style="margin-bottom:0;">
-                    <label>น้ำหนัก (BW) kg:</label>
-                    <input type="text" id="inputBW" placeholder="น้ำหนัก" oninput="syncData()">
-                </div>
-                <div class="form-group flex-1" style="margin-bottom:0;">
-                    <label>ชีพจร (PR):</label>
-                    <input type="text" id="inputHR" placeholder="ครั้ง/นาที" oninput="syncData()">
-                </div>
+                <div class="form-group flex-1" style="margin-bottom:0;"><label>ความดัน (BP):</label><input type="text" id="inputBP" placeholder="เช่น 120/80" oninput="syncData()"></div>
+                <div class="form-group flex-1" style="margin-bottom:0;"><label>น้ำหนัก (BW) kg:</label><input type="text" id="inputBW" placeholder="น้ำหนัก" oninput="syncData()"></div>
+                <div class="form-group flex-1" style="margin-bottom:0;"><label>ชีพจร (PR):</label><input type="text" id="inputHR" placeholder="ครั้ง/นาที" oninput="syncData()"></div>
             </div>
 
             <div class="flex-row">
-                <div class="form-group flex-1">
-                    <label style="color:#e11d48;">⚠️ ประวัติแพ้ยา:</label>
-                    <input type="text" id="inputAllergy" placeholder="ถ้าไม่มีให้ขีด -" oninput="syncData()">
-                </div>
-                <div class="form-group flex-1">
-                    <label style="color:#d97706;">🩺 โรคประจำตัว:</label>
-                    <input type="text" id="inputDisease" placeholder="ถ้าไม่มีให้ขีด -" oninput="syncData()">
-                </div>
+                <div class="form-group flex-1"><label style="color:#e11d48;">⚠️ ประวัติแพ้ยา:</label><input type="text" id="inputAllergy" placeholder="ถ้าไม่มีให้ขีด -" oninput="syncData()"></div>
+                <div class="form-group flex-1"><label style="color:#d97706;">🩺 โรคประจำตัว:</label><input type="text" id="inputDisease" placeholder="ถ้าไม่มีให้ขีด -" oninput="syncData()"></div>
             </div>
 
-            <div class="form-group">
-                <label>อาการที่มาพบแพทย์ (Chief Complaint):</label>
-                <textarea id="inputCC" placeholder="เช่น เคืองตาซ้ายมา 2 วัน น้ำตาไหล..." oninput="syncData()"></textarea>
-            </div>
+            <div class="form-group"><label>อาการที่มาพบแพทย์ (Chief Complaint):</label><textarea id="inputCC" placeholder="เช่น เคืองตาซ้ายมา 2 วัน น้ำตาไหล..." oninput="syncData()"></textarea></div>
             
             <div class="btn-group">
                 <button class="btn btn-line" onclick="copyNormal()">💬 คัดลอกประวัติ (เคสปกติ)</button>
@@ -286,61 +189,29 @@
 
         <div class="flex-row">
             <div class="section-box doctor-zone flex-1">
-                <div class="section-title">
-                    <span class="badge-teal">💰</span> <span>ส่วนออกบิล (การเงิน)</span>
-                </div>
+                <div class="section-title"><span class="badge-teal">💰</span> <span>ส่วนออกบิล (การเงิน)</span></div>
                 <div id="itemsContainer">
-                    <div class="item-row">
-                        <input type="text" class="item-name" placeholder="รายการที่ 1" oninput="syncData()">
-                        <input type="number" class="item-price" placeholder="ราคา" oninput="syncData()">
-                    </div>
-                    <div class="item-row">
-                        <input type="text" class="item-name" placeholder="รายการที่ 2" oninput="syncData()">
-                        <input type="number" class="item-price" placeholder="ราคา" oninput="syncData()">
-                    </div>
-                    <div class="item-row">
-                        <input type="text" class="item-name" placeholder="รายการที่ 3" oninput="syncData()">
-                        <input type="number" class="item-price" placeholder="ราคา" oninput="syncData()">
-                    </div>
+                    <div class="item-row"><input type="text" class="item-name" placeholder="รายการที่ 1" oninput="syncData()"><input type="number" class="item-price" placeholder="ราคา" oninput="syncData()"></div>
+                    <div class="item-row"><input type="text" class="item-name" placeholder="รายการที่ 2" oninput="syncData()"><input type="number" class="item-price" placeholder="ราคา" oninput="syncData()"></div>
+                    <div class="item-row"><input type="text" class="item-name" placeholder="รายการที่ 3" oninput="syncData()"><input type="number" class="item-price" placeholder="ราคา" oninput="syncData()"></div>
                 </div>
-                <div style="text-align: right; font-weight: 700; font-size: 20px; margin-top: 15px; color: #0f766e;">
-                    ยอดรวม: <span id="uiTotal">0</span> บาท
-                </div>
+                <div style="text-align: right; font-weight: 700; font-size: 20px; margin-top: 15px; color: #0f766e;">ยอดรวม: <span id="uiTotal">0</span> บาท</div>
             </div>
 
             <div class="section-box doctor-zone flex-2">
-                <div class="section-title">
-                    <span class="badge-teal">📝</span> <span>ส่วนใบรับรองแพทย์</span>
-                </div>
-                <div class="form-group">
-                    <label>การวินิจฉัยโรค (Diagnosis):</label>
-                    <input type="text" id="inputDx" placeholder="เช่น ต้อกระจกตาขวา..." oninput="syncData()">
-                </div>
+                <div class="section-title"><span class="badge-teal">📝</span> <span>ส่วนใบรับรองแพทย์</span></div>
+                <div class="form-group"><label>การวินิจฉัยโรค (Diagnosis):</label><input type="text" id="inputDx" placeholder="เช่น ต้อกระจกตาขวา..." oninput="syncData()"></div>
 
                 <div class="pastel-box-green">
                     <label style="color:#0f766e;">ความเห็นแพทย์ (Opinion / Recommendation):</label>
-                    <label class="checkbox-group">
-                        <input type="checkbox" id="chkOp1" onchange="syncData()"> ขอรับรองว่ามาตรวจจริง
-                    </label>
-                    <label class="checkbox-group">
-                        <input type="checkbox" id="chkOp2" onchange="syncData()"> หยอดยาหรือรับประทานยาตามแพทย์สั่ง
-                    </label>
-                    <div class="checkbox-group" style="display:flex; align-items:center;">
-                        <input type="checkbox" id="chkOp3" onchange="syncData()"> 
-                        <span style="white-space: nowrap;">อื่นๆ:</span> 
-                        <input type="text" id="inputOp3Text" placeholder="ระบุเพิ่มเติม หรือปล่อยว่างให้เป็นเส้นประ" oninput="syncData()" style="flex:1; padding: 8px 12px; margin-left: 5px;">
-                    </div>
+                    <label class="checkbox-group"><input type="checkbox" id="chkOp1" onchange="syncData()"> ขอรับรองว่ามาตรวจจริง</label>
+                    <label class="checkbox-group"><input type="checkbox" id="chkOp2" onchange="syncData()"> หยอดยาหรือรับประทานยาตามแพทย์สั่ง</label>
+                    <div class="checkbox-group" style="display:flex; align-items:center;"><input type="checkbox" id="chkOp3" onchange="syncData()"> <span style="white-space: nowrap;">อื่นๆ:</span> <input type="text" id="inputOp3Text" placeholder="ระบุเพิ่มเติม หรือปล่อยว่างให้เป็นเส้นประ" oninput="syncData()" style="flex:1; padding: 8px 12px; margin-left: 5px;"></div>
                 </div>
 
                 <div class="flex-row">
-                    <div class="form-group flex-1">
-                        <label>จำนวนวันพัก (วัน):</label>
-                        <input type="number" id="inputRest" placeholder="ตัวเลข" oninput="autoCalculateLeaveDates(); syncData()">
-                    </div>
-                    <div class="form-group flex-1">
-                        <label>ตั้งแต่วันที่:</label>
-                        <input type="text" id="inputFromTo" placeholder="เช่น 9-10 มี.ค. 69" oninput="syncData()">
-                    </div>
+                    <div class="form-group flex-1"><label>จำนวนวันพัก (วัน):</label><input type="number" id="inputRest" placeholder="ตัวเลข" oninput="autoCalculateLeaveDates(); syncData()"></div>
+                    <div class="form-group flex-1"><label>ตั้งแต่วันที่:</label><input type="text" id="inputFromTo" placeholder="เช่น 9-10 มี.ค. 69" oninput="syncData()"></div>
                 </div>
             </div>
         </div>
@@ -350,7 +221,7 @@
             <button class="btn btn-med" onclick="printMedCert()">🖨️ พิมพ์ใบรับรองแพทย์ (Safari)</button>
         </div>
         <div class="btn-group" style="margin-top: 10px;">
-            <button class="btn btn-pdf" onclick="exportBillPDF(this)">📄 เซฟเป็น PDF (บิล)</button>
+            <button class="btn btn-pdf" onclick="exportBillPDF(this)">📄 เซฟเป็น PDF (บิล 2 หน้า)</button>
             <button class="btn btn-pdf" onclick="exportMedCertPDF(this)">📄 เซฟเป็น PDF (ใบรับรอง)</button>
             <button class="btn btn-clear" onclick="resetForm()">🗑️ ล้างหน้าจอ</button>
         </div>
@@ -363,73 +234,24 @@
         <div class="preview-column" id="preview-bill">
             <div class="preview-title print-only-hide">📄 Preview: บิลเงินสด (A5 แนวตั้ง - 2 แผ่น)</div>
             
-            <div class="a5-portrait-page">
+            <div id="bill-page-1" class="a5-portrait-page">
                 <div class="doc-type-badge">ต้นฉบับ Original</div>
-                <div class="b-header">
-                    <div class="b-title">บิลเงินสด / ใบเสร็จรับเงิน</div>
-                    <div class="b-clinic">นิธิรัชต์จักษุคลินิก</div>
-                    <div class="b-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div>
-                </div>
-                <div class="b-meta">
-                    <span>เลขที่: <b class="dispNo"></b></span>
-                    <span>วันที่: <b class="dispDate"></b></span>
-                </div>
-                <div class="b-patient">
-                    <b>ได้รับเงินจาก:</b> <span class="dispName"></span><br>
-                    <div class="b-patient-sub">
-                        <b>CN:</b> <span class="dispCN"></span> &nbsp;|&nbsp; 
-                        <b>เลข ปชช:</b> <span class="dispID"></span><br>
-                        <b>ที่อยู่:</b> <span class="dispAddress"></span>
-                    </div>
-                </div>
-                <table class="b-table">
-                    <thead><tr><th>รายการ (Description)</th><th class="price-col">จำนวนเงิน (บาท)</th></tr></thead>
-                    <tbody class="dispBillItems"></tbody>
-                    <tbody>
-                        <tr class="b-total-row"><td>รวมเป็นเงินทั้งสิ้น</td><td class="price-col dispTotal">0</td></tr>
-                    </tbody>
-                </table>
+                <div class="b-header"><div class="b-title">บิลเงินสด / ใบเสร็จรับเงิน</div><div class="b-clinic">นิธิรัชต์จักษุคลินิก</div><div class="b-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div></div>
+                <div class="b-meta"><span>เลขที่: <b class="dispNo"></b></span><span>วันที่: <b class="dispDate"></b></span></div>
+                <div class="b-patient"><b>ได้รับเงินจาก:</b> <span class="dispName"></span><br><div class="b-patient-sub"><b>CN:</b> <span class="dispCN"></span> &nbsp;|&nbsp; <b>เลข ปชช:</b> <span class="dispID"></span><br><b>ที่อยู่:</b> <span class="dispAddress"></span></div></div>
+                <table class="b-table"><thead><tr><th>รายการ (Description)</th><th class="price-col">จำนวนเงิน (บาท)</th></tr></thead><tbody class="dispBillItems"></tbody><tbody><tr class="b-total-row"><td>รวมเป็นเงินทั้งสิ้น</td><td class="price-col dispTotal">0</td></tr></tbody></table>
                 <div class="b-thai-text">(<span class="dispThaiText">ศูนย์บาทถ้วน</span>)</div>
-                <div class="b-sign">
-                    ผู้รับเงิน <span class="b-sign-line"></span><br>
-                    ( นิธิรัชต์จักษุคลินิก )
-                </div>
+                <div class="b-sign">ผู้รับเงิน <span class="b-sign-line"></span><br>( นิธิรัชต์จักษุคลินิก )</div>
             </div>
 
-            <!-- จุดตัดหน้ากระดาษ -->
-            <div class="page-break"></div>
-
-            <div class="a5-portrait-page">
+            <div id="bill-page-2" class="a5-portrait-page">
                 <div class="doc-type-badge" style="color:#555; border-color:#555;">สำเนา Copy</div>
-                <div class="b-header">
-                    <div class="b-title">บิลเงินสด / ใบเสร็จรับเงิน</div>
-                    <div class="b-clinic">นิธิรัชต์จักษุคลินิก</div>
-                    <div class="b-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div>
-                </div>
-                <div class="b-meta">
-                    <span>เลขที่: <b class="dispNo"></b></span>
-                    <span>วันที่: <b class="dispDate"></b></span>
-                </div>
-                <div class="b-patient">
-                    <b>ได้รับเงินจาก:</b> <span class="dispName"></span><br>
-                    <div class="b-patient-sub">
-                        <b>CN:</b> <span class="dispCN"></span> &nbsp;|&nbsp; 
-                        <b>เลข ปชช:</b> <span class="dispID"></span><br>
-                        <b>ที่อยู่:</b> <span class="dispAddress"></span>
-                    </div>
-                </div>
-                <table class="b-table">
-                    <thead><tr><th>รายการ (Description)</th><th class="price-col">จำนวนเงิน (บาท)</th></tr></thead>
-                    <tbody class="dispBillItems"></tbody>
-                    <tbody>
-                        <tr class="b-total-row"><td>รวมเป็นเงินทั้งสิ้น</td><td class="price-col dispTotal">0</td></tr>
-                    </tbody>
-                </table>
+                <div class="b-header"><div class="b-title">บิลเงินสด / ใบเสร็จรับเงิน</div><div class="b-clinic">นิธิรัชต์จักษุคลินิก</div><div class="b-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div></div>
+                <div class="b-meta"><span>เลขที่: <b class="dispNo"></b></span><span>วันที่: <b class="dispDate"></b></span></div>
+                <div class="b-patient"><b>ได้รับเงินจาก:</b> <span class="dispName"></span><br><div class="b-patient-sub"><b>CN:</b> <span class="dispCN"></span> &nbsp;|&nbsp; <b>เลข ปชช:</b> <span class="dispID"></span><br><b>ที่อยู่:</b> <span class="dispAddress"></span></div></div>
+                <table class="b-table"><thead><tr><th>รายการ (Description)</th><th class="price-col">จำนวนเงิน (บาท)</th></tr></thead><tbody class="dispBillItems"></tbody><tbody><tr class="b-total-row"><td>รวมเป็นเงินทั้งสิ้น</td><td class="price-col dispTotal">0</td></tr></tbody></table>
                 <div class="b-thai-text">(<span class="dispThaiText">ศูนย์บาทถ้วน</span>)</div>
-                <div class="b-sign">
-                    ผู้รับเงิน <span class="b-sign-line"></span><br>
-                    ( นิธิรัชต์จักษุคลินิก )
-                </div>
+                <div class="b-sign">ผู้รับเงิน <span class="b-sign-line"></span><br>( นิธิรัชต์จักษุคลินิก )</div>
             </div>
         </div>
 
@@ -437,59 +259,22 @@
         <div class="preview-column">
             <div class="preview-title print-only-hide" style="margin-top: 20px;">📄 Preview: ใบรับรองแพทย์ (A5 แนวตั้ง)</div>
             <div id="preview-medcert" class="a5-portrait-page">
-                <div class="m-header">
-                    <div class="m-clinic">นิธิรัชต์จักษุคลินิก</div>
-                    <div class="m-addr">
-                        4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866
-                    </div>
-                    <div class="m-title">ใบรับรองแพทย์</div>
-                </div>
-                
-                <div class="m-meta">
-                    <div>เลขที่ (No.) <span style="border-bottom: 1px dotted #000; padding: 0 10px;" class="dispNo"></span></div>
-                    <div>CN: <span style="border-bottom: 1px dotted #000; padding: 0 10px;" class="dispCN"></span></div>
-                    <div>วันที่ <span style="border-bottom: 1px dotted #000; padding: 0 10px;" class="dispDate"></span></div>
-                </div>
-
+                <div class="m-header"><div class="m-clinic">นิธิรัชต์จักษุคลินิก</div><div class="m-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div><div class="m-title">ใบรับรองแพทย์</div></div>
+                <div class="m-meta"><div>เลขที่ (No.) <span style="border-bottom: 1px dotted #000; padding: 0 10px;" class="dispNo"></span></div><div>CN: <span style="border-bottom: 1px dotted #000; padding: 0 10px;" class="dispCN"></span></div><div>วันที่ <span style="border-bottom: 1px dotted #000; padding: 0 10px;" class="dispDate"></span></div></div>
                 <div class="m-content">
-                    <div class="m-row">
-                        <span class="m-label">ข้าพเจ้า:</span>
-                        <div class="m-line" style="border:none; padding-left:0;">นายแพทย์นิธิรัชต์ แสนเพ็ญ ว.34654</div>
-                    </div>
-                    <div class="m-row">
-                        <span class="m-label">ได้ทำการตรวจร่างกาย:</span>
-                        <div class="m-line dispName" style="font-weight:bold;"></div>
-                    </div>
-                    <div class="m-row">
-                        <span class="m-label">ปรากฏว่าป่วยเป็นโรค:</span>
-                        <div class="m-line dispDx"></div>
-                    </div>
-                    
+                    <div class="m-row"><span class="m-label">ข้าพเจ้า:</span><div class="m-line" style="border:none; padding-left:0;">นายแพทย์นิธิรัชต์ แสนเพ็ญ ว.34654</div></div>
+                    <div class="m-row"><span class="m-label">ได้ทำการตรวจร่างกาย:</span><div class="m-line dispName" style="font-weight:bold;"></div></div>
+                    <div class="m-row"><span class="m-label">ปรากฏว่าป่วยเป็นโรค:</span><div class="m-line dispDx"></div></div>
                     <div style="margin: 15px 0 5px 0;"><span class="m-label">ความเห็นแพทย์ (Opinion / Recommendation):</span></div>
                     <div style="padding-left: 20px; line-height: 1.6;">
                         <div><span class="dispOp1" style="font-size: 16px; margin-right:5px;">☐</span> ขอรับรองว่ามาตรวจจริง</div>
                         <div><span class="dispOp2" style="font-size: 16px; margin-right:5px;">☐</span> หยอดยาหรือรับประทานยาตามแพทย์สั่ง</div>
-                        <div style="display:flex;">
-                            <span class="dispOp3" style="font-size: 16px; margin-right:5px;">☐</span> 
-                            <div class="m-line dispOp3Text" style="flex:1; min-height:14px;"></div>
-                        </div>
+                        <div style="display:flex;"><span class="dispOp3" style="font-size: 16px; margin-right:5px;">☐</span> <div class="m-line dispOp3Text" style="flex:1; min-height:14px;"></div></div>
                     </div>
-                    
-                    <div class="m-row" style="margin-top:15px;">
-                        <span class="m-label">เห็นสมควรให้หยุดพักรักษาตัวเป็นเวลา:</span>
-                        <div class="m-line dispRest" style="flex:0; min-width:80px; text-align:center;"></div>
-                        <span class="m-label" style="margin-left:10px;">วัน</span>
-                    </div>
-                    <div class="m-row">
-                        <span class="m-label">ตั้งแต่วันที่:</span>
-                        <div class="m-line dispFromTo"></div>
-                    </div>
+                    <div class="m-row" style="margin-top:15px;"><span class="m-label">เห็นสมควรให้หยุดพักรักษาตัวเป็นเวลา:</span><div class="m-line dispRest" style="flex:0; min-width:80px; text-align:center;"></div><span class="m-label" style="margin-left:10px;">วัน</span></div>
+                    <div class="m-row"><span class="m-label">ตั้งแต่วันที่:</span><div class="m-line dispFromTo"></div></div>
                 </div>
-
-                <div class="m-sign-box">
-                    <div style="margin-bottom: 25px;">ลงชื่อ ........................................................... แพทย์ผู้ตรวจ</div>
-                    <div>( นายแพทย์นิธิรัชต์ แสนเพ็ญ ว.34654 )</div>
-                </div>
+                <div class="m-sign-box"><div style="margin-bottom: 25px;">ลงชื่อ ........................................................... แพทย์ผู้ตรวจ</div><div>( นายแพทย์นิธิรัชต์ แสนเพ็ญ ว.34654 )</div></div>
                 <div class="m-footer">เอกสารนี้รับรองเฉพาะสุขภาพของผู้ป่วย ณ วันที่ตรวจเท่านั้น</div>
             </div>
         </div>
@@ -497,6 +282,11 @@
 
     <script>
         const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+
+        function checkLineBrowser() {
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            if (ua.indexOf("Line") > -1) { document.getElementById('line-warning').style.display = 'block'; }
+        }
 
         function formatDateInput(input, event) {
             if (event && event.inputType === 'deleteContentBackward') return; 
@@ -510,39 +300,20 @@
             const restInput = document.getElementById('inputRest').value.trim();
             const dateInput = document.getElementById('inputDate').value.trim();
             const fromToInput = document.getElementById('inputFromTo');
-
-            if (restInput === '' || restInput === '0' || restInput === '-') {
-                fromToInput.value = ''; return;
-            }
-
+            if (restInput === '' || restInput === '0' || restInput === '-') { fromToInput.value = ''; return; }
             const restDays = parseInt(restInput, 10);
-            if (isNaN(restDays) || restDays <= 0) {
-                fromToInput.value = ''; return;
-            }
-
+            if (isNaN(restDays) || restDays <= 0) { fromToInput.value = ''; return; }
             if (dateInput.length === 10) {
-                const parts = dateInput.split('/');
-                const d = parseInt(parts[0], 10); const m = parseInt(parts[1], 10) - 1;
-                const yBE = parseInt(parts[2], 10); const yCE = yBE - 543;
-
-                let startDate = new Date(yCE, m, d);
-                if (isNaN(startDate.getTime())) return;
-
-                let endDate = new Date(startDate);
-                endDate.setDate(startDate.getDate() + restDays - 1);
-
-                const startDay = startDate.getDate(); const startMonth = thaiMonths[startDate.getMonth()];
-                const startYear = (startDate.getFullYear() + 543).toString().substring(2);
-
-                const endDay = endDate.getDate(); const endMonth = thaiMonths[endDate.getMonth()];
-                const endYear = (endDate.getFullYear() + 543).toString().substring(2);
-
+                const parts = dateInput.split('/'); const d = parseInt(parts[0], 10); const m = parseInt(parts[1], 10) - 1; const yBE = parseInt(parts[2], 10); const yCE = yBE - 543;
+                let startDate = new Date(yCE, m, d); if (isNaN(startDate.getTime())) return;
+                let endDate = new Date(startDate); endDate.setDate(startDate.getDate() + restDays - 1);
+                const startDay = startDate.getDate(); const startMonth = thaiMonths[startDate.getMonth()]; const startYear = (startDate.getFullYear() + 543).toString().substring(2);
+                const endDay = endDate.getDate(); const endMonth = thaiMonths[endDate.getMonth()]; const endYear = (endDate.getFullYear() + 543).toString().substring(2);
                 let resultString = '';
                 if (restDays === 1) { resultString = `${startDay} ${startMonth} ${startYear}`; } 
                 else if (startMonth === endMonth && startYear === endYear) { resultString = `${startDay} - ${endDay} ${startMonth} ${startYear}`; } 
                 else if (startYear === endYear) { resultString = `${startDay} ${startMonth} - ${endDay} ${endMonth} ${startYear}`; } 
                 else { resultString = `${startDay} ${startMonth} ${startYear} - ${endDay} ${endMonth} ${endYear}`; }
-
                 fromToInput.value = resultString;
             }
         }
@@ -550,45 +321,25 @@
         function calculateAge() {
             const dobInput = document.getElementById('inputDOB').value;
             if (dobInput.length === 10) {
-                const parts = dobInput.split('/');
-                const d = parseInt(parts[0], 10); const m = parseInt(parts[1], 10) - 1; 
-                const yBE = parseInt(parts[2], 10); const yCE = yBE - 543; 
-
-                const birthDate = new Date(yCE, m, d); const today = new Date();
-                let age = today.getFullYear() - birthDate.getFullYear();
-                const monthDiff = today.getMonth() - birthDate.getMonth();
-                
+                const parts = dobInput.split('/'); const d = parseInt(parts[0], 10); const m = parseInt(parts[1], 10) - 1; const yBE = parseInt(parts[2], 10); const yCE = yBE - 543; 
+                const birthDate = new Date(yCE, m, d); const today = new Date(); let age = today.getFullYear() - birthDate.getFullYear(); const monthDiff = today.getMonth() - birthDate.getMonth();
                 if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) { age--; }
                 if (age >= 0 && age <= 150) { document.getElementById('inputAge').value = age; }
             }
         }
 
         function getSecretNumber(char) {
-            const secretMap = {
-                'เ':'0', 'แ':'0', 'ไ':'0', 'ใ':'0', 'โ':'0', 'ะ':'0', 'า':'0', 'ำ':'0',
-                'ก':'1', 'ข':'1', 'ค':'1', 'ฅ':'1', 'ฆ':'1', 'ง':'2', 'จ':'2', 'ฉ':'2', 'ช':'2', 'ซ':'2',
-                'ฌ':'3', 'ญ':'3', 'ฎ':'3', 'ฏ':'3', 'ฐ':'3', 'ฑ':'3', 'ฒ':'3', 'ณ':'4', 'ด':'4', 'ต':'4', 'ถ':'4', 'ท':'4',
-                'ธ':'5', 'น':'5', 'บ':'5', 'ป':'5', 'ผ':'6', 'ฝ':'6', 'พ':'6', 'ฟ':'6', 'ภ':'6',
-                'ม':'7', 'ย':'7', 'ร':'7', 'ล':'7', 'ว':'8', 'ศ':'8', 'ษ':'8', 'ส':'8',
-                'ห':'9', 'ฬ':'9', 'อ':'9', 'ฮ':'9', 'ฤ':'9', 'ฦ':'9'
-            };
+            const secretMap = { 'เ':'0', 'แ':'0', 'ไ':'0', 'ใ':'0', 'โ':'0', 'ะ':'0', 'า':'0', 'ำ':'0', 'ก':'1', 'ข':'1', 'ค':'1', 'ฅ':'1', 'ฆ':'1', 'ง':'2', 'จ':'2', 'ฉ':'2', 'ช':'2', 'ซ':'2', 'ฌ':'3', 'ญ':'3', 'ฎ':'3', 'ฏ':'3', 'ฐ':'3', 'ฑ':'3', 'ฒ':'3', 'ณ':'4', 'ด':'4', 'ต':'4', 'ถ':'4', 'ท':'4', 'ธ':'5', 'น':'5', 'บ':'5', 'ป':'5', 'ผ':'6', 'ฝ':'6', 'พ':'6', 'ฟ':'6', 'ภ':'6', 'ม':'7', 'ย':'7', 'ร':'7', 'ล':'7', 'ว':'8', 'ศ':'8', 'ษ':'8', 'ส':'8', 'ห':'9', 'ฬ':'9', 'อ':'9', 'ฮ':'9', 'ฤ':'9', 'ฦ':'9' };
             return secretMap[char]; 
         }
 
         function autoGenerateSecretCN() {
-            const fullName = document.getElementById('inputName').value.trim();
-            const cnInput = document.getElementById('inputCN');
+            const fullName = document.getElementById('inputName').value.trim(); const cnInput = document.getElementById('inputCN');
             if (fullName === '') { cnInput.value = ''; return; }
-
-            const parts = fullName.split(/\s+/);
-            let fName = parts[0] || ''; let lName = parts.slice(1).join('') || ''; 
-            let cnFirst = ''; let cnLast = '';
-
+            const parts = fullName.split(/\s+/); let fName = parts[0] || ''; let lName = parts.slice(1).join('') || ''; let cnFirst = ''; let cnLast = '';
             for (let char of fName) { let num = getSecretNumber(char); if (num !== undefined) { cnFirst += num; if (cnFirst.length >= 3) break; } }
             for (let char of lName) { let num = getSecretNumber(char); if (num !== undefined) { cnLast += num; if (cnLast.length >= 2) break; } }
-            
-            if (cnFirst || cnLast) { cnInput.value = cnFirst + cnLast; } 
-            else { cnInput.value = ''; }
+            if (cnFirst || cnLast) { cnInput.value = cnFirst + cnLast; } else { cnInput.value = ''; }
         }
 
         function saveDraft() {
@@ -603,15 +354,10 @@
                 disease: document.getElementById('inputDisease').value, cc: document.getElementById('inputCC').value,
                 dx: document.getElementById('inputDx').value, rest: document.getElementById('inputRest').value,
                 fromTo: document.getElementById('inputFromTo').value, op1: document.getElementById('chkOp1').checked,
-                op2: document.getElementById('chkOp2').checked, op3: document.getElementById('chkOp3').checked,
-                op3Text: document.getElementById('inputOp3Text').value
+                op2: document.getElementById('chkOp2').checked, op3: document.getElementById('chkOp3').checked, op3Text: document.getElementById('inputOp3Text').value
             };
-            const items = [];
-            document.querySelectorAll('.item-row').forEach(row => {
-                items.push({ name: row.querySelector('.item-name').value, price: row.querySelector('.item-price').value });
-            });
-            draft.items = items;
-            localStorage.setItem('clinic_draft_patient', JSON.stringify(draft));
+            const items = []; document.querySelectorAll('.item-row').forEach(row => { items.push({ name: row.querySelector('.item-name').value, price: row.querySelector('.item-price').value }); });
+            draft.items = items; localStorage.setItem('clinic_draft_patient', JSON.stringify(draft));
         }
 
         function loadDraft() {
@@ -628,24 +374,15 @@
                 document.getElementById('inputDisease').value = draft.disease || '-'; document.getElementById('inputCC').value = draft.cc || '';
                 document.getElementById('inputDx').value = draft.dx || ''; document.getElementById('inputRest').value = draft.rest || '';
                 document.getElementById('inputFromTo').value = draft.fromTo || ''; document.getElementById('chkOp1').checked = draft.op1 || false;
-                document.getElementById('chkOp2').checked = draft.op2 || false; document.getElementById('chkOp3').checked = draft.op3 || false;
-                document.getElementById('inputOp3Text').value = draft.op3Text || '';
-
-                if (draft.items) {
-                    const rows = document.querySelectorAll('.item-row');
-                    draft.items.forEach((item, index) => {
-                        if (rows[index]) {
-                            rows[index].querySelector('.item-name').value = item.name || '';
-                            rows[index].querySelector('.item-price').value = item.price || '';
-                        }
-                    });
-                }
+                document.getElementById('chkOp2').checked = draft.op2 || false; document.getElementById('chkOp3').checked = draft.op3 || false; document.getElementById('inputOp3Text').value = draft.op3Text || '';
+                if (draft.items) { const rows = document.querySelectorAll('.item-row'); draft.items.forEach((item, index) => { if (rows[index]) { rows[index].querySelector('.item-name').value = item.name || ''; rows[index].querySelector('.item-price').value = item.price || ''; } }); }
                 return true;
             }
             return false;
         }
 
         function initSetup() {
+            checkLineBrowser(); 
             const params = new URLSearchParams(window.location.search);
             if (params.has('name')) {
                 document.getElementById('inputDate').value = params.get('date') || ''; document.getElementById('inputNo').value = params.get('no') || '';
@@ -656,14 +393,11 @@
                 document.getElementById('inputBP').value = params.get('bp') || ''; document.getElementById('inputBW').value = params.get('bw') || '';
                 document.getElementById('inputHR').value = params.get('hr') || ''; document.getElementById('inputAllergy').value = params.get('allergy') || '-';
                 document.getElementById('inputDisease').value = params.get('disease') || '-'; document.getElementById('inputCC').value = params.get('cc') || '';
-                
                 window.history.replaceState({}, document.title, window.location.pathname); 
             } else {
                 if (!loadDraft()) {
-                    const d = new Date(); const dd = String(d.getDate()).padStart(2, '0');
-                    const mm = String(d.getMonth() + 1).padStart(2, '0'); const yyyyBE = d.getFullYear() + 543;
-                    document.getElementById('inputDate').value = `${dd}/${mm}/${yyyyBE}`;
-                    document.getElementById('inputNo').value = `${yyyyBE.toString().substr(2)}${mm}${dd}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
+                    const d = new Date(); const dd = String(d.getDate()).padStart(2, '0'); const mm = String(d.getMonth() + 1).padStart(2, '0'); const yyyyBE = d.getFullYear() + 543;
+                    document.getElementById('inputDate').value = `${dd}/${mm}/${yyyyBE}`; document.getElementById('inputNo').value = `${yyyyBE.toString().substr(2)}${mm}${dd}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
                     document.getElementById('inputAllergy').value = '-'; document.getElementById('inputDisease').value = '-';
                 }
             }
@@ -672,28 +406,19 @@
 
         function getPatientData() {
             return {
-                date: document.getElementById('inputDate').value, no: document.getElementById('inputNo').value,
-                cn: document.getElementById('inputCN').value || '-', prefix: document.getElementById('inputPrefix').value || '', 
-                name: document.getElementById('inputName').value || '-', dob: document.getElementById('inputDOB').value || '', 
-                age: document.getElementById('inputAge').value || '-', phone: document.getElementById('inputPhone').value || '-',
-                idCard: document.getElementById('inputID').value || '-', address: document.getElementById('inputAddress').value || '-',
-                bp: document.getElementById('inputBP').value || '-', bw: document.getElementById('inputBW').value || '-',
-                hr: document.getElementById('inputHR').value || '-', allergy: document.getElementById('inputAllergy').value || '-',
-                disease: document.getElementById('inputDisease').value || '-', cc: document.getElementById('inputCC').value || '-'
+                date: document.getElementById('inputDate').value, no: document.getElementById('inputNo').value, cn: document.getElementById('inputCN').value || '-', prefix: document.getElementById('inputPrefix').value || '', 
+                name: document.getElementById('inputName').value || '-', dob: document.getElementById('inputDOB').value || '', age: document.getElementById('inputAge').value || '-', phone: document.getElementById('inputPhone').value || '-', idCard: document.getElementById('inputID').value || '-', address: document.getElementById('inputAddress').value || '-', bp: document.getElementById('inputBP').value || '-', bw: document.getElementById('inputBW').value || '-', hr: document.getElementById('inputHR').value || '-', allergy: document.getElementById('inputAllergy').value || '-', disease: document.getElementById('inputDisease').value || '-', cc: document.getElementById('inputCC').value || '-'
             };
         }
 
         function copyNormal() {
-            const data = getPatientData();
-            const dobText = data.dob ? `วันเกิด: ${data.dob} ` : '';
-            const fullName = data.prefix ? `${data.prefix}${data.name}` : data.name; 
+            const data = getPatientData(); const dobText = data.dob ? `วันเกิด: ${data.dob} ` : ''; const fullName = data.prefix ? `${data.prefix}${data.name}` : data.name; 
             const summary = `📌 ประวัติคนไข้\nCN: ${data.cn}\nชื่อ: ${fullName}\n${dobText}(อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard}\nโทร: ${data.phone}\nที่อยู่: ${data.address}\n\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\n\nอาการ (CC): ${data.cc}`;
             copyToClipboard(summary, "✅ คัดลอกประวัติสำเร็จ!");
         }
 
         function generateLink() {
-            const data = getPatientData();
-            const params = new URLSearchParams();
+            const data = getPatientData(); const params = new URLSearchParams();
             for (const key in data) { if (data[key] && data[key] !== '-') { params.append(key, data[key]); } }
             const baseUrl = window.location.href.split('?')[0]; const magicLink = baseUrl + '?' + params.toString();
             const dobText = data.dob ? `วันเกิด: ${data.dob} ` : ''; const fullName = data.prefix ? `${data.prefix}${data.name}` : data.name;
@@ -711,128 +436,96 @@
             }
         }
 
-        function showAlert(msg) {
-            const alertBox = document.getElementById('alertSuccess'); alertBox.innerText = msg;
-            alertBox.style.display = 'block'; setTimeout(() => alertBox.style.display = 'none', 3000);
-        }
+        function showAlert(msg) { const alertBox = document.getElementById('alertSuccess'); alertBox.innerText = msg; alertBox.style.display = 'block'; setTimeout(() => alertBox.style.display = 'none', 3000); }
 
         function syncData() {
-            const dateVal = document.getElementById('inputDate').value || '-';
-            const noVal = document.getElementById('inputNo').value || '-';
-            const cnVal = document.getElementById('inputCN').value || '-';
-            const prefixVal = document.getElementById('inputPrefix').value.trim();
-            const rawNameVal = document.getElementById('inputName').value.trim();
-            const fullNameVal = rawNameVal !== '' ? `${prefixVal} ${rawNameVal}`.trim() : '...........................................';
-            const idVal = document.getElementById('inputID').value || '-';
-            const addrVal = document.getElementById('inputAddress').value || '-';
-            const dxVal = document.getElementById('inputDx').value || '...........................................';
-            const restVal = document.getElementById('inputRest').value || '.......';
-            const fromToVal = document.getElementById('inputFromTo').value || '...........................................';
+            const dateVal = document.getElementById('inputDate').value || '-'; const noVal = document.getElementById('inputNo').value || '-'; const cnVal = document.getElementById('inputCN').value || '-';
+            const prefixVal = document.getElementById('inputPrefix').value.trim(); const rawNameVal = document.getElementById('inputName').value.trim(); const fullNameVal = rawNameVal !== '' ? `${prefixVal} ${rawNameVal}`.trim() : '...........................................';
+            const idVal = document.getElementById('inputID').value || '-'; const addrVal = document.getElementById('inputAddress').value || '-'; const dxVal = document.getElementById('inputDx').value || '...........................................'; const restVal = document.getElementById('inputRest').value || '.......'; const fromToVal = document.getElementById('inputFromTo').value || '...........................................';
 
-            document.querySelectorAll('.dispDate').forEach(el => el.innerText = dateVal);
-            document.querySelectorAll('.dispNo').forEach(el => el.innerText = noVal);
-            document.querySelectorAll('.dispCN').forEach(el => el.innerText = cnVal);
-            document.querySelectorAll('.dispName').forEach(el => el.innerText = fullNameVal);
-            document.querySelectorAll('.dispID').forEach(el => el.innerText = idVal);
-            document.querySelectorAll('.dispAddress').forEach(el => el.innerText = addrVal);
-            document.querySelectorAll('.dispDx').forEach(el => el.innerText = dxVal);
-            document.querySelectorAll('.dispRest').forEach(el => el.innerText = restVal);
-            document.querySelectorAll('.dispFromTo').forEach(el => el.innerText = fromToVal);
+            document.querySelectorAll('.dispDate').forEach(el => el.innerText = dateVal); document.querySelectorAll('.dispNo').forEach(el => el.innerText = noVal); document.querySelectorAll('.dispCN').forEach(el => el.innerText = cnVal); document.querySelectorAll('.dispName').forEach(el => el.innerText = fullNameVal); document.querySelectorAll('.dispID').forEach(el => el.innerText = idVal); document.querySelectorAll('.dispAddress').forEach(el => el.innerText = addrVal); document.querySelectorAll('.dispDx').forEach(el => el.innerText = dxVal); document.querySelectorAll('.dispRest').forEach(el => el.innerText = restVal); document.querySelectorAll('.dispFromTo').forEach(el => el.innerText = fromToVal);
 
             const checkIcon = '☑'; const uncheckIcon = '☐'; 
-            document.querySelectorAll('.dispOp1').forEach(el => el.innerText = document.getElementById('chkOp1').checked ? checkIcon : uncheckIcon);
-            document.querySelectorAll('.dispOp2').forEach(el => el.innerText = document.getElementById('chkOp2').checked ? checkIcon : uncheckIcon);
-            document.querySelectorAll('.dispOp3').forEach(el => el.innerText = document.getElementById('chkOp3').checked ? checkIcon : uncheckIcon);
-            
-            const op3Text = document.getElementById('inputOp3Text').value.trim();
-            document.querySelectorAll('.dispOp3Text').forEach(el => el.innerText = op3Text !== '' ? op3Text : ''); 
+            document.querySelectorAll('.dispOp1').forEach(el => el.innerText = document.getElementById('chkOp1').checked ? checkIcon : uncheckIcon); document.querySelectorAll('.dispOp2').forEach(el => el.innerText = document.getElementById('chkOp2').checked ? checkIcon : uncheckIcon); document.querySelectorAll('.dispOp3').forEach(el => el.innerText = document.getElementById('chkOp3').checked ? checkIcon : uncheckIcon);
+            const op3Text = document.getElementById('inputOp3Text').value.trim(); document.querySelectorAll('.dispOp3Text').forEach(el => el.innerText = op3Text !== '' ? op3Text : ''); 
 
             let total = 0; let rowsHtml = '';
             document.querySelectorAll('.item-row').forEach(row => {
-                const name = row.querySelector('.item-name').value.trim();
-                const priceVal = row.querySelector('.item-price').value;
-                const price = parseFloat(priceVal) || 0;
-                if (name !== '' || priceVal !== '') {
-                    let displayPrice = (priceVal === '') ? '-' : price.toLocaleString();
-                    rowsHtml += `<tr><td>${name}</td><td class="price-col">${displayPrice}</td></tr>`;
-                    total += price;
-                }
+                const name = row.querySelector('.item-name').value.trim(); const priceVal = row.querySelector('.item-price').value; const price = parseFloat(priceVal) || 0;
+                if (name !== '' || priceVal !== '') { let displayPrice = (priceVal === '') ? '-' : price.toLocaleString(); rowsHtml += `<tr><td>${name}</td><td class="price-col">${displayPrice}</td></tr>`; total += price; }
             });
             
             if(rowsHtml === '') rowsHtml = '<tr><td>(ไม่มีรายการ)</td><td class="price-col">-</td></tr>';
 
-            document.querySelectorAll('.dispBillItems').forEach(el => el.innerHTML = rowsHtml);
-            document.querySelectorAll('.dispTotal').forEach(el => el.innerText = total.toLocaleString());
-            document.getElementById('uiTotal').innerText = total.toLocaleString();
-
-            const thaiText = ArabicNumberToText(total);
-            document.querySelectorAll('.dispThaiText').forEach(el => el.innerText = thaiText);
-            saveDraft();
+            document.querySelectorAll('.dispBillItems').forEach(el => el.innerHTML = rowsHtml); document.querySelectorAll('.dispTotal').forEach(el => el.innerText = total.toLocaleString()); document.getElementById('uiTotal').innerText = total.toLocaleString();
+            const thaiText = ArabicNumberToText(total); document.querySelectorAll('.dispThaiText').forEach(el => el.innerText = thaiText); saveDraft();
         }
 
-        // ================= สั่งพิมพ์หน้าจอโดยตรง (Safari) =================
-        function printBill() { 
-            syncData(); 
-            document.body.classList.add('printing-bill'); 
-            window.print(); 
-            setTimeout(() => document.body.classList.remove('printing-bill'), 500); 
-        }
+        // ================= สั่งพิมพ์ผ่าน Safari =================
+        function printBill() { syncData(); document.body.classList.add('printing-bill'); window.print(); setTimeout(() => document.body.classList.remove('printing-bill'), 500); }
+        function printMedCert() { syncData(); document.body.classList.add('printing-medcert'); window.print(); setTimeout(() => document.body.classList.remove('printing-medcert'), 500); }
 
-        function printMedCert() { 
-            syncData(); 
-            document.body.classList.add('printing-medcert'); 
-            window.print(); 
-            setTimeout(() => document.body.classList.remove('printing-medcert'), 500); 
-        }
-
-        // ================= สั่งสร้าง PDF (แก้หน้าจอขาว) =================
+        // ================= ท่าไม้ตาย: แคป PDF ทีละหน้า แล้วเอามารวมกัน! =================
         async function exportBillPDF(btn) {
+            if (navigator.userAgent.includes("Line")) {
+                alert("⚠️ แอป LINE บล็อกการโหลดไฟล์ครับ\n👉 รบกวนกดปุ่ม 3 จุด มุมขวาบน แล้วเลือก 'เปิดใน Safari' ก่อนนะครับ!");
+                return;
+            }
             const originalText = btn.innerText; btn.innerText = "⏳ กำลังสร้าง PDF...";
             syncData(); window.scrollTo(0,0);
             
-            const element = document.getElementById('preview-bill');
-            const titleEl = element.querySelector('.preview-title'); if(titleEl) titleEl.style.display = 'none';
+            const titleEl = document.querySelector('#preview-bill .preview-title');
+            if(titleEl) titleEl.style.display = 'none';
 
-            // ดึงขนาดความกว้างความสูงของ element สดๆ เพื่อหลอก html2canvas ไม่ให้สร้างหน้าจอขาว
-            const w = element.offsetWidth;
-            const h = element.offsetHeight;
+            try {
+                const page1 = document.getElementById('bill-page-1');
+                const page2 = document.getElementById('bill-page-2');
 
-            const opt = {
-                margin:       0,
-                filename:     `Bill_${document.getElementById('inputNo').value}.pdf`,
-                image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollY: 0, width: w, height: h },
-                jsPDF:        { unit: 'mm', format: 'a5', orientation: 'portrait' },
-                pagebreak:    { mode: 'css', after: '.page-break' }
-            };
+                const opt = {
+                    margin: 0,
+                    filename: `Bill_${document.getElementById('inputNo').value}.pdf`,
+                    image: { type: 'jpeg', quality: 1 },
+                    html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+                    jsPDF: { unit: 'mm', format: 'a5', orientation: 'portrait' }
+                };
 
-            setTimeout(async () => {
-                try { await html2pdf().set(opt).from(element).save(); } catch(e) { alert("เกิดข้อผิดพลาดในการสร้าง PDF"); }
-                if(titleEl) titleEl.style.display = 'block'; btn.innerText = originalText;
-            }, 500);
+                // สร้าง PDF object จากหน้า 1
+                const pdfObj = await html2pdf().set(opt).from(page1).toPdf().get('pdf');
+                
+                // เพิ่มหน้าใหม่ แล้วจับภาพหน้า 2 ใส่ลงไป
+                pdfObj.addPage();
+                
+                // กระบวนการแทรกหน้า 2 ต้องใช้ html2canvas จับภาพมาเป็น Base64 แล้วยัดใส่ PDF
+                html2canvas(page2, opt.html2canvas).then(canvas => {
+                    const imgData = canvas.toDataURL('image/jpeg', opt.image.quality);
+                    const pdfWidth = pdfObj.internal.pageSize.getWidth();
+                    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                    pdfObj.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                    pdfObj.save(`Bill_${document.getElementById('inputNo').value}.pdf`);
+                    
+                    if(titleEl) titleEl.style.display = 'block';
+                    btn.innerText = originalText;
+                });
+                
+            } catch(e) {
+                alert("เกิดข้อผิดพลาดในการสร้าง PDF");
+                if(titleEl) titleEl.style.display = 'block';
+                btn.innerText = originalText;
+            }
         }
 
         async function exportMedCertPDF(btn) {
+            if (navigator.userAgent.includes("Line")) {
+                alert("⚠️ แอป LINE บล็อกการโหลดไฟล์ครับ\n👉 รบกวนกดปุ่ม 3 จุด มุมขวาบน แล้วเลือก 'เปิดใน Safari' ก่อนนะครับ!");
+                return;
+            }
             const originalText = btn.innerText; btn.innerText = "⏳ กำลังสร้าง PDF...";
             syncData(); window.scrollTo(0,0);
-            
             const element = document.getElementById('preview-medcert');
-            const titleEl = element.querySelector('.preview-title'); if(titleEl) titleEl.style.display = 'none';
-
-            const w = element.offsetWidth;
-            const h = element.offsetHeight;
-
-            const opt = {
-                margin:       0,
-                filename:     `MedCert_${document.getElementById('inputName').value}.pdf`,
-                image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollY: 0, width: w, height: h },
-                jsPDF:        { unit: 'mm', format: 'a5', orientation: 'portrait' }
-            };
-
+            const opt = { margin: 0, filename: `MedCert_${document.getElementById('inputName').value}.pdf`, image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' }, jsPDF: { unit: 'mm', format: 'a5', orientation: 'portrait' } };
             setTimeout(async () => {
                 try { await html2pdf().set(opt).from(element).save(); } catch(e) { alert("เกิดข้อผิดพลาดในการสร้าง PDF"); }
-                if(titleEl) titleEl.style.display = 'block'; btn.innerText = originalText;
+                btn.innerText = originalText;
             }, 500);
         }
 
@@ -841,12 +534,9 @@
                 document.querySelectorAll('input[type="text"]:not(#inputDate, #inputNo), input[type="number"], textarea').forEach(i => i.value = '');
                 document.querySelectorAll('input[type="checkbox"]').forEach(i => i.checked = false);
                 document.getElementById('inputAllergy').value = '-'; document.getElementById('inputDisease').value = '-';
-                const d = new Date(); const dd = String(d.getDate()).padStart(2, '0');
-                const mm = String(d.getMonth() + 1).padStart(2, '0'); const yyyyBE = d.getFullYear() + 543;
-                document.getElementById('inputDate').value = `${dd}/${mm}/${yyyyBE}`;
-                document.getElementById('inputNo').value = `${yyyyBE.toString().substr(2)}${mm}${dd}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
-                window.history.replaceState({}, document.title, window.location.pathname); 
-                localStorage.removeItem('clinic_draft_patient'); syncData(); 
+                const d = new Date(); const dd = String(d.getDate()).padStart(2, '0'); const mm = String(d.getMonth() + 1).padStart(2, '0'); const yyyyBE = d.getFullYear() + 543;
+                document.getElementById('inputDate').value = `${dd}/${mm}/${yyyyBE}`; document.getElementById('inputNo').value = `${yyyyBE.toString().substr(2)}${mm}${dd}-${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
+                window.history.replaceState({}, document.title, window.location.pathname); localStorage.removeItem('clinic_draft_patient'); syncData(); 
             }
         }
 
