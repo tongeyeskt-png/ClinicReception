@@ -135,7 +135,7 @@
         .m-title { font-size: 18px; font-weight: bold; margin-top: 15px; text-decoration: underline; text-align: center;}
         .m-meta { display: flex; justify-content: space-between; font-size: 12px; margin-top: 15px; margin-bottom: 15px; }
         
-        .m-content { font-size: 14px; line-height: 1.8; }
+        .m-content { font-size: 14px; line-height: 1.8; } 
         .m-row { display: flex; margin-bottom: 8px; align-items: baseline; }
         .m-label { white-space: nowrap; margin-right: 8px; font-weight: bold; }
         .m-line { border-bottom: 1px dotted #000; flex: 1; min-height: 16px; padding-left: 5px; }
@@ -161,19 +161,14 @@
         .print-only-hide { display: block; }
 
         @media print {
-            /* คำสั่งปลิดชีพฟุตโน้ต Safari */
             @page { size: 148mm 210mm; margin: 0mm !important; } 
-            
             body { background: white; padding: 0; margin: 0; -webkit-print-color-adjust: exact; }
             .app-container, .preview-title, .btn-group { display: none !important; }
             .preview-wrapper { display: block; margin: 0; padding: 0; width: 100%; }
-            
-            /* ตอนปริ้นให้โชว์แค่เนื้อหากระดาษ ไม่มีขอบเทาๆ ของคอนเทนเนอร์ */
             #capture-bill-container, #capture-medcert-container { padding: 0; background: white; border-radius: 0; }
-            
             .a5-portrait-page { 
                 width: 148mm !important; 
-                height: 209mm !important; /* ล็อกความสูงไว้ไม่ให้ Safari ดันทะลุ */
+                height: 209mm !important;
                 max-height: 209mm !important; 
                 box-shadow: none !important; 
                 border-radius: 0; 
@@ -206,7 +201,7 @@
             </p>
             <button class="btn-close-modal" onclick="closeImageModal()">✖ ปิดหน้าต่างนี้</button>
         </div>
-        <img id="generated-image" src="" alt="เอกสารคลินิก">
+        <img id="generated-image" src="" alt="เอกสารคลิกนิก">
     </div>
 
     <div class="app-container">
@@ -289,7 +284,6 @@
         </div>
 
         <div class="btn-group" style="margin-top: 10px;">
-            <!-- ปุ่มเปลี่ยนเป็นสร้างรูปภาพล้วนๆ และ พิมพ์ตรงๆ -->
             <button class="btn btn-image" onclick="exportToImage('bill')">🖼️ สร้างรูป "บิลเงินสด" (เข้า Goodnotes)</button>
             <button class="btn btn-image" onclick="exportToImage('medcert')">🖼️ สร้างรูป "ใบรับรองแพทย์" (เข้า Goodnotes)</button>
         </div>
@@ -488,8 +482,13 @@
         }
 
         function copyNormal() {
-            const data = getPatientData(); const dobText = data.dob ? `วันเกิด: ${data.dob} ` : ''; const fullName = data.prefix ? `${data.prefix}${data.name}` : data.name; 
-            const summary = `📌 ประวัติคนไข้\nCN: ${data.cn}\nชื่อ: ${fullName}\n${dobText}(อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard}\nโทร: ${data.phone}\nที่อยู่: ${data.address}\n\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\n\nอาการ (CC): ${data.cc}`;
+            const data = getPatientData(); 
+            const dobText = data.dob ? `วันเกิด: ${data.dob} ` : ''; 
+            const fullName = data.prefix ? `${data.prefix}${data.name}` : data.name; 
+            
+            // อัปเดตเลย์เอาต์ตามที่ขอ
+            const summary = `📌 ประวัติคนไข้\nCN: ${data.cn} ชื่อ: ${fullName} ${dobText}(อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard} โทร: ${data.phone}\nที่อยู่: ${data.address} BP: ${data.bp} BW: ${data.bw} kg PR: ${data.hr}\nแพ้ยา: ${data.allergy} โรคประจำตัว: ${data.disease}\nอาการ (CC):\n${data.cc}`;
+            
             copyToClipboard(summary, "✅ คัดลอกประวัติสำเร็จ!");
         }
 
@@ -498,7 +497,10 @@
             for (const key in data) { if (data[key] && data[key] !== '-') { params.append(key, data[key]); } }
             const baseUrl = window.location.href.split('?')[0]; const magicLink = baseUrl + '?' + params.toString();
             const dobText = data.dob ? `วันเกิด: ${data.dob} ` : ''; const fullName = data.prefix ? `${data.prefix}${data.name}` : data.name;
-            const summary = `📌 📄 คนไข้ขอเอกสาร\nCN: ${data.cn}\nชื่อ: ${fullName}\n${dobText}(อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard}\nโทร: ${data.phone}\nที่อยู่: ${data.address}\n\nBP: ${data.bp} | BW: ${data.bw} kg | PR: ${data.hr}\nแพ้ยา: ${data.allergy}\nโรคประจำตัว: ${data.disease}\nอาการ: ${data.cc}\n\n👉 คลิกลิงก์เปิดเอกสาร:\n${magicLink}`;
+            
+            // อัปเดตเลย์เอาต์ตามที่ขอ
+            const summary = `📌 📄 คนไข้ขอเอกสาร\nCN: ${data.cn} ชื่อ: ${fullName} ${dobText}(อายุ ${data.age} ปี)\nเลข ปชช: ${data.idCard} โทร: ${data.phone}\nที่อยู่: ${data.address} BP: ${data.bp} BW: ${data.bw} kg PR: ${data.hr}\nแพ้ยา: ${data.allergy} โรคประจำตัว: ${data.disease}\nอาการ (CC):\n${data.cc}\n\n👉 คลิกลิงก์เปิดเอกสาร:\n${magicLink}`;
+            
             copyToClipboard(summary, "✅ คัดลอกลิงก์สำเร็จ! ส่งให้ห้องตรวจได้เลย");
         }
 
