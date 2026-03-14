@@ -11,7 +11,7 @@
     <title>Reception Helper - นิธิรัชต์จักษุคลินิก</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- เปลี่ยนมาใช้ html2canvas สำหรับสร้างรูปภาพแทน PDF -->
+    <!-- ใช้ html2canvas สำหรับสร้างรูปภาพความละเอียดสูง -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
@@ -72,8 +72,6 @@
         .btn:active { transform: translateY(0); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .btn-line { background: linear-gradient(135deg, #22c55e, #16a34a); }
         .btn-link { background: linear-gradient(135deg, #a855f7, #7e22ce); }
-        
-        /* เปลี่ยนสีปุ่มสร้างรูปภาพให้เด่นๆ */
         .btn-image { background: linear-gradient(135deg, #f59e0b, #d97706); }
         .btn-clear { background: linear-gradient(135deg, #94a3b8, #64748b); flex: 0.3; min-width: 120px;}
 
@@ -86,20 +84,17 @@
         .preview-column { display: flex; flex-direction: column; align-items: center; width: 100%; padding-bottom: 20px;}
         .preview-title { font-size: 16px; font-weight: 700; color: #475569; margin-bottom: 15px; background: rgba(255,255,255,0.8); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         
-        /* ================= สไตล์กระดาษสำหรับการแคปรูปภาพ ================= */
-        /* คอนเทนเนอร์หลักสำหรับบิลเงินสด (ห่อ 2 หน้าไว้ด้วยกัน เพื่อแคปเป็นรูปเดียว) */
-        #capture-bill-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            background: #f1f5f9; /* สีพื้นหลังรอบๆ บิล */
+        /* ================= สไตล์กระดาษ ================= */
+        #capture-bill-container, #capture-medcert-container {
+            display: inline-block;
+            background: #f1f5f9; 
             padding: 20px;
             border-radius: 12px;
         }
 
         .a5-portrait-page { 
             width: 148mm; 
-            height: 210mm; /* A5 สัดส่วนจริง */
+            height: 210mm; 
             box-sizing: border-box; 
             padding: 12mm 15mm; 
             position: relative; 
@@ -140,98 +135,78 @@
         .m-title { font-size: 18px; font-weight: bold; margin-top: 15px; text-decoration: underline; text-align: center;}
         .m-meta { display: flex; justify-content: space-between; font-size: 12px; margin-top: 15px; margin-bottom: 15px; }
         
-        .m-content { font-size: 14px; line-height: 1.8; flex: 1;}
+        .m-content { font-size: 14px; line-height: 1.8; }
         .m-row { display: flex; margin-bottom: 8px; align-items: baseline; }
         .m-label { white-space: nowrap; margin-right: 8px; font-weight: bold; }
         .m-line { border-bottom: 1px dotted #000; flex: 1; min-height: 16px; padding-left: 5px; }
         
-        .m-sign-box { margin-top: 20px; text-align: center; float: right; width: 70%; line-height: 1.6; font-size: 13px;}
-        .m-footer { position: absolute; bottom: 8mm; left: 0; width: 100%; font-size: 10px; color: #777; text-align: center; border-top: 1px solid #eee; padding-top: 5px; }
+        .m-sign-wrapper { display: flex; justify-content: flex-end; padding-right: 20px; margin-top: 40px; margin-bottom: 20px; }
+        .m-sign-box { text-align: center; line-height: 1.6; font-size: 14px; }
+        .m-footer { font-size: 10px; color: #777; text-align: center; padding-top: 10px; margin-top: auto; }
 
         /* ================= หน้าต่างป๊อปอัปแสดงรูปภาพ (Modal) ================= */
         #imageModal {
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; right: 0; bottom: 0; 
-            background: rgba(15, 23, 42, 0.9); /* พื้นหลังสีเข้มแบบเบลอๆ */
-            backdrop-filter: blur(5px);
-            z-index: 9999; 
-            overflow-y: auto; 
-            padding: 20px; 
-            flex-direction: column; 
-            align-items: center;
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(5px);
+            z-index: 9999; overflow-y: auto; padding: 20px; 
+            flex-direction: column; align-items: center;
         }
-
-        .modal-card {
-            background: white; 
-            padding: 20px; 
-            border-radius: 16px; 
-            max-width: 500px; 
-            width: 100%; 
-            text-align: center; 
-            margin-bottom: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            margin-top: 20px;
-        }
-
+        .modal-card { background: white; padding: 20px; border-radius: 16px; max-width: 500px; width: 100%; text-align: center; margin-bottom: 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); margin-top: 20px; }
         .modal-card h3 { margin: 0 0 10px 0; color: #f59e0b; font-size: 24px; }
         .modal-card p { color: #475569; font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
-        .modal-card strong { color: #0f172a; }
+        .btn-close-modal { background: #ef4444; color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3); }
+        #generated-image { max-width: 100%; height: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border-radius: 8px; margin-bottom: 40px; pointer-events: auto; user-select: auto; }
+        .processing-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 9998; justify-content: center; align-items: center; font-size: 24px; font-weight: bold; color: #f59e0b; }
         
-        .btn-close-modal {
-            background: #ef4444; 
-            color: white; 
-            border: none; 
-            padding: 12px 25px; 
-            border-radius: 12px; 
-            font-weight: bold; 
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
-        }
+        .print-only-hide { display: block; }
 
-        #generated-image {
-            max-width: 100%; 
-            height: auto; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8); 
-            border-radius: 8px;
-            margin-bottom: 40px;
-            pointer-events: auto; /* ให้ผู้ใช้แตะค้างได้ */
-            user-select: auto;
-        }
-        
-        /* โหมดประมวลผลให้หน้าจอมืด */
-        .processing-overlay {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.8);
-            z-index: 9998;
-            justify-content: center; align-items: center;
-            font-size: 24px; font-weight: bold; color: #f59e0b;
+        @media print {
+            /* คำสั่งปลิดชีพฟุตโน้ต Safari */
+            @page { size: 148mm 210mm; margin: 0mm !important; } 
+            
+            body { background: white; padding: 0; margin: 0; -webkit-print-color-adjust: exact; }
+            .app-container, .preview-title, .btn-group { display: none !important; }
+            .preview-wrapper { display: block; margin: 0; padding: 0; width: 100%; }
+            
+            /* ตอนปริ้นให้โชว์แค่เนื้อหากระดาษ ไม่มีขอบเทาๆ ของคอนเทนเนอร์ */
+            #capture-bill-container, #capture-medcert-container { padding: 0; background: white; border-radius: 0; }
+            
+            .a5-portrait-page { 
+                width: 148mm !important; 
+                height: 209mm !important; /* ล็อกความสูงไว้ไม่ให้ Safari ดันทะลุ */
+                max-height: 209mm !important; 
+                box-shadow: none !important; 
+                border-radius: 0; 
+                margin: 0 !important; 
+                padding: 10mm 15mm !important; 
+                page-break-after: always;
+                page-break-inside: avoid;
+                overflow: hidden !important; 
+            }
+            body.printing-bill #capture-medcert-container { display: none !important; }
+            body.printing-medcert #capture-bill-container { display: none !important; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ดรอปดาวน์คำนำหน้า -->
     <datalist id="prefixList"><option value="นาย"><option value="นาง"><option value="นางสาว"><option value="ด.ช."><option value="ด.ญ."></datalist>
 
     <div class="processing-overlay" id="loadingOverlay">⏳ กำลังสร้างรูปภาพความละเอียดสูง...</div>
 
-    <!-- Modal สำหรับโชว์รูปภาพให้หมอต้องกด Save/Copy ลง Goodnotes -->
+    <!-- Modal สำหรับโชว์รูปภาพ -->
     <div id="imageModal">
         <div class="modal-card">
             <h3>📸 สร้างรูปภาพสำเร็จ!</h3>
             <p>
                 <b>วิธีนำไปใช้ใน Goodnotes:</b><br>
                 1. แตะค้างที่รูปภาพด้านล่าง 👆<br>
-                2. เลือก <b>"คัดลอก (Copy)"</b> แล้วไปวางใน Goodnotes<br>
+                2. เลือก <b>"คัดลอก (Copy)"</b> แล้วไปวางใน Goodnotes ได้เลย<br>
                 3. หรือเลือก <b>"บันทึกในแอปรูปภาพ (Save Image)"</b>
             </p>
             <button class="btn-close-modal" onclick="closeImageModal()">✖ ปิดหน้าต่างนี้</button>
         </div>
-        <!-- รูปภาพที่ถูกเรนเดอร์จะมาอยู่ในแท็กนี้ -->
-        <img id="generated-image" src="" alt="เอกสารคลิกนิก">
+        <img id="generated-image" src="" alt="เอกสารคลินิก">
     </div>
 
     <div class="app-container">
@@ -240,7 +215,6 @@
             <p>นิธิรัชต์จักษุคลินิก (Smart Helper)</p>
         </div>
 
-        <!-- 1. ส่วนของเคาน์เตอร์ -->
         <div class="section-box reception-zone">
             <div class="section-title"><span class="badge-purple">1</span> <span>ส่วนของเคาน์เตอร์ (ประวัติคนไข้)</span></div>
             
@@ -285,7 +259,6 @@
             <div id="alertSuccess" class="alert-box">✅ สำเร็จ!</div>
         </div>
 
-        <!-- 2. ส่วนของคุณหมอ -->
         <div class="flex-row">
             <div class="section-box doctor-zone flex-1">
                 <div class="section-title"><span class="badge-teal">💰</span> <span>ส่วนออกบิล (การเงิน)</span></div>
@@ -316,35 +289,27 @@
         </div>
 
         <div class="btn-group" style="margin-top: 10px;">
-            <!-- เปลี่ยนปุ่มเป็น สร้างรูปภาพแทน -->
+            <!-- ปุ่มเปลี่ยนเป็นสร้างรูปภาพล้วนๆ และ พิมพ์ตรงๆ -->
             <button class="btn btn-image" onclick="exportToImage('bill')">🖼️ สร้างรูป "บิลเงินสด" (เข้า Goodnotes)</button>
             <button class="btn btn-image" onclick="exportToImage('medcert')">🖼️ สร้างรูป "ใบรับรองแพทย์" (เข้า Goodnotes)</button>
+        </div>
+        <div class="btn-group" style="margin-top: 10px;">
+            <button class="btn btn-bill" onclick="printBill()">🖨️ สั่งพิมพ์ บิลเงินสด</button>
+            <button class="btn btn-med" onclick="printMedCert()">🖨️ สั่งพิมพ์ ใบรับรองแพทย์</button>
             <button class="btn btn-clear" onclick="resetForm()">🗑️ ล้างหน้าจอ</button>
         </div>
     </div>
 
-    <!-- ================= โซนหน้ากระดาษที่จะถูกแคปเป็นรูปภาพ ================= -->
+    <!-- ================= โซนหน้ากระดาษที่จะถูกแคป/ปริ้น ================= -->
     <div class="preview-wrapper">
         
-        <!-- 📄 บิลเงินสด (ห่อ 2 หน้าไว้ใน Container เดียวกันที่มีพื้นหลังสวยๆ) -->
+        <!-- 📄 บิลเงินสด (เหลือ 1 หน้าถ้วน) -->
         <div class="preview-column">
-            <div class="preview-title">📄 Preview: บิลเงินสด (รูปภาพ 1 แผ่นยาว)</div>
+            <div class="preview-title print-only-hide">📄 Preview: บิลเงินสด</div>
             
             <div id="capture-bill-container">
-                <!-- แผ่นที่ 1 : ต้นฉบับ -->
-                <div class="a5-portrait-page">
-                    <div class="doc-type-badge">ต้นฉบับ Original</div>
-                    <div class="b-header"><div class="b-title">บิลเงินสด / ใบเสร็จรับเงิน</div><div class="b-clinic">นิธิรัชต์จักษุคลินิก</div><div class="b-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div></div>
-                    <div class="b-meta"><span>เลขที่: <b class="dispNo"></b></span><span>วันที่: <b class="dispDate"></b></span></div>
-                    <div class="b-patient"><b>ได้รับเงินจาก:</b> <span class="dispName"></span><br><div class="b-patient-sub"><b>CN:</b> <span class="dispCN"></span> &nbsp;|&nbsp; <b>เลข ปชช:</b> <span class="dispID"></span><br><b>ที่อยู่:</b> <span class="dispAddress"></span></div></div>
-                    <table class="b-table"><thead><tr><th>รายการ (Description)</th><th class="price-col">จำนวนเงิน (บาท)</th></tr></thead><tbody class="dispBillItems"></tbody><tbody><tr class="b-total-row"><td>รวมเป็นเงินทั้งสิ้น</td><td class="price-col dispTotal">0</td></tr></tbody></table>
-                    <div class="b-thai-text">(<span class="dispThaiText">ศูนย์บาทถ้วน</span>)</div>
-                    <div class="b-sign">ผู้รับเงิน <span class="b-sign-line"></span><br>( นิธิรัชต์จักษุคลินิก )</div>
-                </div>
-
-                <!-- แผ่นที่ 2 : สำเนา -->
                 <div class="a5-portrait-page" style="margin-bottom: 0;">
-                    <div class="doc-type-badge" style="color:#555; border-color:#555;">สำเนา Copy</div>
+                    <div class="doc-type-badge">ต้นฉบับ Original</div>
                     <div class="b-header"><div class="b-title">บิลเงินสด / ใบเสร็จรับเงิน</div><div class="b-clinic">นิธิรัชต์จักษุคลินิก</div><div class="b-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div></div>
                     <div class="b-meta"><span>เลขที่: <b class="dispNo"></b></span><span>วันที่: <b class="dispDate"></b></span></div>
                     <div class="b-patient"><b>ได้รับเงินจาก:</b> <span class="dispName"></span><br><div class="b-patient-sub"><b>CN:</b> <span class="dispCN"></span> &nbsp;|&nbsp; <b>เลข ปชช:</b> <span class="dispID"></span><br><b>ที่อยู่:</b> <span class="dispAddress"></span></div></div>
@@ -355,11 +320,11 @@
             </div>
         </div>
 
-        <!-- 📄 ใบรับรองแพทย์ (1 หน้า) -->
+        <!-- 📄 ใบรับรองแพทย์ -->
         <div class="preview-column">
-            <div class="preview-title" style="margin-top: 20px;">📄 Preview: ใบรับรองแพทย์ (รูปภาพ)</div>
+            <div class="preview-title print-only-hide" style="margin-top: 20px;">📄 Preview: ใบรับรองแพทย์</div>
             
-            <div id="capture-medcert-container" style="padding: 20px; background: #f1f5f9; border-radius: 12px; display: inline-block;">
+            <div id="capture-medcert-container">
                 <div class="a5-portrait-page" style="margin-bottom: 0;">
                     <div class="m-header"><div class="m-clinic">นิธิรัชต์จักษุคลินิก</div><div class="m-addr">4/6 หมู่ 12 ต.ยางซ้าย อ.เมือง จ.สุโขทัย โทร: 061-451-9866</div><div class="m-title">ใบรับรองแพทย์</div></div>
                     <div class="m-meta"><div>เลขที่ (No.) <span style="border-bottom: 1px dotted #000; padding: 0 10px;" class="dispNo"></span></div><div>CN: <span style="border-bottom: 1px dotted #000; padding: 0 10px;" class="dispCN"></span></div><div>วันที่ <span style="border-bottom: 1px dotted #000; padding: 0 10px;" class="dispDate"></span></div></div>
@@ -376,7 +341,14 @@
                         <div class="m-row" style="margin-top:15px;"><span class="m-label">เห็นสมควรให้หยุดพักรักษาตัวเป็นเวลา:</span><div class="m-line dispRest" style="flex:0; min-width:80px; text-align:center;"></div><span class="m-label" style="margin-left:10px;">วัน</span></div>
                         <div class="m-row"><span class="m-label">ตั้งแต่วันที่:</span><div class="m-line dispFromTo"></div></div>
                     </div>
-                    <div class="m-sign-box"><div style="margin-bottom: 25px;">ลงชื่อ ........................................................... แพทย์ผู้ตรวจ</div><div>( นายแพทย์นิธิรัชต์ แสนเพ็ญ ว.34654 )</div></div>
+                    
+                    <div class="m-sign-wrapper">
+                        <div class="m-sign-box">
+                            <div style="margin-bottom: 25px;">ลงชื่อ ........................................................... แพทย์ผู้ตรวจ</div>
+                            <div>( นายแพทย์นิธิรัชต์ แสนเพ็ญ ว.34654 )</div>
+                        </div>
+                    </div>
+                    
                     <div class="m-footer">เอกสารนี้รับรองเฉพาะสุขภาพของผู้ป่วย ณ วันที่ตรวจเท่านั้น</div>
                 </div>
             </div>
@@ -457,7 +429,8 @@
                 disease: document.getElementById('inputDisease').value, cc: document.getElementById('inputCC').value,
                 dx: document.getElementById('inputDx').value, rest: document.getElementById('inputRest').value,
                 fromTo: document.getElementById('inputFromTo').value, op1: document.getElementById('chkOp1').checked,
-                op2: document.getElementById('chkOp2').checked, op3: document.getElementById('chkOp3').checked, op3Text: document.getElementById('inputOp3Text').value
+                op2: document.getElementById('chkOp2').checked, op3: document.getElementById('chkOp3').checked,
+                op3Text: document.getElementById('inputOp3Text').value
             };
             const items = []; document.querySelectorAll('.item-row').forEach(row => { items.push({ name: row.querySelector('.item-name').value, price: row.querySelector('.item-price').value }); });
             draft.items = items; localStorage.setItem('clinic_draft_patient', JSON.stringify(draft));
@@ -564,40 +537,17 @@
             const thaiText = ArabicNumberToText(total); document.querySelectorAll('.dispThaiText').forEach(el => el.innerText = thaiText); saveDraft();
         }
 
-        // ================= ท่าไม้ตาย! สร้างรูปภาพเพื่อใส่ Goodnotes =================
         function exportToImage(type) {
-            syncData(); // อัปเดตข้อมูลล่าสุดก่อนแคป
-            window.scrollTo(0,0); // เลื่อนขึ้นบนสุดเพื่อป้องกันบั๊กภาพแหว่ง
-
-            // โชว์หน้าจอโหลด
+            syncData(); window.scrollTo(0,0); 
             document.getElementById('loadingOverlay').style.display = 'flex';
 
-            let targetElementId = '';
-            if (type === 'bill') {
-                targetElementId = 'capture-bill-container'; // บิล 2 หน้าซ้อนกัน
-            } else if (type === 'medcert') {
-                targetElementId = 'capture-medcert-container'; // ใบรับรองแพทย์
-            }
-
+            let targetElementId = type === 'bill' ? 'capture-bill-container' : 'capture-medcert-container'; 
             const element = document.getElementById(targetElementId);
 
-            // ใช้ html2canvas สร้างรูปภาพความละเอียดสูง (scale 3 ภาพชัดกริ๊บใน Goodnotes)
-            html2canvas(element, {
-                scale: 3, 
-                useCORS: true,
-                backgroundColor: '#f1f5f9' // พื้นหลังรอบๆ กรอบสีขาว
-            }).then(canvas => {
-                // แปลงแคนวาสเป็น URL รูปภาพ (JPEG)
+            html2canvas(element, { scale: 3, useCORS: true, backgroundColor: '#f1f5f9' }).then(canvas => {
                 const imgData = canvas.toDataURL('image/jpeg', 0.9);
-                
-                // ซ่อนหน้าโหลด
                 document.getElementById('loadingOverlay').style.display = 'none';
-                
-                // เอาภาพไปใส่ใน Modal
-                const modalImg = document.getElementById('generated-image');
-                modalImg.src = imgData;
-                
-                // เปิด Modal ให้หมอกดเซฟ
+                document.getElementById('generated-image').src = imgData;
                 document.getElementById('imageModal').style.display = 'flex';
             }).catch(err => {
                 document.getElementById('loadingOverlay').style.display = 'none';
@@ -605,11 +555,10 @@
             });
         }
 
-        // ฟังก์ชันปิดหน้าต่างโชว์รูปภาพ
-        function closeImageModal() {
-            document.getElementById('imageModal').style.display = 'none';
-            document.getElementById('generated-image').src = ''; // เคลียร์รูปเก่าทิ้ง
-        }
+        function printBill() { syncData(); document.body.classList.add('printing-bill'); window.print(); setTimeout(() => document.body.classList.remove('printing-bill'), 500); }
+        function printMedCert() { syncData(); document.body.classList.add('printing-medcert'); window.print(); setTimeout(() => document.body.classList.remove('printing-medcert'), 500); }
+
+        function closeImageModal() { document.getElementById('imageModal').style.display = 'none'; document.getElementById('generated-image').src = ''; }
 
         function resetForm() {
             if(confirm("ต้องการล้างหน้าจอเพื่อรับคนไข้ใหม่หรือไม่?")) {
